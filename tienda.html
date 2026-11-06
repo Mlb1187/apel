@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tienda · APEL</title>
+<meta name="description" content="Clases 1 a 1, programas en video, suscripción y clases en vivo de APEL.">
+<meta name="theme-color" content="#0D0D12">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/apel.css">
+<script src="assets/config.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="./" aria-label="APEL, inicio"><b>APEL<i>.</i></b><small>PRODUCTION · ENGINEERING · LIVE</small></a>
+  <nav class="nav" aria-label="Principal"><a href="./#programas">Programas</a><a href="inscripcion.html">Inscripción</a><a class="btn sm" id="acct" href="cuenta/">Mi cuenta</a></nav>
+</div></header>
+
+<main class="wrap" style="padding-top:56px;padding-bottom:80px">
+  <span class="eyebrow">Tienda</span>
+  <h1 style="font-size:clamp(40px,7vw,72px)">Elige cómo <em>aprender.</em></h1>
+  <p class="lead">Paga con PayPal, Binance o el método que prefieras. El acceso se activa en tu cuenta con tu correo, y si tienes un código lo canjeas en <a href="cuenta/#codigo">Mi cuenta</a>.</p>
+  <div id="region" class="row" style="margin:-8px 0 8px"></div>
+  <div id="shop" aria-live="polite"><div class="card">Cargando…</div></div>
+</main>
+
+<div class="modal" id="co" hidden role="dialog" aria-modal="true" aria-labelledby="co-t"><div class="sheet" id="co-in"></div></div>
+
+<footer><div class="wrap"><span>APEL · Academy of Production, Engineering &amp; Live</span><span>Pagos verificados en nuestro servidor · acceso personal e intransferible</span></div></footer>
+
+<script>
+(async function(){
+  const A=window.APEL,esc=A.esc,$=id=>document.getElementById(id);
+  const S={cat:null,p:null,m:null,busy:false,done:null,err:'',paso:''};
+  const ses=A.sesion.get();if(ses)$('acct').textContent=ses.correo.split('@')[0];
+  const GROUPS=[['clase','Clases 1 a 1','Tu clase en vivo cada semana con un profesor, material del programa y evaluaciones. Se paga mes a mes.'],
+    ['vod','Programas en video','Todo el programa grabado, a tu ritmo, con el material de apoyo.'],
+    ['suscripcion','Suscripción','Toda la videoteca de APEL mientras estés suscrito.'],
+    ['live','Clases en vivo','Masterclasses y talleres grupales por Google Meet, con cupo limitado.']];
+  const dur=p=>p.tipo==='live'?'':p.dias?(p.dias>=360?'Acceso por 1 año':p.dias>=28&&p.dias<=31?'Por mes':`Acceso por ${p.dias} días`):'Acceso sin vencimiento';
+  const card=p=>`<article class="card prog"><span class="tag">${esc(A.TIPOS[p.tipo]||p.tipo)}${p.programa?' · '+esc(p.programa):''}</span>
+    <h3>${esc(p.nombre)}</h3>${p.descripcion?`<p>${esc(p.descripcion)}</p>`:''}
+    ${p.tipo==='live'&&p.fecha?`<span class="meta">${esc(A.fecha(p.fecha,true))} (tu hora) · ${p.duracion} min${p.quedan!=null?` · ${p.quedan?p.quedan+' cupos':'agotado'}`:''}</span>`:''}
+    <div><span class="price-big">${A.usd(p.precio)}<small> ${p.tipo==='clase'||p.tipo==='suscripcion'?'/ mes':''}</small></span>
+    ${p.tipo==='clase'&&p.pronto&&p.precio===p.pronto?`<div class="hint">Pronto pago hasta el día ${S.cat.prontoDia}. Regular ${A.usd(p.precioRegular)}.</div>`:p.tipo==='clase'&&p.pronto?`<div class="hint">Del 1 al ${S.cat.prontoDia} de cada mes: ${A.usd(p.pronto)}.</div>`:''}
+    <div class="hint">${esc(dur(p))}</div></div>
+    <div class="foot"><button class="btn primary sm" data-buy="${esc(p.id)}" ${p.quedan===0?'disabled':''}>${p.quedan===0?'Agotado':'Comprar'}</button></div></article>`;
+  function renderRegion(){
+    const c=S.cat;if(!c){$('region').innerHTML='';return}
+    $('region').innerHTML=c.paisFijo
+      ?`<span class="pill">Precios para ${esc(c.nombrePais)}</span><span class="hint">Tu país quedó fijado en tu cuenta.</span>`
+      :`<label for="pais-ver" class="hint" style="font-size:14px">Precios para</label><select id="pais-ver" style="width:auto;min-height:40px;padding:6px 12px">${c.paises.map(x=>`<option value="${esc(x.cod)}" ${x.cod===c.pais?'selected':''}>${esc(x.nombre)}</option>`).join('')}</select><span class="hint">Los precios cambian según el país. Al pagar confirmas el tuyo y queda fijo en tu cuenta.</span>`;
+    const sel=$('pais-ver');if(sel)sel.onchange=async e=>{A.guardarPais(e.target.value);await loadCat(e.target.value)};
+  }
+  async function loadCat(pais){
+    const r=await A.api('productos',{pais:pais||A.paisProbable()});
+    if(r.ok){S.cat=r}else S.err=r.sinServidor?'La tienda abre pronto.':r.error;
+    renderRegion();renderShop();
+  }
+  function renderShop(){
+    if(!S.cat){$('shop').innerHTML=`<div class="notice">${esc(S.err||'La tienda abre pronto.')}</div>`;return}
+    const ps=S.cat.productos;
+    $('shop').innerHTML=GROUPS.map(([t,h,sub])=>{const l=ps.filter(p=>p.tipo===t);return l.length?`<section class="shop-group" style="border:0;padding:0"><h2>${esc(h)}</h2><p class="sub" style="margin-bottom:20px">${esc(sub)}</p><div class="grid g3">${l.map(card).join('')}</div></section>`:''}).join('')||'<div class="notice">Pronto publicamos los programas en venta.</div>';
+  }
+
+  /* ---------- checkout ---------- */
+  const methods=()=>[A.PAYPAL_CLIENT_ID&&['paypal','PayPal o tarjeta'],A.BINANCE_PAY&&['binance','Binance Pay'],['manual','Otros métodos']].filter(Boolean);
+  function openCo(id){const p=S.cat&&S.cat.productos.find(x=>x.id===id);if(!p)return;
+    if(!A.sesion.get()){location.href='cuenta/?volver='+encodeURIComponent('tienda.html?p='+id);return}
+    S.p=p;S.m=methods()[0][0];S.done=null;S.err='';S.paso=S.cat.paisFijo?'':'pais';$('co').hidden=false;renderCo();}
+  function closeCo(){$('co').hidden=true;S.p=null;history.replaceState(null,'','tienda.html')}
+  function renderCo(){const p=S.p;if(!p)return;const ses=A.sesion.get();
+    if(S.done){$('co-in').innerHTML=`<button class="x" data-close aria-label="Cerrar">✕</button><div class="ok-box" style="padding:12px 0"><div class="big">✓</div><h2>${esc(S.done.t)}</h2><p class="lead" style="font-size:17px;margin:12px auto 20px">${esc(S.done.m)}</p><a class="btn primary" href="cuenta/">Ir a mi cuenta</a></div>`;return}
+    if(S.paso==='pais'){const pv=S.cat.pais&&S.cat.pais!=='OT'?S.cat.pais:A.paisProbable();
+      $('co-in').innerHTML=`<button class="x" data-close aria-label="Cerrar">✕</button>
+        <div><span class="eyebrow">Antes de pagar</span><h2 id="co-t">¿Desde qué país estudias?</h2></div>
+        <p class="hint" style="font-size:15px;margin:0">El precio depende de tu país. Queda fijo en tu cuenta <b>${esc(ses.correo)}</b> y no se puede cambiar después. Verificamos el país con el pago: si no coincide, el acceso queda en revisión.</p>
+        <div class="field"><label for="pais-fijo">País</label><select id="pais-fijo">${S.cat.paises.map(x=>`<option value="${esc(x.cod)}" ${x.cod===pv?'selected':''}>${esc(x.nombre)}</option>`).join('')}</select></div>
+        <button class="btn primary" id="pais-ok" ${S.busy?'disabled':''}>${S.busy?'Guardando…':'Confirmar mi país'}</button><span class="err" role="alert">${esc(S.err)}</span>`;
+      $('pais-ok').onclick=async()=>{const cod=$('pais-fijo').value;S.busy=true;S.err='';renderCo();const r=await A.api('pais_fijar',{pais:cod});S.busy=false;
+        if(!r.ok){S.err=r.error;renderCo();return}A.guardarPais(r.pais);const id=S.p.id;await loadCat(r.pais);S.p=S.cat.productos.find(x=>x.id===id)||S.p;S.paso='';renderCo()};
+      return}
+    const ms=methods();
+    $('co-in').innerHTML=`<button class="x" data-close aria-label="Cerrar">✕</button>
+      <div><span class="eyebrow">${esc(A.TIPOS[p.tipo]||'')}</span><h2 id="co-t">${esc(p.nombre)}</h2></div>
+      <div class="price-big">${A.usd(p.precio)}<small> USD${p.tipo==='live'&&p.fecha?' · '+esc(A.fecha(p.fecha,true)):''}</small></div>
+      <span class="hint">El acceso queda en la cuenta <b>${esc(ses.correo)}</b> · precio para ${esc(S.cat.nombrePais)}.</span>
+      ${ms.length>1?`<div class="seg" role="group" aria-label="Método de pago">${ms.map(([k,l])=>`<button data-m="${k}" aria-pressed="${S.m===k}">${esc(l)}</button>`).join('')}</div>`:''}
+      <div id="co-m"></div><span class="err" role="alert">${esc(S.err)}</span>`;
+    const box=$('co-m');
+    if(S.m==='paypal'){box.innerHTML='<div class="pay-opt"><p>Paga con tu cuenta PayPal o con tarjeta. El acceso se activa al instante.</p><div id="pp"></div></div>';mountPayPal()}
+    else if(S.m==='binance'){box.innerHTML=`<div class="pay-opt"><h3>Binance Pay · USDT</h3><p>Te llevamos a la página segura de Binance. Al pagar vuelves a tu cuenta y el acceso se activa solo (a más tardar en 10 minutos).</p><button class="btn primary" id="bn" ${S.busy?'disabled':''}>${S.busy?'Abriendo Binance…':'Pagar '+A.usd(p.precio)+' con Binance Pay'}</button></div>`;
+      $('bn').onclick=async()=>{S.busy=true;S.err='';renderCo();const r=await A.api('binance_crear',{producto:p.id});S.busy=false;if(!r.ok){if(r.falta==='pais')S.paso='pais';S.err=r.error;renderCo();return}location.href=r.checkoutUrl}}
+    else{const ml=(S.cat.metodosManuales||Object.keys(A.PAGO_DATOS||{}));S.mm=S.mm&&ml.includes(S.mm)?S.mm:ml[0];const datos=(A.PAGO_DATOS||{})[S.mm];
+      box.innerHTML=`<form class="pay-opt" id="mf" novalidate><h3>Pago manual</h3>
+        <div class="field"><label for="mm">Método</label><select id="mm">${ml.map(m=>`<option ${m===S.mm?'selected':''}>${esc(m)}</option>`).join('')}</select></div>
+        <div class="box"><span class="lbl">Datos para pagar ${A.usd(p.precio)}</span>${datos?esc(datos).replace(/\n/g,'<br>'):'Te enviamos los datos por WhatsApp.'+(A.WHATSAPP?` <a href="https://wa.me/${esc(A.WHATSAPP)}?text=${encodeURIComponent('Hola, quiero pagar '+p.nombre+' ('+A.usd(p.precio)+') por '+S.mm+'. Mi cuenta: '+ses.correo)}" target="_blank" rel="noopener">Pedir datos</a>`:'')}</div>
+        <div class="field"><label for="mr">Número de referencia o comprobante</label><input id="mr" maxlength="120" autocomplete="off" required></div>
+        <div class="field"><label for="mn">Nota (opcional)</label><input id="mn" maxlength="300" placeholder="Nombre del titular, banco, fecha…"></div>
+        <button class="btn primary" ${S.busy?'disabled':''}>${S.busy?'Enviando…':'Ya pagué, enviar para revisión'}</button>
+        <span class="hint">Revisamos el pago y te llega un correo cuando el acceso esté activo.</span></form>`;
+      $('mm').onchange=e=>{S.mm=e.target.value;renderCo()};
+      $('mf').onsubmit=async e=>{e.preventDefault();const ref=$('mr').value.trim();if(ref.length<3){S.err='Escribe la referencia del pago.';renderCo();return}
+        S.busy=true;S.err='';renderCo();const r=await A.api('pago_manual',{producto:p.id,metodo:S.mm,referencia:ref,nota:$('mn')?$('mn').value:''});S.busy=false;
+        if(!r.ok){if(r.falta==='pais')S.paso='pais';S.err=r.error;renderCo();return}S.done={t:'Pago recibido',m:'Lo revisamos y activamos tu acceso. Te llegará un correo de confirmación.'};renderCo()}}
+  }
+  let ppLoad=null;
+  function mountPayPal(){
+    if(!ppLoad)ppLoad=new Promise((ok,ko)=>{const s=document.createElement('script');s.src='https://www.paypal.com/sdk/js?client-id='+encodeURIComponent(A.PAYPAL_CLIENT_ID)+'&currency=USD&intent=capture&components=buttons';s.onload=ok;s.onerror=ko;document.head.appendChild(s)});
+    ppLoad.then(()=>{if(!$('pp')||!window.paypal)return;window.paypal.Buttons({style:{shape:'pill',color:'gold',label:'pay'},
+      createOrder:async()=>{const r=await A.api('paypal_crear',{producto:S.p.id});if(!r.ok){if(r.falta==='pais')S.paso='pais';S.err=r.error;renderCo();throw new Error(r.error)}return r.orderId},
+      onApprove:async d=>{$('co-m').innerHTML='<div class="pay-opt"><p>Confirmando el pago…</p></div>';const r=await A.api('paypal_capturar',{orderId:d.orderID});
+        if(!r.ok){if(r.revision){S.done={t:'Pago en revisión',m:r.error};renderCo();return}S.err=r.error;renderCo();return}S.done={t:'¡Listo!',m:'Tu acceso ya está activo. También te enviamos un correo.'};renderCo()},
+      onError:()=>{S.err='PayPal no pudo completar el pago. Inténtalo de nuevo o usa otro método.';renderCo()}}).render('#pp')})
+      .catch(()=>{S.err='No se pudo cargar PayPal. Revisa tu conexión o usa otro método.';renderCo()});
+  }
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-buy]');if(b){openCo(b.dataset.buy);return}
+    if(e.target.closest('[data-close]')||e.target===$('co')){closeCo();return}
+    const m=e.target.closest('[data-m]');if(m){S.m=m.dataset.m;S.err='';renderCo()}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('co').hidden)closeCo()});
+
+  await loadCat();
+  const want=new URLSearchParams(location.search).get('p');if(want&&S.cat)openCo(want);
+})();
+</script>
+</body>
+</html>

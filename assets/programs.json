@@ -1,0 +1,493 @@
+{
+ "programs": [
+  {
+   "key": "basico",
+   "code": "P101",
+   "school": "P",
+   "name": "Producción Musical Básico",
+   "summary": "Aprende a producir tu música desde cero: DAW, ritmo, armonía, grabación, mezcla y tu primera canción terminada.",
+   "unit": "módulos",
+   "months": 6,
+   "active": true,
+   "modules": [
+    {
+     "n": 1,
+     "title": "Módulo 1 · Introducción y Entorno",
+     "goal": "Conocer el proceso completo de una producción y moverse con soltura en el DAW.",
+     "points": [
+      "Visión general de la producción",
+      "Demostración de interfaz de DAW y funciones básicas",
+      "Tu proyecto del ciclo: elegir la canción o idea que vas a desarrollar durante los 6 meses"
+     ],
+     "activity": "",
+     "homework": "Instalar y configurar el DAW en casa, y traer 2 canciones de referencia del género que quieres producir."
+    },
+    {
+     "n": 2,
+     "title": "Módulo 2 · El Arsenal Esencial",
+     "goal": "Elegir y conectar el equipo básico, y entender qué hace cada tipo de plugin.",
+     "points": [
+      "Selección de interfaz de audio, micrófonos, monitores/audífonos",
+      "Uso de plugins",
+      "Estructura de ganancia (gain staging): niveles sanos desde la entrada hasta el máster"
+     ],
+     "activity": "",
+     "homework": "Hacer la lista de tu equipo (o el que piensas comprar) y ajustar la ganancia de una grabación sin que sature."
+    },
+    {
+     "n": 3,
+     "title": "Módulo 3 · Flujo de Trabajo",
+     "goal": "Trabajar con un flujo ordenado: sesiones, archivos y plantillas listos para producir.",
+     "points": [
+      "Configuración de sesiones, organización de archivos y preparación del entorno digital",
+      "MIDI básico: notas, velocidad, cuantización y controladores"
+     ],
+     "activity": "Resultado de la fase: un entorno de trabajo profesional, conectado y organizado.",
+     "homework": "Crear tu plantilla de sesión y dejar organizada la sesión de tu proyecto del ciclo."
+    },
+    {
+     "n": 4,
+     "title": "Módulo 4 · Técnicas de Grabación",
+     "goal": "Grabar voces e instrumentos con buena toma: micrófono correcto, posición y ganancia.",
+     "points": [
+      "Grabación de voces e instrumentos",
+      "Uso correcto de micrófonos y ganancia",
+      "Música para productores: tonalidad, escalas y acordes básicos para entender lo que grabas"
+     ],
+     "activity": "",
+     "homework": "Grabar 3 tomas de la voz principal de tu proyecto y elegir la mejor con argumentos."
+    },
+    {
+     "n": 5,
+     "title": "Módulo 5 · Edición de Audio",
+     "goal": "Dejar las tomas limpias y listas para procesar.",
+     "points": [
+      "Limpieza de ruido, cortes precisos, crossfades y arreglos",
+      "Herramientas nativas",
+      "Comping: armar la mejor toma a partir de varias"
+     ],
+     "activity": "Resultado de la fase: tomas de audio limpias, editadas y listas para procesar.",
+     "homework": "Entregar la voz de tu proyecto editada, con comping y sin ruidos."
+    },
+    {
+     "n": 6,
+     "title": "Módulo 6 · Fundamentos del Beat",
+     "goal": "Construir la base rítmica y armónica de una canción.",
+     "points": [
+      "Programación de ritmos",
+      "Uso creativo de samplers y sintetizadores virtuales",
+      "Beatmaking: programar batería por patrones y construir el beat desde cero",
+      "Progresiones de acordes y bajo que funcionan con el beat"
+     ],
+     "activity": "",
+     "homework": "Programar el beat completo de tu proyecto (8 compases como mínimo) con bajo y acordes."
+    },
+    {
+     "n": 7,
+     "title": "Módulo 7 · Ritmo y Groove Avanzado",
+     "goal": "Darle groove, carácter y estructura completa a la canción.",
+     "points": [
+      "Creación de swing, humanización de percusiones y variaciones rítmicas",
+      "Estructura de canción: intro, verso, pre-coro, coro, puente y final",
+      "Arreglo: entradas y salidas de instrumentos para mantener la energía"
+     ],
+     "activity": "Resultado de la fase: una estructura musical completa con ritmo, armonía y carácter.",
+     "homework": "Entregar tu proyecto con la estructura completa arreglada, de principio a fin."
+    },
+    {
+     "n": 8,
+     "title": "Módulo 8 · Arquitectura de la Mezcla",
+     "goal": "Equilibrar la mezcla con volumen, paneo, EQ y compresión.",
+     "points": [
+      "Ecualización (EQ) correctiva y creativa",
+      "Compresión dinámica",
+      "Paneo y balance de volúmenes",
+      "Entrenamiento auditivo: reconocer bandas de frecuencia y exceso de compresión"
+     ],
+     "activity": "",
+     "homework": "Hacer la mezcla estática de tu proyecto y compararla con tu canción de referencia."
+    },
+    {
+     "n": 9,
+     "title": "Módulo 9 · Dimensión y Espacio",
+     "goal": "Dar profundidad y movimiento a la mezcla.",
+     "points": [
+      "Efectos creativos (reverb, delay, modulación)",
+      "Automatización para generar movimiento",
+      "Mezclar con referencias: comparar con una canción comercial al mismo volumen"
+     ],
+     "activity": "Resultado de la fase: una canción balanceada, cohesiva y tridimensional.",
+     "homework": "Entregar la mezcla final de tu proyecto con efectos y automatización."
+    },
+    {
+     "n": 10,
+     "title": "Módulo 10 · Masterización Básica",
+     "goal": "Masterizar a un volumen competitivo sin perder dinámica.",
+     "points": [
+      "Conceptos de volumen (LUFS) y tonalidad final",
+      "Uso de limitadores en el bus maestro",
+      "Medición: LUFS integrados, pico real (true peak) y rango dinámico"
+     ],
+     "activity": "",
+     "homework": "Masterizar tu proyecto para streaming (alrededor de -14 LUFS) y entregar el WAV."
+    },
+    {
+     "n": 11,
+     "title": "Módulo 11 · Listos para el Mundo",
+     "goal": "Preparar la canción para publicarla y promocionarla.",
+     "points": [
+      "Formatos de exportación (WAV vs MP3)",
+      "Estrategias de distribución digital y promoción",
+      "Music Business: metadatos, ISRC, créditos, arte de portada y registro de la obra",
+      "Cómo funciona una distribuidora digital y cómo se cobran las regalías"
+     ],
+     "activity": "Resultado de la fase: un track comercial listo para Spotify, Apple Music y más.",
+     "homework": "Entregar la ficha de lanzamiento completa (metadatos, créditos, portada) y el clip de promoción para redes."
+    },
+    {
+     "n": 12,
+     "title": "Módulo 12 · Cierre y Celebración",
+     "goal": "Presentar una producción completa y recibir retroalimentación profesional.",
+     "points": [
+      "Fase final · Proyecto Final y Evaluación",
+      "El proyecto: presentación de una producción completa realizada por el participante",
+      "Feedback: sesión crítica de escucha (Listening Party) para discutir mejoras y fortalezas",
+      "Rúbrica de evaluación: técnica, criterio artístico y creatividad"
+     ],
+     "activity": "Resultado: ¡Graduado como Productor Musical! Listo para el siguiente nivel.",
+     "homework": "Preparar la presentación de tu proyecto: qué quisiste lograr, cómo lo hiciste y qué aprendiste."
+    }
+   ]
+  },
+  {
+   "key": "intermedio",
+   "code": "P201",
+   "school": "P",
+   "name": "Producción Musical Intermedio",
+   "summary": "Lleva tus producciones a nivel profesional: flujo de trabajo, grabación, edición vocal, síntesis, mezcla, máster y lanzamiento.",
+   "unit": "sesiones",
+   "months": 6,
+   "active": true,
+   "modules": [
+    {
+     "n": 1,
+     "title": "Sesión 1 · Introducción al Nivel Intermedio y Flujo de Trabajo Profesional",
+     "goal": "Optimizar el flujo de trabajo para manejar proyectos grandes.",
+     "points": [
+      "Revisión de conceptos fundamentales",
+      "Optimización del flujo de trabajo en el DAW",
+      "Gestión de proyectos complejos"
+     ],
+     "activity": "Configuración avanzada de un proyecto con estructuras organizativas profesionales.",
+     "homework": "Reorganizar una sesión tuya con buses, colores y versiones, y definir el proyecto del ciclo."
+    },
+    {
+     "n": 2,
+     "title": "Sesión 2 · Profundización en Equipos y Software",
+     "goal": "Entender qué aporta el equipo profesional y elegir plugins con criterio.",
+     "points": [
+      "Equipos profesionales de estudio: preamplificadores, conversores A/D",
+      "Plugins avanzados y efectos específicos para géneros",
+      "Producción por género: urbano, vallenato, worship e indie, qué los caracteriza"
+     ],
+     "activity": "Comparativa de procesamiento analógico y digital.",
+     "homework": "Hacer una prueba A/B de 2 cadenas de procesamiento y explicar cuál elegirías y por qué."
+    },
+    {
+     "n": 3,
+     "title": "Sesión 3 · Grabación Multicanal y Técnicas Avanzadas",
+     "goal": "Grabar en multicanal con técnicas profesionales y dirigir al artista.",
+     "points": [
+      "Grabación de baterías, instrumentos acústicos y voces en entornos profesionales",
+      "Técnicas de microfonía avanzada y tratamiento acústico",
+      "Producción vocal: dirección del artista en la cabina, dobles y armonías",
+      "Preproducción con el artista: referencias, tonalidad y tempo"
+     ],
+     "activity": "Grabación de un set en vivo con microfonía multicanal.",
+     "homework": "Grabar la voz de tu proyecto con dobles, armonías y ad-libs."
+    },
+    {
+     "n": 4,
+     "title": "Sesión 4 · Edición Avanzada y Afinación Vocal",
+     "goal": "Editar y afinar voces con calidad comercial.",
+     "points": [
+      "Edición no destructiva, comping y cuantización avanzada",
+      "Afinación vocal con software especializado (Melodyne, Autotune)"
+     ],
+     "activity": "Edición y afinación de una sesión vocal completa.",
+     "homework": "Entregar la voz de tu proyecto editada y afinada."
+    },
+    {
+     "n": 5,
+     "title": "Sesión 5 · Diseño Sonoro y Síntesis",
+     "goal": "Crear sonidos propios con síntesis y diseño sonoro.",
+     "points": [
+      "Introducción al diseño sonoro y la síntesis (substractiva, FM, wavetable)",
+      "Creación de sonidos personalizados"
+     ],
+     "activity": "Diseño de un banco de sonidos original para un proyecto.",
+     "homework": "Crear un banco de 5 sonidos originales y usar al menos 2 en tu proyecto."
+    },
+    {
+     "n": 6,
+     "title": "Sesión 6 · Mezcla Avanzada I - Dinámica y Ecualización",
+     "goal": "Controlar la dinámica y el tono con técnicas avanzadas.",
+     "points": [
+      "Compresión paralela, multibanda y sidechain",
+      "Ecualización quirúrgica y creativa",
+      "Mezclar con referencias y en varios sistemas de escucha"
+     ],
+     "activity": "Mezcla de una pista aplicando técnicas de dinámica avanzada.",
+     "homework": "Entregar la mezcla de tu proyecto con dinámica y ecualización trabajadas."
+    },
+    {
+     "n": 7,
+     "title": "Sesión 7 · Mezcla Avanzada II - Espacialidad y Efectos",
+     "goal": "Crear espacio, profundidad y movimiento en la mezcla.",
+     "points": [
+      "Reverb y delay avanzados, técnicas de espacialidad 3D",
+      "Automatización creativa en la mezcla",
+      "Producción para show en vivo: secuencias y stems de la canción para el escenario"
+     ],
+     "activity": "Creación de un paisaje sonoro utilizando efectos y automatización.",
+     "homework": "Entregar la mezcla final de tu proyecto y su sesión de secuencias para show."
+    },
+    {
+     "n": 8,
+     "title": "Sesión 8 · Masterización Profesional",
+     "goal": "Masterizar para cada plataforma y formato.",
+     "points": [
+      "Cadena de masterización profesional",
+      "Normalización LUFS, formatos de entrega para diferentes plataformas",
+      "Entregas a cliente: stems, versiones (instrumental, a capela) y revisiones"
+     ],
+     "activity": "Masterización de un proyecto para streaming y vinilo.",
+     "homework": "Entregar el máster de tu proyecto, los stems y las versiones instrumental y a capela."
+    },
+    {
+     "n": 9,
+     "title": "Sesión 9 · Producción para Medios Audiovisuales",
+     "goal": "Producir música y sonido para imagen, y entender su negocio.",
+     "points": [
+      "Música para cine, televisión y videojuegos",
+      "Sincronización de audio con imagen y creación de efectos",
+      "Negocio audiovisual: licencias de sincronización, splits y contratos básicos"
+     ],
+     "activity": "Composición y producción de una pieza sonora para un cortometraje.",
+     "homework": "Terminar la pieza para el cortometraje y escribir un acuerdo de splits sencillo para una colaboración."
+    },
+    {
+     "n": 10,
+     "title": "Sesión 10 · Proyecto Final y Presentación Profesional",
+     "goal": "Presentar un proyecto profesional y un portafolio listo para trabajar.",
+     "points": [
+      "Preparación de un portafolio profesional",
+      "Estrategias de distribución y promoción en plataformas digitales",
+      "Rúbrica de evaluación: técnica, criterio artístico, creatividad y presentación"
+     ],
+     "activity": "Presentación del proyecto final, feedback y asesoría personalizada.",
+     "homework": "Preparar tu portafolio (3 trabajos) y la presentación del proyecto final."
+    }
+   ]
+  },
+  {
+   "key": "consola",
+   "code": "L101",
+   "school": "L",
+   "name": "Consola Digital en Vivo",
+   "summary": "Opera consolas Behringer y Midas en eventos reales: microfonía, ganancia, monitores, redes de audio y resolución de problemas.",
+   "unit": "módulos",
+   "months": 6,
+   "active": true,
+   "modules": [
+    {
+     "n": 1,
+     "title": "Módulo 1 · Fundamentos, conexiones y seguridad",
+     "goal": "familiarizarse con las consolas digitales (Behringer y Midas), sus conexiones físicas y el trabajo seguro con la energía",
+     "points": [
+      "Consolas comunes: Behringer X32/M32 y WING, Midas M32 y Pro Series",
+      "Partes clave: capas (layers), faders motorizados, pantalla táctil, menú de efectos integrados",
+      "Encendido y apagado seguro, firmware y mantenimiento básico",
+      "Energía y ruido: tierra, zumbidos, distribución de corriente en el escenario"
+     ],
+     "activity": "Encendido y apagado seguro de una Behringer X32. Conexión de micrófonos, DI boxes y stageboxes (Behringer S16, Midas DP48).",
+     "homework": "Simular un setup básico en Behringer X32 Edit y documentar las conexiones. Comparar Behringer X32 vs Midas M32 en entradas y salidas."
+    },
+    {
+     "n": 2,
+     "title": "Módulo 2 · Microfonía para en vivo",
+     "goal": "elegir y colocar cada micrófono según la fuente y el escenario",
+     "points": [
+      "Tipos de micrófono (dinámico, condensador) y patrones polares",
+      "Microfonía de batería: bombo, caja, toms y overheads",
+      "Amplificadores, voces e instrumentos acústicos; DI activas y pasivas",
+      "Micrófonos inalámbricos: pilas, alcance y ubicación de antenas"
+     ],
+     "activity": "Microfonear un set de banda (batería, bajo por DI, guitarra, teclado por DI y dos voces) y armar su input list.",
+     "homework": "Preparar el input list y la propuesta de microfonía para una banda de 5 integrantes."
+    },
+    {
+     "n": 3,
+     "title": "Módulo 3 · Configuración de canales y procesamiento",
+     "goal": "ajustar ganancia, EQ y dinámica de cada canal",
+     "points": [
+      "Ganancia óptima y phantom power para voces, guitarras y batería",
+      "Fuentes (sources) y canales en la Behringer WING",
+      "EQ paramétrico y gráfico; compresión, gate y limitadores",
+      "Nombres (scribble strip) y colores de canal"
+     ],
+     "activity": "Configurar 16 canales (4 voces, 2 guitarras, batería, bajo, teclados). Usar EQ paramétrico para eliminar resonancias en voces (200-400 Hz).",
+     "homework": "Aplicar compresión (ratio 4:1, attack 20 ms) a una pista de bajo en la consola."
+    },
+    {
+     "n": 4,
+     "title": "Módulo 4 · Mezcla principal (FOH) y monitores de escenario",
+     "goal": "construir la mezcla principal y las mezclas de monitores sin feedback",
+     "points": [
+      "Estructura de la mezcla de FOH: balance, panorama y planos",
+      "Envíos auxiliares pre-fader para monitores de piso",
+      "Detección y eliminación de feedback con EQ gráfico",
+      "Comunicación con los músicos durante la prueba de sonido"
+     ],
+     "activity": "Mezclar un concierto simulado de 5 canciones (FOH y monitores). Eliminar feedback en monitores con EQ gráfico.",
+     "homework": "Crear una mezcla de monitor para un guitarrista que necesite clic y pista guía."
+    },
+    {
+     "n": 5,
+     "title": "Módulo 5 · In-ear (IEM) y mezclas personales",
+     "goal": "armar mezclas de in-ear estéreo y dar a los músicos control de su propia mezcla",
+     "points": [
+      "Sistemas de in-ear inalámbricos y coordinación de frecuencias",
+      "Mezclas estéreo de IEM, micrófonos de ambiente y protección auditiva",
+      "Mezclas personales: Behringer X32-MixApp, Yamaha StageMix y sistemas P16"
+     ],
+     "activity": "Configurar 3 mezclas de in-ear estéreo con micrófonos de ambiente.",
+     "homework": "Hacer el plan de frecuencias para 4 in-ear y 4 micrófonos inalámbricos."
+    },
+    {
+     "n": 6,
+     "title": "Módulo 6 · Subgrupos, matrices y efectos",
+     "goal": "organizar la mezcla con subgrupos, DCA/VCA, matrices y efectos",
+     "points": [
+      "Subgrupos y DCA (VCA) para controlar secciones de la banda",
+      "Matrices para zonas adicionales (lobby, delays, transmisión)",
+      "Efectos integrados: reverb, delay y envíos en faders (sends on faders)"
+     ],
+     "activity": "Crear una matriz para el lobby y una zona de delay. Aplicar reverb y delay a voces y batería.",
+     "homework": "Configurar un subgrupo de voces con compresión paralela en la Midas M32."
+    },
+    {
+     "n": 7,
+     "title": "Módulo 7 · Redes digitales y protocolos (Dante/MADI)",
+     "goal": "conectar consolas y stageboxes en red digital",
+     "points": [
+      "Fundamentos de Dante, MADI y AES50",
+      "Tarjeta X-Dante, stagebox Midas DP48 y Behringer S32",
+      "Ruteo de canales entre consolas y redundancia de red"
+     ],
+     "activity": "Rutear 32 canales por la red hacia un stagebox Behringer S32. Solucionar fallas de red (pérdida de sincronía).",
+     "homework": "Dibujar el diagrama de red para 2 consolas y 3 stageboxes."
+    },
+    {
+     "n": 8,
+     "title": "Módulo 8 · Acústica y alineación de sistemas",
+     "goal": "medir la sala y alinear el sistema de PA",
+     "points": [
+      "Reflexiones, modos y tiempo de reverberación",
+      "Medición con Room EQ Wizard (REW) y micrófono de medición",
+      "Alineación de subwoofers y tops (fase y delay) y ecualización del sistema"
+     ],
+     "activity": "Medir la sala del estudio y alinear subwoofers con tops.",
+     "homework": "Analizar la respuesta de una sala con REW y proponer correcciones."
+    },
+    {
+     "n": 9,
+     "title": "Módulo 9 · Grabación multitrack, virtual soundcheck y streaming",
+     "goal": "grabar el show, probar sin banda y sacar una mezcla para transmisión",
+     "points": [
+      "Grabación multitrack por USB: X-LIVE (X32/M32) y USB de la WING, conexión al DAW",
+      "Virtual soundcheck: reproducir la grabación por los canales de la consola",
+      "Bus de streaming: una mezcla separada para transmisión en vivo"
+     ],
+     "activity": "Grabar 16 canales y hacer un virtual soundcheck con esa grabación.",
+     "homework": "Entregar una grabación multitrack y una mezcla para streaming del mismo show."
+    },
+    {
+     "n": 10,
+     "title": "Módulo 10 · Playback, clic y secuencias",
+     "goal": "integrar pistas, clic y secuencias al show de forma segura",
+     "points": [
+      "Playback con Ableton Live y MultiTracks: salidas, ruteo y niveles",
+      "Clic y pista guía solo en los in-ear, nunca en el PA",
+      "Redundancia: computadora de respaldo y conmutación ante fallas",
+      "Aplicación en alabanza (worship) y shows de artista"
+     ],
+     "activity": "Rutear un playback con clic y guía a los in-ear de la banda.",
+     "homework": "Preparar una sesión de playback de 3 canciones con clic, guía y pistas."
+    },
+    {
+     "n": 11,
+     "title": "Módulo 11 · Escenas, rider técnico y producción del show",
+     "goal": "guardar el show en escenas y prepararlo como producción completa",
+     "points": [
+      "Snapshots, showfiles y escenas por canción; recuperación después de un apagón",
+      "Evento corporativo con playback y micrófonos inalámbricos",
+      "Rider técnico, input list y stage plot",
+      "Coordinación con pantallas, iluminación y montaje; horarios de montaje y prueba de sonido"
+     ],
+     "activity": "Programar escenas para un evento y recuperar el show después de apagar la consola.",
+     "homework": "Entregar un showfile de 8 canciones y el rider técnico del show."
+    },
+    {
+     "n": 12,
+     "title": "Módulo 12 · Proyecto final y evaluación",
+     "goal": "demostrar todo lo aprendido en un concierto completo",
+     "points": [
+      "Concierto simulado de 24 canales con problemas inyectados (micrófono que no funciona, feedback en monitores, falla del playback)",
+      "Mezclas de in-ear y playback en vivo",
+      "Checklist de producción: preproducción, prueba de sonido y cierre",
+      "Presentación: defender las decisiones técnicas ante un jurado"
+     ],
+     "activity": "Montar, mezclar y resolver las fallas del concierto simulado de 24 canales.",
+     "homework": ""
+    }
+   ]
+  },
+  {
+   "key": "e101",
+   "code": "E101",
+   "school": "E",
+   "name": "Grabación y Mezcla",
+   "summary": "Graba y mezcla con criterio profesional.",
+   "active": false,
+   "modules": []
+  },
+  {
+   "key": "e201",
+   "code": "E201",
+   "school": "E",
+   "name": "Masterización",
+   "summary": "Prepara tus canciones para cualquier plataforma.",
+   "active": false,
+   "modules": []
+  },
+  {
+   "key": "l201",
+   "code": "L201",
+   "school": "L",
+   "name": "Sistemas y Monitoreo",
+   "summary": "PA, alineación de sistemas e in-ear.",
+   "active": false,
+   "modules": []
+  },
+  {
+   "key": "a101",
+   "code": "A101",
+   "school": "A",
+   "name": "Negocio de la Música",
+   "summary": "Derechos, regalías, marca personal y cómo vivir de la música.",
+   "active": false,
+   "modules": []
+  }
+ ]
+}

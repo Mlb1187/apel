@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi cuenta · APEL</title>
+<meta name="robots" content="noindex">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#0D0D12">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/apel.css">
+<script src="../assets/config.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../" aria-label="APEL, inicio"><b>APEL<i>.</i></b><small>PRODUCTION · ENGINEERING · LIVE</small></a>
+  <nav class="nav" aria-label="Cuenta" id="nav"><a class="keep" href="../tienda.html">Tienda</a></nav>
+</div></header>
+<main class="wrap" id="app" style="padding-bottom:80px"></main>
+
+<div class="player" id="pl" hidden role="dialog" aria-modal="true" aria-label="Reproductor">
+  <div class="bar"><b id="pl-t"></b><span class="row" style="gap:8px"><button class="btn sm" id="pl-fs">Pantalla completa</button><button class="btn sm" id="pl-x">Cerrar</button></span></div>
+  <div class="stage" id="pl-st"><div class="ratio" id="pl-r"></div></div>
+</div>
+
+<footer><div class="wrap"><span>APEL · Mi cuenta</span><span>Tu acceso es personal: tu cuenta solo puede estar abierta en un dispositivo a la vez.</span></div></footer>
+
+<script>
+(function(){
+  const A=window.APEL,esc=A.esc,$=id=>document.getElementById(id),app=$('app');
+  const S={ps:[],yo:null,tab:'cursos',step:'correo',correo:'',busy:false,err:'',msg:'',sel:null,open:new Set(),code:''};
+  const q=new URLSearchParams(location.search);
+  const volver=(()=>{const v=q.get('volver')||'';return /^[a-z0-9_\-./?=&%]+$/i.test(v)&&!v.includes('//')&&!v.includes(':')?v:''})();
+  const strip=t=>String(t).replace(/^(Módulo|Sesión)\s*\d+\s*·\s*/,'');
+  const ICON={video:'VID',pdf:'PDF',audio:'AUD',link:'WEB',drive:'DRV',plantilla:'DAW'};
+
+  /* ---------- entrar ---------- */
+  function viewLogin(){
+    app.innerHTML=`<div style="max-width:460px;margin:64px auto 0">
+      <span class="eyebrow">Mi cuenta</span><h1 style="font-size:clamp(40px,7vw,60px)">${S.step==='correo'?'Entra con <em>tu correo.</em>':'Revisa <em>tu correo.</em>'}</h1>
+      <p class="lead" style="font-size:18px">${S.step==='correo'?'Te enviamos un código de 6 dígitos. Sin contraseñas.':`Escribe el código que enviamos a <b style="color:var(--fg)">${esc(S.correo)}</b>. Vence en 10 minutos.`}</p>
+      <form class="card" id="lf" style="display:flex;flex-direction:column;gap:16px" novalidate>
+        ${S.step==='correo'?`<div class="field"><label for="lc">Correo</label><input id="lc" type="email" autocomplete="email" inputmode="email" value="${esc(S.correo)}" required></div>`
+        :`<div class="field"><label for="lk">Código</label><input id="lk" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" required></div>`}
+        <span class="err" role="alert">${esc(S.err)}</span>${S.msg?`<span class="hint" role="status">${esc(S.msg)}</span>`:''}
+        <button class="btn primary" ${S.busy?'disabled':''}>${S.busy?'Un momento…':S.step==='correo'?'Enviarme el código':'Entrar'}</button>
+        ${S.step==='codigo'?'<button type="button" class="btn" id="otra">Usar otro correo o reenviar</button>':''}
+        <span class="hint">¿Aún no eres alumno? <a href="../tienda.html">Mira la tienda</a> o <a href="../inscripcion.html">inscríbete</a>.</span>
+      </form></div>`;
+    const f=$('lf');const inp=$('lc')||$('lk');setTimeout(()=>inp&&inp.focus(),30);
+    if($('otra'))$('otra').onclick=()=>{S.step='correo';S.err='';S.msg='';viewLogin()};
+    if($('lk'))$('lk').oninput=e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);if(e.target.value.length===6)f.requestSubmit()};
+    f.onsubmit=async ev=>{ev.preventDefault();if(S.busy)return;S.err='';S.msg='';
+      if(S.step==='correo'){const c=$('lc').value.trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c)){S.err='Escribe un correo válido.';viewLogin();return}
+        S.correo=c;S.busy=true;viewLogin();const r=await A.api('login_inicio',{correo:c});S.busy=false;
+        if(!r.ok){S.err=r.error;viewLogin();return}S.step='codigo';S.msg=r.espera?'Ya te enviamos un código hace un momento: usa ese.':'';viewLogin();return}
+      const k=$('lk').value.trim();if(k.length!==6){S.err='Son 6 dígitos.';viewLogin();return}
+      S.busy=true;viewLogin();const r=await A.api('login_verificar',{correo:S.correo,codigo:k,dispositivo:A.dispositivo()});S.busy=false;
+      if(!r.ok){S.err=r.error;viewLogin();return}
+      A.sesion.set({token:r.token,correo:r.correo,vence:r.vence});
+      S.banner=r.cerradas&&r.cerradas.length?'Cerramos tu sesión en '+r.cerradas.join(', ')+'. Tu cuenta solo puede estar abierta en un dispositivo a la vez.':'';
+      if(volver){location.href='../'+volver;return}
+      await load();};
+  }
+
+  /* ---------- datos ---------- */
+  async function load(quiet){
+    if(!quiet)app.innerHTML='<p class="hint" style="padding:80px 0" aria-live="polite">Cargando tu cuenta…</p>';
+    const r=await A.api('yo');
+    if(!r.ok){if(r.sesion===false||!A.sesion.get()){S.yo=null;S.step='correo';S.err=r.sesion===false?'Tu sesión se cerró: tu cuenta se abrió en otro dispositivo o venció. Vuelve a entrar con tu correo.':'';render();return}
+      app.innerHTML=`<div class="notice" style="margin-top:48px">${esc(r.error)}</div>`;return}
+    S.yo=r;render();
+  }
+  const has=t=>S.yo.accesos.some(a=>a.tipo===t);
+  function myPrograms(){
+    const codes=new Set();S.yo.accesos.forEach(a=>{if(a.programa&&(a.tipo==='clase'||a.tipo==='vod'))codes.add(a.programa)});
+    if(has('suscripcion'))S.yo.videos.forEach(v=>codes.add(v.programa));
+    return S.ps.filter(p=>codes.has(p.code));
+  }
+
+  /* ---------- vistas ---------- */
+  const TABS=[['cursos','Mis cursos'],['videos','Videoteca'],['vivo','En vivo'],['cuenta','Mi cuenta']];
+  function render(){
+    $('nav').innerHTML='<a class="keep" href="../tienda.html">Tienda</a>'+(S.yo?'<button class="btn sm" id="out">Salir</button>':'');
+    if($('out'))$('out').onclick=async()=>{await A.api('salir');A.sesion.set(null);S.yo=null;S.step='correo';render()};
+    if(!S.yo){viewLogin();return}
+    const nP=myPrograms().length,nLive=S.yo.lives.filter(l=>l.mio&&!l.terminada).length;
+    app.innerHTML=`<div class="portal-head"><div><span class="eyebrow">${esc(S.yo.correo)}</span><h1>${S.tab==='videos'?'Videoteca':S.tab==='vivo'?'En vivo':S.tab==='cuenta'?'Mi cuenta':'Mis cursos'}</h1></div></div>
+      ${S.banner?`<div class="okmsg" role="status" style="margin:8px 0 0">${esc(S.banner)}</div>`:''}
+      <nav class="tabs" aria-label="Secciones">${TABS.map(([k,l])=>`<button data-tab="${k}" aria-pressed="${S.tab===k}">${esc(l)}${k==='cursos'&&nP?` · ${nP}`:''}${k==='vivo'&&nLive?` · ${nLive}`:''}</button>`).join('')}</nav>
+      <div id="tab"></div>`;
+    ({cursos:vCursos,videos:vVideos,vivo:vVivo,cuenta:vCuenta})[S.tab]();
+  }
+  const vcard=v=>`<button class="vcard" data-play="${esc(v.id)}" ${v.bloqueado?'disabled':''} aria-label="${esc((v.bloqueado?'Bloqueado: ':'Ver ')+v.titulo)}">
+    <span class="play" aria-hidden="true">${v.bloqueado?'🔒':'▶'}</span><b>${esc(v.titulo)}</b>
+    <small>${esc(v.programa)} · módulo ${v.modulo}${v.duracion?' · '+esc(v.duracion):''}${v.gratis?' · muestra gratis':''}</small>
+    ${v.bloqueado?`<span class="lock">${esc(v.bloqueado)}</span>`:''}</button>`;
+
+  function vCursos(){
+    const mine=myPrograms();const t=$('tab');
+    if(!mine.length){t.innerHTML=`<div class="card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start"><b style="font-size:20px">Todavía no tienes programas activos.</b><span class="hint">Compra un programa o una mensualidad en la tienda, o canjea tu código.</span><div class="row"><a class="btn primary" href="../tienda.html">Ir a la tienda</a><button class="btn" data-tab="cuenta" data-focus="code">Canjear un código</button></div></div>`;return}
+    if(!S.sel||!mine.find(p=>p.code===S.sel))S.sel=mine[0].code;
+    const p=mine.find(x=>x.code===S.sel);const sc=A.SCHOOLS[p.school]||{};
+    const acc=S.yo.accesos.filter(a=>a.programa===p.code);const clase=acc.find(a=>a.tipo==='clase');
+    const full=acc.some(a=>a.tipo==='vod')||has('suscripcion');const hasta=!full&&clase&&clase.hastaModulo?clase.hastaModulo:0;
+    if(!S.open.size&&p.modules.length)S.open.add(p.code+'-'+(hasta?Math.min(hasta,p.modules.length):1));
+    t.innerHTML=`${mine.length>1?`<nav class="tabs" aria-label="Mis programas">${mine.map(x=>`<button data-sel="${esc(x.code)}" aria-pressed="${x.code===S.sel}">${esc(x.code)} · ${esc(x.name)}</button>`).join('')}</nav>`:''}
+      <p style="margin:0 0 20px" class="row"><span class="tag" style="--c:${sc.color}"><i></i>${esc(p.code)} · ${esc(sc.name||'')}</span>${acc.map(a=>`<span class="pill">${esc(A.TIPOS[a.tipo]||a.tipo)}${a.hasta?' · hasta '+esc(A.fecha(a.hasta)):''}</span>`).join('')}</p>
+      ${p.modules.map(m=>{const k=p.code+'-'+m.n,lock=hasta&&m.n>hasta;
+        const vids=S.yo.videos.filter(v=>v.programa===p.code&&v.modulo===m.n);const mats=S.yo.material.filter(x=>x.programa===p.code&&x.modulo===m.n);
+        if(lock)return `<div class="mod" style="opacity:.55"><div style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:center;padding:18px 20px"><span style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);font-weight:800">${m.n}</span><span><b style="display:block;font-size:17px">${esc(strip(m.title))}</b><small class="hint">Se abre cuando lleguemos a este módulo en clase</small></span></div></div>`;
+        return `<details class="mod" data-k="${esc(k)}" ${S.open.has(k)?'open':''}><summary><span class="n">${m.n}</span><span><b>${esc(strip(m.title))}</b><small>${esc(m.goal?m.goal.charAt(0).toUpperCase()+m.goal.slice(1):'')}</small></span><small class="cnt hint">${vids.length} video${vids.length===1?'':'s'}</small></summary>
+          <div class="body">
+            ${vids.length?`<div class="vgrid">${vids.map(vcard).join('')}</div>`:''}
+            ${m.points.length?`<div><span class="lbl">Lo que verás</span><ul>${m.points.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
+            ${mats.length?`<div><span class="lbl">Material de apoyo</span><div class="mats" style="margin-top:6px">${mats.map(x=>`<a class="mat" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer"><span class="ic">${esc(ICON[x.tipo]||'WEB')}</span><span><b>${esc(x.titulo)}</b>${x.nota?`<small>${esc(x.nota)}</small>`:''}</span></a>`).join('')}</div></div>`:''}
+            ${m.homework?`<div class="box"><span class="lbl">Tarea</span>${esc(m.homework)}</div>`:''}
+          </div></details>`}).join('')}`;
+  }
+
+  function vVideos(){
+    const t=$('tab');const vs=S.yo.videos;
+    if(!vs.length){t.innerHTML='<div class="notice">Pronto publicamos los primeros videos.</div>';return}
+    const progs=[...new Set(vs.map(v=>v.programa))];
+    t.innerHTML=progs.map(code=>{const p=S.ps.find(x=>x.code===code);const l=vs.filter(v=>v.programa===code);const locked=l.filter(v=>v.bloqueado).length;
+      return `<section style="border:0;padding:0 0 32px"><div class="row" style="justify-content:space-between;margin-bottom:12px"><h2 style="font-size:24px;margin:0">${esc(code)} · ${esc(p?p.name:'')}</h2>${locked?`<a class="btn sm" href="../tienda.html">Desbloquear ${locked}</a>`:''}</div><div class="vgrid">${l.map(vcard).join('')}</div></section>`}).join('');
+  }
+
+  function vVivo(){
+    const t=$('tab');const ls=S.yo.lives;
+    if(!ls.length){t.innerHTML='<div class="notice">No hay clases en vivo programadas por ahora.</div>';return}
+    const now=Date.now();
+    t.innerHTML=`<div class="list">${ls.map(l=>{const d=new Date(l.fecha);const abre=new Date(l.abreEn);
+      const act=l.terminada?'<span class="pill">Terminó</span>':l.mio?(l.meet?`<a class="btn primary" href="${esc(l.meet)}" target="_blank" rel="noopener noreferrer">Entrar a la clase</a>`:`<span class="hint">El enlace aparece aquí ${abre-now<864e5?'a las '+esc(abre.toLocaleTimeString('es',{hour:'numeric',minute:'2-digit'})):'15 minutos antes'}.<br>También te llegó la invitación por correo.</span>`)
+        :l.enVenta?`<a class="btn primary sm" href="../tienda.html?p=${encodeURIComponent(l.id)}">Reservar cupo</a>`:'<span class="pill">Sin cupos</span>';
+      return `<div class="card live"><div class="when"><small>${esc(d.toLocaleDateString('es',{month:'short'}))}</small><b>${d.getDate()}</b><small>${esc(d.toLocaleDateString('es',{weekday:'short'}))}</small></div>
+        <div><b style="font-size:18px">${esc(l.nombre)}</b><div class="hint">${esc(d.toLocaleTimeString('es',{hour:'numeric',minute:'2-digit'}))} (tu hora) · ${l.duracion} min${l.mio?' · <span style="color:var(--accent)">Tienes cupo</span>':''}</div>${l.descripcion?`<div class="hint">${esc(l.descripcion)}</div>`:''}</div>
+        <div>${act}</div></div>`}).join('')}</div>`;
+  }
+
+  function vCuenta(){
+    const t=$('tab');const y=S.yo;
+    t.innerHTML=`<div class="grid g2" style="align-items:start">
+      <section class="card" style="display:flex;flex-direction:column;gap:12px" id="codigo"><h2 style="font-size:22px;margin:0">Canjear un código</h2>
+        <form id="cf" class="row" novalidate><label class="sr" for="cc">Código</label><input id="cc" placeholder="APEL-XXXX-XXXX" autocomplete="off" style="flex:1;min-width:200px;text-transform:uppercase;letter-spacing:.08em" value="${esc(S.code)}"><button class="btn primary" ${S.busy?'disabled':''}>Canjear</button></form>
+        <span class="err" role="alert" id="ce">${esc(S.err)}</span>${S.msg?`<div class="okmsg" role="status">${esc(S.msg)}</div>`:''}</section>
+      <section class="card" style="display:flex;flex-direction:column;gap:8px"><h2 style="font-size:22px;margin:0">Mi país</h2>
+        ${y.pais?`<span><b>${esc(y.nombrePais)}</b> · <span class="hint">define tus precios y quedó fijo en tu cuenta. Si te mudaste, escríbenos.</span></span>`:'<span class="hint">Lo confirmas en la tienda antes de tu primer pago. Define tus precios.</span>'}</section>
+      <section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 style="font-size:22px;margin:0">Mis accesos</h2>
+        ${y.accesos.length?`<div class="list">${y.accesos.map(a=>`<div class="li"><span><b>${esc(a.nombre)}</b><br><small>${esc(A.TIPOS[a.tipo]||'')}${a.hasta?' · hasta '+esc(A.fecha(a.hasta)):' · sin vencimiento'}</small></span>${a.tipo==='clase'||a.tipo==='suscripcion'?`<a class="btn sm" href="../tienda.html?p=${encodeURIComponent(a.producto)}">Renovar</a>`:''}</div>`).join('')}</div>`:'<span class="hint">Aún no tienes accesos activos.</span>'}</section>
+      <section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 style="font-size:22px;margin:0">Mis pagos</h2>
+        ${y.pagos.length?`<div class="list">${y.pagos.map(p=>`<div class="li"><span><b>${esc(p.producto)}</b> · ${A.usd(p.monto)}<br><small>${esc(p.metodo)} · ${p.fecha?esc(A.fecha(p.fecha)):''}</small></span><span class="pill ${p.estado==='Verificado'?'ok':p.estado==='Pendiente'?'wait':''}">${esc(p.estado==='Verificado'?'Aprobado':p.estado==='Pendiente'?'En revisión':'No aprobado')}</span></div>`).join('')}</div>`:'<span class="hint">Sin pagos todavía.</span>'}</section>
+      <section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 style="font-size:22px;margin:0">Dispositivos</h2>
+        <span class="hint">${y.maxSesiones>1?`Puedes tener hasta ${y.maxSesiones} dispositivos con sesión abierta. Al entrar en uno nuevo se cierra el más antiguo.`:'Tu cuenta solo puede estar abierta en un dispositivo. Si entras desde otro, este se cierra al instante. El acceso es personal e intransferible.'}</span>
+        <div class="list">${y.sesiones.map(s=>`<div class="li"><span><b>${esc(s.dispositivo)}</b><br><small>${s.actual?'Este dispositivo':'Último uso '+esc(A.fecha(s.ultimo,true))}</small></span></div>`).join('')}</div>
+        ${y.sesiones.length>1?'<button class="btn" id="sx">Cerrar sesión en los otros dispositivos</button>':''}</section>
+    </div>`;
+    $('cf').onsubmit=async e=>{e.preventDefault();const c=$('cc').value.trim();S.code=c;S.err='';S.msg='';if(!c){S.err='Escribe tu código.';vCuenta();return}
+      S.busy=true;vCuenta();const r=await A.api('canjear',{codigo:c});S.busy=false;
+      if(!r.ok){S.err=r.error;vCuenta();return}S.code='';const okm=`Listo: ${r.nombre} activo${r.hasta?' hasta el '+A.fecha(r.hasta):''}.`;await load(true);S.tab='cuenta';S.msg=okm;render()};
+    if($('sx'))$('sx').onclick=async()=>{const r=await A.api('salir_todo');if(r.ok){S.msg='';await load(true)}};
+    if(S.focus==='code'){S.focus=null;setTimeout(()=>$('cc').focus(),30)}
+  }
+
+  /* ---------- reproductor protegido ---------- */
+  let wmTimer=null;
+  async function play(id){
+    const v=S.yo.videos.find(x=>x.id===id);if(!v||v.bloqueado)return;
+    $('pl').hidden=false;$('pl-t').textContent=v.titulo;$('pl-r').innerHTML='<p style="color:#fff;text-align:center;padding-top:20%">Preparando el video…</p>';
+    const r=await A.api('ver_video',{video:id});
+    if(!r.ok){$('pl-r').innerHTML=`<p style="color:#fff;text-align:center;padding-top:20%">${esc(r.error)}</p>`;return}
+    $('pl-r').innerHTML=`<iframe src="${esc(r.url)}" loading="eager" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="${esc(r.titulo)}"></iframe><span class="wm" id="wm">${esc(r.marca)}</span>`;
+    const move=()=>{const w=$('wm');if(!w)return;w.style.left=(5+Math.random()*60)+'%';w.style.top=(6+Math.random()*80)+'%'};move();clearInterval(wmTimer);wmTimer=setInterval(move,12000);
+    $('pl-x').focus();
+  }
+  function closePl(){$('pl').hidden=true;$('pl-r').innerHTML='';clearInterval(wmTimer);if(document.fullscreenElement)document.exitFullscreen().catch(()=>{})}
+  $('pl-x').onclick=closePl;
+  // pantalla completa del reproductor entero (no del iframe), para que la marca de agua siga visible
+  $('pl-fs').onclick=()=>{const st=$('pl');if(document.fullscreenElement)document.exitFullscreen();else if(st.requestFullscreen)st.requestFullscreen().catch(()=>{})};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pl').hidden&&!document.fullscreenElement)closePl()});
+  $('pl').addEventListener('contextmenu',e=>e.preventDefault());
+
+  app.addEventListener('click',e=>{
+    const tb=e.target.closest('[data-tab]');if(tb){S.tab=tb.dataset.tab;S.banner='';S.err='';S.msg='';if(tb.dataset.focus)S.focus=tb.dataset.focus;history.replaceState(null,'','#'+S.tab);render();return}
+    const sl=e.target.closest('[data-sel]');if(sl){S.sel=sl.dataset.sel;S.open.clear();render();return}
+    const pv=e.target.closest('[data-play]');if(pv){play(pv.dataset.play)}
+  });
+  app.addEventListener('toggle',e=>{const d=e.target;if(d.matches&&d.matches('details.mod')){d.open?S.open.add(d.dataset.k):S.open.delete(d.dataset.k)}},true);
+  // en la pestaña En vivo, refresca cada minuto para mostrar el enlace a tiempo
+  setInterval(()=>{if(S.yo&&S.tab==='vivo'&&!document.hidden)load(true)},60000);
+
+  (async function(){
+    const h=location.hash.slice(1);if(['cursos','videos','vivo','cuenta'].includes(h))S.tab=h;if(h==='codigo'){S.tab='cuenta';S.focus='code'}
+    try{S.ps=await A.programs()}catch(e){}
+    if(!A.API_URL){app.innerHTML='<div class="notice" style="margin-top:48px">Las cuentas aún no están conectadas. Vuelve pronto.</div>';return}
+    if(!A.sesion.get()){render();return}
+    const trade=q.get('binance');
+    await load();
+    if(trade&&S.yo){const r=await A.api('binance_revisar',{trade});history.replaceState(null,'','./#'+S.tab);
+      S.banner=r.ok&&r.estado==='PAID'?'Pago con Binance confirmado: tu acceso ya está activo.':r.ok?'Estamos esperando la confirmación de Binance. Tu acceso se activa solo en unos minutos; te llegará un correo.':(r.error||'');
+      await load(true)}
+  })();
+})();
+</script>
+</body>
+</html>
