@@ -26,10 +26,10 @@ window.APEL = {
     grupos: { 1: { pronto: 90, normal: 100 }, 2: { pronto: 72, normal: 80 }, 3: { pronto: 54, normal: 60 } } },
   PAYMENTS: ['Zelle', 'PayPal', 'Binance / USDT', 'Wise', 'Zinli', 'Transferencia internacional', 'Pago móvil (Venezuela)'],
   SCHOOLS: {
-    A: { name: 'Academy', what: 'Fundamentos, carrera y negocio', color: 'var(--sA)' },
-    P: { name: 'Production', what: 'Crear música', color: 'var(--sP)' },
-    E: { name: 'Engineering', what: 'Grabar, mezclar y masterizar', color: 'var(--sE)' },
-    L: { name: 'Live', what: 'Sonido en vivo', color: 'var(--sL)' }
+    A: { name: 'Academy', what: 'Carrera y negocio: derechos, regalías, marca personal y cómo vivir de la música.', color: 'var(--sA)' },
+    P: { name: 'Production', what: 'Crear música: beats, armonía, grabación, mezcla y tu primera canción terminada.', color: 'var(--sP)' },
+    E: { name: 'Engineering', what: 'Grabar, mezclar y masterizar con criterio profesional, para cualquier plataforma.', color: 'var(--sE)' },
+    L: { name: 'Live', what: 'Sonido en vivo: consola digital, microfonía, monitores y shows reales.', color: 'var(--sL)' }
   }
 };
 window.APEL.esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -74,3 +74,18 @@ window.APEL.programs = () => fetch(window.APEL.BASE + 'programs.json').then(r =>
   A.guardarPais = c => { try { localStorage.setItem('apel-pais', c); } catch (e) {} };
   A.TIPOS = { clase: 'Clases 1 a 1', vod: 'Programa en video', suscripcion: 'Suscripción', live: 'Clase en vivo' };
 })(window.APEL);
+
+/* ---------- Identidad viva: los títulos con data-fader respiran en ancho, como un fader ---------- */
+(function () {
+  let calm = false; try { calm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (calm || !window.requestAnimationFrame) return;
+  const t0 = performance.now();
+  const frame = now => {
+    const t = (now - t0) / 1000;
+    document.querySelectorAll('[data-fader]').forEach((el, i) => {
+      el.style.setProperty('--w', (106 + 12 * Math.sin(t * 0.8 + i * 1.7)).toFixed(1));
+    });
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+})();

@@ -2,132 +2,298 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>APEL · Academia online de producción musical, ingeniería y sonido en vivo</title>
-<meta name="description" content="Clases online en vivo, 1 a 1, de producción musical, mezcla, masterización y consola digital. Programas de 6 meses con certificado.">
-<meta property="og:title" content="APEL · Production · Engineering · Live">
-<meta property="og:description" content="Academia online de producción musical y audio. Clases en vivo 1 a 1, desde cualquier país.">
+<meta name="description" content="Clases online en vivo, 1 a 1, de producción musical, mezcla, masterización y consola digital. Programas de 6 meses con certificado. Precios según tu país.">
+<meta property="og:title" content="APEL · Production, Engineering, Live">
+<meta property="og:description" content="Produce. Mezcla. Toca en vivo. Clases en vivo 1 a 1 desde cualquier país de Latinoamérica.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0D0D12">
+<meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/apel.css">
 <script src="assets/config.js"></script>
+<style>
+/* portada: la tipografía es el fader */
+.hero{background:var(--lime);overflow:hidden}
+.hero .in{padding-block:28px 56px;display:flex;flex-direction:column;gap:36px}
+.lines{margin:0;max-width:none;font-weight:800;line-height:.86;letter-spacing:-.035em;font-size:min(12.4vw,184px)}
+.lines span{display:block;white-space:nowrap;font-variation-settings:"wdth" var(--w,100),"wght" var(--g,800);will-change:font-variation-settings}
+.side{display:grid;grid-template-columns:minmax(0,34ch) auto auto;gap:20px 40px;align-items:center}
+@media (max-width:900px){.side{grid-template-columns:minmax(0,1fr)}}
+.side p{margin:0;font-size:19px;line-height:1.45;max-width:34ch}
+.lvl{display:flex;flex-direction:column;gap:6px}
+.b2 .ic{width:0;height:0;border-left:11px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.b2[aria-pressed="true"] .ic{width:11px;height:13px;border:0;border-left:4px solid currentColor;border-right:4px solid currentColor}
+.meter{display:flex;gap:4px;align-items:flex-end;height:34px}
+.meter i{width:8px;background:var(--ink);border-radius:2px;height:var(--h,4px);transition:height .08s linear}
+.bpm{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.band{background:var(--ink);color:var(--paper);overflow:hidden;padding-block:20px}
+.track{display:flex;gap:56px;width:max-content;animation:roll 38s linear infinite}
+.band:hover .track{animation-play-state:paused}
+.track span{font-size:clamp(22px,3vw,34px);font-weight:500;font-variation-settings:"wdth" 112;white-space:nowrap}
+.track b{color:var(--lime);font-weight:800;margin-right:12px}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+.schools{position:relative;height:420vh;background:var(--sbg,var(--lime));transition:background .5s;padding:0}
+.sstage{position:sticky;top:0;height:100vh;height:100svh;display:grid;align-items:center;overflow:hidden}
+.sstage .in{width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:center}
+@media (max-width:820px){.sstage .in{grid-template-columns:minmax(0,1fr);gap:8px}}
+.sbig{font-weight:900;line-height:.8;font-size:clamp(220px,42vw,560px);font-variation-settings:"wdth" var(--bw,100);letter-spacing:-.06em;margin:0}
+.info{display:flex;flex-direction:column;gap:14px;min-width:0}
+.info .h{margin:0;font-size:clamp(40px,6vw,76px);line-height:.95;font-weight:800;font-variation-settings:"wdth" 112;letter-spacing:-.03em}
+.info p{margin:0;font-size:20px;line-height:1.45;max-width:36ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips a,.chips span{border:2px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:650;font-size:15px;text-decoration:none}
+.chips a:hover{background:var(--ink);color:var(--paper)}
+.chips .soon{border-style:dashed}
+.dots{position:absolute;right:max(20px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px}
+.dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink)}.dots i.on{background:var(--ink)}
+@media (max-width:820px){.dots{top:auto;bottom:24px;transform:none;flex-direction:row;right:auto;left:max(20px,env(safe-area-inset-left,0px))}}
+
+.prow{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr) auto;gap:20px 32px;align-items:start;padding-block:28px;border-top:2px solid var(--ink)}
+.prow:last-child{border-bottom:2px solid var(--ink)}
+@media (max-width:820px){.prow{grid-template-columns:minmax(0,1fr)}}
+.pcode{display:inline-flex;justify-self:start;background:var(--c);border-radius:14px;padding:10px 16px 6px;font-weight:900;font-size:clamp(48px,6vw,76px);line-height:.9;letter-spacing:-.03em;font-variation-settings:"wdth" 88;transition:font-variation-settings .35s}
+.prow:hover .pcode{font-variation-settings:"wdth" 125}
+.prow.soon .pcode{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+.pmain{display:flex;flex-direction:column;gap:8px;min-width:0}
+.pmain h3{margin:0;font-size:clamp(24px,2.8vw,34px);line-height:1.05;font-weight:750;font-variation-settings:"wdth" 110}
+.pmain p{margin:0;color:#2D2E26;max-width:62ch}
+.pmain .meta{font-size:15px;color:var(--muted)}
+.pmain details summary{cursor:pointer;font-weight:700}
+.pmain ol{margin:10px 0 0;padding-left:22px;color:#2D2E26;columns:2;column-gap:32px;font-size:15px}
+@media (max-width:600px){.pmain ol{columns:1}}
+
+.routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:900px){.routes{grid-template-columns:minmax(0,1fr)}}
+.routes>div{border-top:2px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:12px}
+.routes h3{margin:0;font-size:26px;font-variation-settings:"wdth" 112}
+.routes p{margin:0;color:var(--muted)}
+
+.dark{background:var(--ink);color:var(--paper)}
+.dark .steps li{border-color:#3A392F}
+.dark .steps span,.dark .sub{color:#C9CBBE}
+.dark .steps li::before{color:var(--lime)}
+.como{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:32px 64px;align-items:start}
+@media (max-width:900px){.como{grid-template-columns:minmax(0,1fr)}}
+
+.prices h2{max-width:none}
+.ctry{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:8px 0 36px;font-size:20px}
+.ctry label{font-size:20px;font-weight:500}
+.rows{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr));border-top:3px solid var(--ink)}
+@media (max-width:900px){.rows{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rows div{padding:22px 20px 24px 0;border-bottom:1px solid #b9bcae;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rows strong{font-size:clamp(48px,6vw,84px);line-height:.9;font-weight:800;font-variation-settings:"wdth" 88;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.rows span{font-size:16px;color:#3a3b33}
+.note{margin:20px 0 0;font-size:15px;color:var(--muted)}
+
+.end{background:var(--ink);color:var(--paper);padding-block:110px 140px;overflow:hidden}
+.end .in{display:flex;flex-direction:column;gap:32px;align-items:flex-start}
+.end h2{margin:0;max-width:none;font-size:clamp(60px,12vw,184px);line-height:.85;letter-spacing:-.04em;font-variation-settings:"wdth" var(--ew,100),"wght" var(--eg,800);cursor:default}
+.end .btn:not(.lime){border-color:var(--paper);color:var(--paper)}
+@media (prefers-reduced-motion:reduce){.track{animation:none}.schools{transition:none}}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="./" aria-label="APEL, inicio"><b>APEL<i>.</i></b><small>PRODUCTION · ENGINEERING · LIVE</small></a>
+  <a class="brand" href="./" aria-label="APEL, inicio">APEL</a>
   <nav class="nav" aria-label="Principal">
-    <a href="#escuelas">Escuelas</a><a href="#programas">Programas</a><a href="#precios">Precios</a><a href="#preguntas">Preguntas</a>
-    <a class="keep" href="tienda.html">Tienda</a><a class="btn sm" href="cuenta/">Mi cuenta</a><a class="btn sm primary hide-m" href="inscripcion.html">Inscríbete</a>
+    <a href="#escuelas">Escuelas</a><a href="#programas">Programas</a><a href="#precios">Precios</a>
+    <a class="keep" href="tienda.html">Tienda</a><a class="btn ghost" href="cuenta/">Mi cuenta</a><a class="btn hide-m" href="inscripcion.html">Inscríbete</a>
   </nav>
 </div></header>
 
 <main>
-<div class="hero"><div class="wrap">
-  <span class="eyebrow">Academia online · clases en vivo</span>
-  <h1>Haz música que <em>suene</em> profesional.</h1>
-  <p class="lead">Producción musical, ingeniería de audio y sonido en vivo paso a paso y con proyectos reales. Clases 1 a 1 por videollamada, desde cualquier país, a tu ritmo.</p>
-  <div class="row"><a class="btn primary" href="inscripcion.html">Reservar mi cupo</a><a class="btn" href="#programas">Ver programas</a></div>
-  <div class="facts">
-    <div><b>1 a 1</b>Clases individuales en vivo</div>
-    <div><b>6 meses</b>Por programa, con certificado</div>
-    <div><b>1 h</b>A la semana, en tu horario</div>
-    <div><b>24/7</b>Videos y material en tu cuenta</div>
+<section class="hero" style="padding:0"><div class="in wrap">
+  <h1 class="lines" aria-label="Produce. Mezcla. Toca en vivo.">
+    <span id="l1" aria-hidden="true">Produce.</span>
+    <span id="l2" aria-hidden="true">Mezcla.</span>
+    <span id="l3" aria-hidden="true">Toca en vivo.</span>
+  </h1>
+  <div class="side">
+    <p>Clases 1 a 1 por videollamada de producción musical, ingeniería de audio y sonido en vivo. Desde cualquier país de Latinoamérica.</p>
+    <div class="row" style="gap:10px">
+      <a class="btn primary" href="inscripcion.html">Reservar mi cupo</a>
+      <button class="btn b2" id="play" type="button" aria-pressed="false"><span class="ic" aria-hidden="true"></span><span id="play-t">Escuchar el beat</span></button>
+    </div>
+    <div class="lvl"><div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <span class="bpm" id="bpm">Dembow a 96 BPM, programado en tu navegador.</span></div>
   </div>
-</div></div>
-
-<section id="escuelas"><div class="wrap">
-  <span class="eyebrow">Cuatro escuelas</span>
-  <h2>Cada letra de APEL <em>es una escuela.</em></h2>
-  <p class="sub">Empieza donde estás y avanza hacia el perfil que quieres: productor, ingeniero de mezcla o técnico de sonido en vivo.</p>
-  <div class="grid g4" id="schools"></div>
 </div></section>
+
+<div class="band" aria-hidden="true"><div class="track" id="track"></div></div>
+
+<section class="schools" id="escuelas" aria-labelledby="esc-t">
+  <h2 class="sr" id="esc-t">Las cuatro escuelas</h2>
+  <ul class="sr" id="esc-list"></ul>
+  <div class="sstage" aria-hidden="true">
+    <div class="in wrap">
+      <p class="sbig" id="big">P</p>
+      <div class="info"><p class="h" id="sname"></p><p id="swhat"></p><div class="chips" id="schips"></div></div>
+    </div>
+    <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
+  </div>
+</section>
 
 <section id="programas"><div class="wrap">
-  <span class="eyebrow">Programas</span>
-  <h2>Elige tu <em>programa.</em></h2>
-  <p class="sub">Cada programa dura 6 meses, con una clase en vivo por semana, tareas guiadas y una evaluación por módulo. Al terminar recibes tu certificado APEL.</p>
-  <div class="grid g3" id="programs"><div class="card">Cargando programas…</div></div>
+  <h2>Programas de 6 meses, una clase en vivo por semana.</h2>
+  <p class="sub">Tareas guiadas y una evaluación por módulo. Al terminar recibes tu certificado APEL.</p>
+  <div id="programs"><p class="hint">Cargando programas…</p></div>
 </div></section>
 
-<section id="rutas"><div class="wrap">
-  <span class="eyebrow">Rutas</span>
-  <h2>Combina programas y <em>certifícate.</em></h2>
-  <p class="sub">Una ruta une varios programas en un perfil profesional. Al completarla recibes el certificado APEL Certified.</p>
-  <div class="grid g3">
-    <div class="card route"><h3>Productor</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>P201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Producer</p></div>
-    <div class="card route"><h3>Ingeniero de Mezcla</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>E101</span><span class="ar">→</span><span>E201</span></div><p>APEL Certified Mix Engineer</p></div>
-    <div class="card route"><h3>Técnico en Vivo</h3><div class="chain"><span>L101</span><span class="ar">→</span><span>L201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Live Engineer</p></div>
+<section id="rutas" style="padding-top:0"><div class="wrap">
+  <h2>Combina programas en una ruta.</h2>
+  <p class="sub">Al completar una ruta recibes el certificado APEL Certified de ese perfil.</p>
+  <div class="routes">
+    <div><h3>Productor</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>P201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Producer</p></div>
+    <div><h3>Ingeniero de mezcla</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>E101</span><span class="ar">→</span><span>E201</span></div><p>APEL Certified Mix Engineer</p></div>
+    <div><h3>Técnico en vivo</h3><div class="chain"><span>L101</span><span class="ar">→</span><span>L201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Live Engineer</p></div>
   </div>
 </div></section>
 
-<section id="como"><div class="wrap grid g2" style="align-items:start">
-  <div><span class="eyebrow">Cómo funciona</span><h2>De la inscripción a <em>tu primera clase.</em></h2><p class="sub">Todo online. Solo necesitas una computadora, audífonos y conexión estable.</p></div>
+<section id="como" class="dark"><div class="wrap como">
+  <div><h2>De la inscripción a tu primera clase.</h2><p class="sub">Todo online. Solo necesitas una computadora, audífonos y conexión estable.</p></div>
   <ol class="steps">
     <li><b>Te inscribes</b><span>Llenas el formulario con el programa y el horario que te queda mejor.</span></li>
     <li><b>Confirmamos tu horario</b><span>Te escribimos por WhatsApp con los horarios libres y los datos de pago.</span></li>
     <li><b>Recibes tu acceso</b><span>Te llega la invitación de Google Calendar con el enlace de Meet y se activa tu cuenta: entras con tu correo, sin contraseñas.</span></li>
-    <li><b>Empiezas a producir</b><span>Clase en vivo cada semana; videos, guías y tareas siempre disponibles en tu portal.</span></li>
+    <li><b>Empiezas a producir</b><span>Clase en vivo cada semana; videos, guías y tareas siempre disponibles en tu cuenta.</span></li>
   </ol>
 </div></section>
 
-<section id="precios"><div class="wrap">
-  <span class="eyebrow">Precios</span>
-  <h2>Una mensualidad, <em>sin sorpresas.</em></h2>
-  <p class="sub">Precios en dólares por 1 hora de clase a la semana, según tu país. Pagas mes a mes durante los 6 meses del programa.</p>
-  <div class="row" id="pais-row" style="margin:-16px 0 24px"></div>
-  <div class="grid g2" id="prices"></div>
+<section id="precios" class="prices"><div class="wrap">
+  <h2>Pagas lo que se paga en tu país.</h2>
+  <p class="sub">Tres niveles de precio según el poder adquisitivo de cada país. La mensualidad incluye 4 clases en vivo de 1 hora, videos, material y evaluaciones.</p>
+  <div class="ctry" id="ctry"></div>
+  <div class="rows" id="rows"></div>
+  <p class="note" id="pnote"></p>
   <div class="pay" id="pay"></div>
 </div></section>
 
-<section id="preguntas" class="faq"><div class="wrap">
-  <span class="eyebrow">Preguntas frecuentes</span>
-  <h2>Lo que más nos <em>preguntan.</em></h2>
+<section id="preguntas" class="faq" style="padding-top:0"><div class="wrap">
+  <h2>Preguntas frecuentes</h2>
   <details><summary>¿Necesito experiencia previa?</summary><p>No para los programas 101. Empezamos desde la instalación del programa y los conceptos básicos. Para los 201 conviene haber hecho el 101 o tener experiencia equivalente; lo vemos contigo antes de empezar.</p></details>
   <details><summary>¿Qué equipo necesito?</summary><p>Una computadora (Windows o Mac), audífonos cerrados y buena conexión a internet. Para producción, una DAW (te ayudamos a elegir e instalar). Para Consola en Vivo usamos el software gratuito de Behringer y Midas, así que no necesitas una consola física.</p></details>
   <details><summary>¿En qué horario son las clases?</summary><p>Los horarios se publican en hora de Venezuela (UTC−4) y te los mostramos convertidos a tu país. Eliges un bloque fijo de 1 hora a la semana.</p></details>
-  <details><summary>¿Qué pasa si falto a una clase?</summary><p>Puedes reprogramar hasta 2 clases al mes avisando con anticipación. Y el material de cada módulo queda siempre en tu portal.</p></details>
+  <details><summary>¿Qué pasa si falto a una clase?</summary><p>Puedes reprogramar hasta 2 clases al mes avisando con anticipación. Y el material de cada módulo queda siempre en tu cuenta.</p></details>
+  <details><summary>¿Por qué el precio cambia según el país?</summary><p>Porque un mismo precio en dólares no pesa igual en Caracas, Lima o Madrid. Confirmas tu país una sola vez antes de pagar y se verifica con el pago.</p></details>
   <details><summary>¿Cómo entro a mis clases y videos?</summary><p>En «Mi cuenta» escribes tu correo y te llega un código de 6 dígitos para entrar, sin contraseñas. Ahí ves tus programas, los videos, el material, tus clases en vivo y tus pagos. El acceso es personal: tu cuenta solo puede estar abierta en un dispositivo a la vez.</p></details>
   <details><summary>¿Puedo comprar solo los videos?</summary><p>Sí. En la <a href="tienda.html">tienda</a> puedes comprar un programa completo en video, suscribirte a toda la videoteca o reservar cupo en una clase en vivo. Pagas con PayPal, Binance o el método que prefieras, y si tienes un código de acceso lo canjeas en tu cuenta.</p></details>
   <details><summary>¿Recibo certificado?</summary><p>Sí. Al aprobar las evaluaciones del programa recibes tu certificado APEL. Si completas una ruta, recibes además el certificado APEL Certified de esa ruta.</p></details>
 </div></section>
 
-<section><div class="wrap"><div class="cta"><h2>Tu cupo, <em>tu horario.</em></h2><span class="row"><a class="btn" href="inscripcion.html">Inscribirme ahora</a><a class="btn" href="tienda.html" style="background:transparent;color:var(--accent-ink);border-color:var(--accent-ink)">Ver la tienda</a></span></div></div></section>
+<section class="end" id="cierre"><div class="in wrap">
+  <h2 id="endt">Tu cupo,<br>tu horario.</h2>
+  <div class="row"><a class="btn lime" href="inscripcion.html">Inscribirme ahora</a><a class="btn" href="tienda.html">Ver la tienda</a></div>
+</div></section>
 </main>
 
-<footer><div class="wrap"><span>APEL · Academy of Production, Engineering &amp; Live</span><span id="contact">Clases online desde cualquier país</span></div></footer>
+<footer><div class="wrap"><span>APEL, Academy of Production, Engineering and Live</span><span id="contact">Clases online desde Maracaibo para Latinoamérica</span></div></footer>
 
 <script>
 (async function(){
-  const A=window.APEL,esc=A.esc;
-  const pr=Object.assign({},A.PRICES);
-  // precios de la mensualidad para el país del visitante, desde el servidor (mismo catálogo que la tienda)
-  const pintar=async pais=>{
-    let nombre='';const r=await A.api('productos',{pais});
-    if(r.ok){const c=r.productos.find(x=>x.tipo==='clase');if(c){pr.normal=c.precioRegular;pr.pronto=c.pronto||c.precioRegular}nombre=r.nombrePais;
-      document.getElementById('pais-row').innerHTML=r.paisFijo?`<span class="pill">Precios para ${esc(nombre)}</span>`:`<label for="pais-i" class="hint" style="font-size:14px">Precios para</label><select id="pais-i" style="width:auto;min-height:40px;padding:6px 12px">${r.paises.map(x=>`<option value="${esc(x.cod)}" ${x.cod===r.pais?'selected':''}>${esc(x.nombre)}</option>`).join('')}</select><a class="hint" href="tienda.html">Ver todos los precios</a>`;
-      const sel=document.getElementById('pais-i');if(sel)sel.onchange=e=>{A.guardarPais(e.target.value);pintar(e.target.value)};}
-    else{const g=A.PRICES.grupos;document.getElementById('pais-row').innerHTML=`<span class="hint">Desde $${g[3].pronto} hasta $${g[1].normal} al mes según tu país.</span>`}
-    document.getElementById('prices').innerHTML=`
-    <div class="card price hl"><span class="tag" style="--c:var(--accent)">Pronto pago</span><span class="amt">$${pr.pronto}<small> / mes</small></span><ul><li>Pagando hasta el día ${pr.prontoDay} de cada mes</li><li>1 clase en vivo de 1 hora a la semana</li><li>Portal con todo el material</li></ul></div>
-    <div class="card price"><span class="tag">Precio regular</span><span class="amt">$${pr.normal}<small> / mes</small></span><ul><li>Pagando después del día ${pr.prontoDay}</li><li>¿Más de 1 hora a la semana? ${pr.multiDiscount}% de descuento sobre el precio regular</li><li>Mismo programa y certificado</li></ul></div>`;};
-  await pintar(A.paisProbable());
-  document.getElementById('pay').innerHTML=A.PAYMENTS.map(p=>`<span>${esc(p)}</span>`).join('');
-  const c=[];if(A.WHATSAPP)c.push(`<a href="https://wa.me/${esc(A.WHATSAPP)}">WhatsApp</a>`);if(A.INSTAGRAM)c.push(`<a href="https://instagram.com/${esc(A.INSTAGRAM.replace('@',''))}">Instagram</a>`);if(A.EMAIL)c.push(`<a href="mailto:${esc(A.EMAIL)}">${esc(A.EMAIL)}</a>`);
-  if(c.length)document.getElementById('contact').innerHTML=c.join(' · ');
-  let ps=[];try{ps=await A.programs()}catch(e){document.getElementById('programs').innerHTML='<div class="card">No pudimos cargar los programas. Recarga la página.</div>';return}
-  document.getElementById('schools').innerHTML=Object.entries(A.SCHOOLS).map(([k,s])=>{const n=ps.filter(p=>p.school===k&&p.active).length,soon=ps.filter(p=>p.school===k&&!p.active).length;
-    return `<div class="card school" style="--c:${s.color}"><div class="letter">${k}</div><h3>${esc(s.name)}</h3><p>${esc(s.what)}</p><div class="count">${n?`${n} programa${n>1?'s':''} abierto${n>1?'s':''}`:'Próximamente'}${n&&soon?` · ${soon} en camino`:''}</div></div>`}).join('');
-  const card=p=>{const s=A.SCHOOLS[p.school];return `<article class="card prog${p.active?'':' soon'}" style="--c:${s.color}">
-    <span class="tag"><i></i>${esc(p.code)} · ${esc(s.name)}</span>
-    <h3>${esc(p.name)}</h3><p>${esc(p.summary)}</p>
-    ${p.active?`<span class="meta">${p.months} meses · ${p.modules.length} ${esc(p.unit)} · 1 h semanal en vivo</span>
-    <details><summary>Ver el temario</summary><ol>${p.modules.map(m=>`<li>${esc(m.title.replace(/^(Módulo|Sesión)\s*\d+\s*·\s*/,''))}</li>`).join('')}</ol></details>
-    <div class="foot"><a class="btn primary sm" href="inscripcion.html?programa=${encodeURIComponent(p.code)}">Inscribirme</a></div>`
-    :`<span class="meta">Próximamente</span><div class="foot"><a class="btn sm" href="inscripcion.html?programa=${encodeURIComponent(p.code)}">Avísame cuando abra</a></div>`}
+  const A=window.APEL,esc=A.esc,$=id=>document.getElementById(id);
+  let calm=false;try{calm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+
+  /* ---------- beat: dembow sintetizado; el título responde a cada golpe ---------- */
+  let ctx=null,on=false,next=0,step=0,timer=null,NB=null,master=null;const BPM=96,S16=60/BPM/4;
+  const KICK=[0,4,8,12],SNARE=[3,6,11,14],HAT=[0,2,4,6,8,10,12,14],BASS={0:43,6:43,8:46,14:41};
+  const env={k:0,s:0,h:0},hits=[];
+  const noise=()=>{const b=ctx.createBuffer(1,ctx.sampleRate*.4,ctx.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b};
+  function kick(t){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(42,t+.14);g.gain.setValueAtTime(1,t);g.gain.exponentialRampToValueAtTime(.001,t+.38);o.connect(g).connect(master);o.start(t);o.stop(t+.4)}
+  function snare(t){const n=ctx.createBufferSource();n.buffer=NB;const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=1900;f.Q.value=.8;const g=ctx.createGain();g.gain.setValueAtTime(.55,t);g.gain.exponentialRampToValueAtTime(.001,t+.16);n.connect(f).connect(g).connect(master);n.start(t);n.stop(t+.2)}
+  function hat(t){const n=ctx.createBufferSource();n.buffer=NB;const f=ctx.createBiquadFilter();f.type='highpass';f.frequency.value=8000;const g=ctx.createGain();g.gain.setValueAtTime(.16,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);n.connect(f).connect(g).connect(master);n.start(t);n.stop(t+.06)}
+  function bass(t,m){const o=ctx.createOscillator(),f=ctx.createBiquadFilter(),g=ctx.createGain();o.type='sawtooth';o.frequency.value=440*Math.pow(2,(m-69)/12);f.type='lowpass';f.frequency.setValueAtTime(900,t);f.frequency.exponentialRampToValueAtTime(140,t+.3);g.gain.setValueAtTime(.32,t);g.gain.exponentialRampToValueAtTime(.001,t+.34);o.connect(f).connect(g).connect(master);o.start(t);o.stop(t+.36)}
+  function sched(){while(next<ctx.currentTime+.12){const s=step%16;if(KICK.includes(s)){kick(next);hits.push([next,'k'])}if(SNARE.includes(s)){snare(next);hits.push([next,'s'])}if(HAT.includes(s)){hat(next);hits.push([next,'h'])}if(BASS[s])bass(next,BASS[s]);next+=S16;step++}}
+  $('play').onclick=async()=>{
+    if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC){$('bpm').textContent='Tu navegador no reproduce audio aquí.';return}ctx=new AC();NB=noise();master=ctx.createGain();master.gain.value=.55;master.connect(ctx.destination)}
+    on=!on;$('play').setAttribute('aria-pressed',on);$('play-t').textContent=on?'Detener el beat':'Escuchar el beat';
+    if(on){try{await ctx.resume()}catch(e){}next=ctx.currentTime+.06;step=0;timer=setInterval(sched,25)}else{clearInterval(timer);hits.length=0}
+  };
+  const L=[$('l1'),$('l2'),$('l3')],bars=[...$('meter').children],t0=performance.now();
+  function frame(now){
+    const t=(now-t0)/1000;
+    if(ctx&&on){while(hits.length&&hits[0][0]<=ctx.currentTime){env[hits.shift()[1]]=1}}
+    env.k*=.86;env.s*=.84;env.h*=.7;
+    const idle=calm?0:1,set=(el,w,g)=>{el.style.setProperty('--w',Math.min(125,w).toFixed(1));el.style.setProperty('--g',Math.min(900,g).toFixed(0))};
+    set(L[0],86+idle*12*Math.sin(t*.9)+env.k*39,760+env.k*140);
+    set(L[1],96+idle*14*Math.sin(t*.9+2.1)+env.s*29,640+env.s*260);
+    set(L[2],80+idle*10*Math.sin(t*.9+4.2)+env.h*10,500+env.k*200+env.h*80);
+    bars.forEach((b,i)=>{const v=on?Math.max(env.k*(1-i*.07),env.s*(.8-i*.05),env.h*.3):(calm?.1:.08+.06*Math.sin(t*2+i));b.style.setProperty('--h',(4+30*Math.max(0,v)).toFixed(0)+'px')});
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- cierre: el ancho sigue al cursor ---------- */
+  const end=$('endt');
+  end.addEventListener('pointermove',e=>{if(calm)return;const r=end.getBoundingClientRect(),x=(e.clientX-r.left)/r.width;end.style.setProperty('--ew',(75+50*x).toFixed(0));end.style.setProperty('--eg',(500+400*(1-Math.abs(x-.5)*2)).toFixed(0))});
+  end.addEventListener('pointerleave',()=>{end.style.setProperty('--ew',100);end.style.setProperty('--eg',800)});
+
+  /* ---------- contacto y métodos de pago ---------- */
+  const c=[];if(A.WHATSAPP)c.push(`<a href="https://wa.me/${esc(A.WHATSAPP)}">WhatsApp</a>`);if(A.INSTAGRAM)c.push(`<a href="https://instagram.com/${esc(A.INSTAGRAM.replace('@',''))}">Instagram</a>`);if(A.EMAIL)c.push(`<span>${esc(A.EMAIL)}</span>`);
+  if(c.length)$('contact').innerHTML=c.join(' · ');
+  $('pay').innerHTML=A.PAYMENTS.map(p=>`<span>${esc(p)}</span>`).join('');
+
+  /* ---------- precios por país, desde el servidor (el mismo catálogo que cobra la tienda) ---------- */
+  const cache={},shown={};
+  function count(el,key,to){const from=shown[key];shown[key]=to;if(calm||from==null||from===to){el.textContent='$'+to;return}const t1=performance.now();
+    const go=n=>{const k=Math.min(1,(n-t1)/420),e=1-Math.pow(1-k,3);el.textContent='$'+Math.round(from+(to-from)*e);if(k<1)requestAnimationFrame(go)};requestAnimationFrame(go)}
+  function filas(ps){
+    const R=[],min=t=>{const x=ps.filter(p=>p.tipo===t);return x.length?Math.min(...x.map(p=>p.precioRegular)):null};
+    const cl=ps.filter(p=>p.tipo==='clase');
+    if(cl.length){const reg=Math.min(...cl.map(p=>p.precioRegular)),pro=Math.min(...cl.map(p=>p.pronto||p.precioRegular));
+      if(pro<reg)R.push(['pro',pro,`al mes pagando hasta el día ${A.PRICES.prontoDay}`]);R.push(['reg',reg,pro<reg?`al mes después del día ${A.PRICES.prontoDay}`:'al mes']);}
+    const v=min('vod');if(v!=null)R.push(['vod',v,'un programa completo en video, 1 año']);
+    const s=min('suscripcion');if(s!=null)R.push(['sub',s,'al mes, toda la videoteca']);
+    const l=min('live');if(l!=null&&R.length<4)R.push(['live',l,'una clase en vivo grupal']);
+    return R;
+  }
+  async function pintar(pais){
+    const r=cache[pais]||(cache[pais]=await A.api('productos',{pais}));
+    if(!r.ok){const g=A.PRICES.grupos;$('ctry').innerHTML='';$('rows').style.setProperty('--n',2);
+      $('rows').innerHTML=`<div><strong>$${g[3].pronto}–${g[1].pronto}</strong><span>al mes pagando hasta el día ${A.PRICES.prontoDay}, según tu país</span></div><div><strong>$${g[3].normal}–${g[1].normal}</strong><span>al mes después del día ${A.PRICES.prontoDay}</span></div>`;
+      $('pnote').textContent='En la tienda ves el precio exacto para tu país.';return}
+    $('ctry').innerHTML=r.paisFijo?`<span>Precios para <b>${esc(r.nombrePais)}</b>, el país de tu cuenta.</span>`
+      :`<label for="pais-i">Precios para</label><select id="pais-i">${(r.paises||[]).map(x=>`<option value="${esc(x.cod)}" ${x.cod===r.pais?'selected':''}>${esc(x.nombre)}</option>`).join('')}</select>`;
+    const sel=$('pais-i');if(sel)sel.onchange=e=>{A.guardarPais(e.target.value);pintar(e.target.value).then(()=>{const s2=$('pais-i');if(s2)s2.focus()})};
+    const R=filas(r.productos||[]),box=$('rows');box.style.setProperty('--n',Math.max(2,R.length));
+    const prev=[...box.querySelectorAll('[data-k]')].map(x=>x.dataset.k).join();
+    if(prev!==R.map(x=>x[0]).join())box.innerHTML=R.map(x=>`<div><strong data-k="${x[0]}"></strong><span>${esc(x[2])}</span></div>`).join('');
+    R.forEach(x=>count(box.querySelector(`[data-k="${x[0]}"]`),x[0],x[1]));
+    $('pnote').textContent=r.paisFijo?'':`Precios para ${r.nombrePais}. Confirmas tu país antes de pagar y se verifica con el pago.`;
+  }
+  pintar(A.paisProbable());
+
+  /* ---------- programas: marquesina, escuelas y lista ---------- */
+  let ps=[];try{ps=await A.programs()}catch(e){$('programs').innerHTML='<p class="hint">No pudimos cargar los programas. Recarga la página.</p>'}
+  const row=ps.map(p=>`<span><b>${esc(p.code)}</b>${esc(p.name)}${p.active?'':', próximamente'}</span>`).join('');
+  $('track').innerHTML=row+row;
+
+  const SCH=['P','E','L','A'].map(k=>Object.assign({k},A.SCHOOLS[k]));
+  $('esc-list').innerHTML=SCH.map(s=>`<li>${esc(s.name)}: ${esc(s.what)} ${ps.filter(p=>p.school===s.k).map(p=>`${esc(p.code)} ${esc(p.name)}${p.active?'':' (próximamente)'}`).join(', ')}</li>`).join('');
+  const sec=$('escuelas'),dots=[...$('dots').children];let cur=-1;
+  function onScroll(){
+    const r=sec.getBoundingClientRect(),span=Math.max(1,sec.offsetHeight-innerHeight);
+    const pr=Math.min(1,Math.max(0,-r.top/span)),i=Math.min(3,Math.floor(pr*4)),local=pr*4-i;
+    if(i!==cur){cur=i;const s=SCH[i];sec.style.setProperty('--sbg',s.color);$('big').textContent=s.k;$('sname').textContent=s.name;$('swhat').textContent=s.what;
+      $('schips').innerHTML=ps.filter(p=>p.school===s.k).map(p=>p.active?`<a href="#p-${esc(p.code)}" tabindex="-1">${esc(p.code)} ${esc(p.name)}</a>`:`<span class="soon">${esc(p.code)} ${esc(p.name)}, pronto</span>`).join('')||'<span class="soon">Programas en camino</span>';
+      dots.forEach((d,j)=>d.classList.toggle('on',j===i))}
+    if(!calm)$('big').style.setProperty('--bw',(75+50*Math.sin(local*Math.PI)).toFixed(0));
+  }
+  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
+
+  if(!ps.length)return;
+  const prog=p=>{const s=A.SCHOOLS[p.school]||{color:'var(--surface-2)',name:''};return `<article class="prow${p.active?'':' soon'}" id="p-${esc(p.code)}" style="--c:${s.color}">
+    <div class="pcode">${esc(p.code)}</div>
+    <div class="pmain"><h3>${esc(p.name)}</h3><p>${esc(p.summary)}</p>
+    ${p.active?`<span class="meta">${esc(s.name)} · ${p.months} meses · ${p.modules.length} ${esc(p.unit)} · 1 h semanal en vivo</span>
+      <details><summary>Ver el temario</summary><ol>${p.modules.map(m=>`<li>${esc(m.title.replace(/^(Módulo|Sesión)\s*\d+\s*·\s*/,''))}</li>`).join('')}</ol></details>`
+    :`<span class="meta">${esc(s.name)} · próximamente</span>`}</div>
+    <div>${p.active?`<a class="btn primary" href="inscripcion.html?programa=${encodeURIComponent(p.code)}">Inscribirme</a>`:`<a class="btn" href="inscripcion.html?programa=${encodeURIComponent(p.code)}">Avísame cuando abra</a>`}</div>
   </article>`};
-  document.getElementById('programs').innerHTML=ps.filter(p=>p.active).map(card).join('')+ps.filter(p=>!p.active).map(card).join('');
+  $('programs').innerHTML=ps.filter(p=>p.active).map(prog).join('')+ps.filter(p=>!p.active).map(prog).join('');
 })();
 </script>
 </body>

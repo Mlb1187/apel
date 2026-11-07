@@ -6,15 +6,15 @@
 <title>Mi cuenta · APEL</title>
 <meta name="robots" content="noindex">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="theme-color" content="#0D0D12">
+<meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/apel.css">
 <script src="../assets/config.js"></script>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="../" aria-label="APEL, inicio"><b>APEL<i>.</i></b><small>PRODUCTION · ENGINEERING · LIVE</small></a>
+  <a class="brand" href="../" aria-label="APEL, inicio">APEL</a>
   <nav class="nav" aria-label="Cuenta" id="nav"><a class="keep" href="../tienda.html">Tienda</a></nav>
 </div></header>
 <main class="wrap" id="app" style="padding-bottom:80px"></main>
@@ -38,8 +38,8 @@
   /* ---------- entrar ---------- */
   function viewLogin(){
     app.innerHTML=`<div style="max-width:460px;margin:64px auto 0">
-      <span class="eyebrow">Mi cuenta</span><h1 style="font-size:clamp(40px,7vw,60px)">${S.step==='correo'?'Entra con <em>tu correo.</em>':'Revisa <em>tu correo.</em>'}</h1>
-      <p class="lead" style="font-size:18px">${S.step==='correo'?'Te enviamos un código de 6 dígitos. Sin contraseñas.':`Escribe el código que enviamos a <b style="color:var(--fg)">${esc(S.correo)}</b>. Vence en 10 minutos.`}</p>
+      <h1 data-fader style="font-size:clamp(48px,8vw,84px)">${S.step==='correo'?'Entra con tu correo.':'Revisa tu correo.'}</h1>
+      <p class="lead" style="font-size:18px">${S.step==='correo'?'Te enviamos un código de 6 dígitos. Sin contraseñas.':`Escribe el código que enviamos a <b>${esc(S.correo)}</b>. Vence en 10 minutos.`}</p>
       <form class="card" id="lf" style="display:flex;flex-direction:column;gap:16px" novalidate>
         ${S.step==='correo'?`<div class="field"><label for="lc">Correo</label><input id="lc" type="email" autocomplete="email" inputmode="email" value="${esc(S.correo)}" required></div>`
         :`<div class="field"><label for="lk">Código</label><input id="lk" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" required></div>`}
@@ -86,7 +86,7 @@
     if($('out'))$('out').onclick=async()=>{await A.api('salir');A.sesion.set(null);S.yo=null;S.step='correo';render()};
     if(!S.yo){viewLogin();return}
     const nP=myPrograms().length,nLive=S.yo.lives.filter(l=>l.mio&&!l.terminada).length;
-    app.innerHTML=`<div class="portal-head"><div><span class="eyebrow">${esc(S.yo.correo)}</span><h1>${S.tab==='videos'?'Videoteca':S.tab==='vivo'?'En vivo':S.tab==='cuenta'?'Mi cuenta':'Mis cursos'}</h1></div></div>
+    app.innerHTML=`<div class="portal-head"><div><span class="eyebrow">${esc(S.yo.correo)}</span><h1 data-fader>${S.tab==='videos'?'Videoteca':S.tab==='vivo'?'En vivo':S.tab==='cuenta'?'Mi cuenta':'Mis cursos'}</h1></div></div>
       ${S.banner?`<div class="okmsg" role="status" style="margin:8px 0 0">${esc(S.banner)}</div>`:''}
       <nav class="tabs" aria-label="Secciones">${TABS.map(([k,l])=>`<button data-tab="${k}" aria-pressed="${S.tab===k}">${esc(l)}${k==='cursos'&&nP?` · ${nP}`:''}${k==='vivo'&&nLive?` · ${nLive}`:''}</button>`).join('')}</nav>
       <div id="tab"></div>`;
@@ -135,7 +135,7 @@
       const act=l.terminada?'<span class="pill">Terminó</span>':l.mio?(l.meet?`<a class="btn primary" href="${esc(l.meet)}" target="_blank" rel="noopener noreferrer">Entrar a la clase</a>`:`<span class="hint">El enlace aparece aquí ${abre-now<864e5?'a las '+esc(abre.toLocaleTimeString('es',{hour:'numeric',minute:'2-digit'})):'15 minutos antes'}.<br>También te llegó la invitación por correo.</span>`)
         :l.enVenta?`<a class="btn primary sm" href="../tienda.html?p=${encodeURIComponent(l.id)}">Reservar cupo</a>`:'<span class="pill">Sin cupos</span>';
       return `<div class="card live"><div class="when"><small>${esc(d.toLocaleDateString('es',{month:'short'}))}</small><b>${d.getDate()}</b><small>${esc(d.toLocaleDateString('es',{weekday:'short'}))}</small></div>
-        <div><b style="font-size:18px">${esc(l.nombre)}</b><div class="hint">${esc(d.toLocaleTimeString('es',{hour:'numeric',minute:'2-digit'}))} (tu hora) · ${l.duracion} min${l.mio?' · <span style="color:var(--accent)">Tienes cupo</span>':''}</div>${l.descripcion?`<div class="hint">${esc(l.descripcion)}</div>`:''}</div>
+        <div><b style="font-size:18px">${esc(l.nombre)}</b><div class="hint">${esc(d.toLocaleTimeString('es',{hour:'numeric',minute:'2-digit'}))} (tu hora) · ${l.duracion} min${l.mio?' · <span class="mio">Tienes cupo</span>':''}</div>${l.descripcion?`<div class="hint">${esc(l.descripcion)}</div>`:''}</div>
         <div>${act}</div></div>`}).join('')}</div>`;
   }
 

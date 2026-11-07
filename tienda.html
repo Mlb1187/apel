@@ -5,29 +5,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tienda · APEL</title>
 <meta name="description" content="Clases 1 a 1, programas en video, suscripción y clases en vivo de APEL.">
-<meta name="theme-color" content="#0D0D12">
+<meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/apel.css">
 <script src="assets/config.js"></script>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="./" aria-label="APEL, inicio"><b>APEL<i>.</i></b><small>PRODUCTION · ENGINEERING · LIVE</small></a>
+  <a class="brand" href="./" aria-label="APEL, inicio">APEL</a>
   <nav class="nav" aria-label="Principal"><a href="./#programas">Programas</a><a href="inscripcion.html">Inscripción</a><a class="btn sm" id="acct" href="cuenta/">Mi cuenta</a></nav>
 </div></header>
 
-<main class="wrap" style="padding-top:56px;padding-bottom:80px">
-  <span class="eyebrow">Tienda</span>
-  <h1 style="font-size:clamp(40px,7vw,72px)">Elige cómo <em>aprender.</em></h1>
+<div class="pagehead"><div class="wrap">
+  <h1 data-fader>Elige cómo aprender.</h1>
   <p class="lead">Paga con PayPal, Binance o el método que prefieras. El acceso se activa en tu cuenta con tu correo, y si tienes un código lo canjeas en <a href="cuenta/#codigo">Mi cuenta</a>.</p>
-  <div id="region" class="row" style="margin:-8px 0 8px"></div>
+</div></div>
+<main class="wrap" style="padding-top:32px;padding-bottom:88px">
+  <div id="region" class="row"></div>
   <div id="shop" aria-live="polite"><div class="card">Cargando…</div></div>
 </main>
 
 <div class="modal" id="co" hidden role="dialog" aria-modal="true" aria-labelledby="co-t"><div class="sheet" id="co-in"></div></div>
 
-<footer><div class="wrap"><span>APEL · Academy of Production, Engineering &amp; Live</span><span>Pagos verificados en nuestro servidor · acceso personal e intransferible</span></div></footer>
+<footer><div class="wrap"><span>APEL, Academy of Production, Engineering and Live</span><span>Pagos verificados en nuestro servidor · acceso personal e intransferible</span></div></footer>
 
 <script>
 (async function(){
@@ -50,7 +51,7 @@
     const c=S.cat;if(!c){$('region').innerHTML='';return}
     $('region').innerHTML=c.paisFijo
       ?`<span class="pill">Precios para ${esc(c.nombrePais)}</span><span class="hint">Tu país quedó fijado en tu cuenta.</span>`
-      :`<label for="pais-ver" class="hint" style="font-size:14px">Precios para</label><select id="pais-ver" style="width:auto;min-height:40px;padding:6px 12px">${c.paises.map(x=>`<option value="${esc(x.cod)}" ${x.cod===c.pais?'selected':''}>${esc(x.nombre)}</option>`).join('')}</select><span class="hint">Los precios cambian según el país. Al pagar confirmas el tuyo y queda fijo en tu cuenta.</span>`;
+      :`<label for="pais-ver" style="font-size:17px;font-weight:500">Precios para</label><select id="pais-ver">${c.paises.map(x=>`<option value="${esc(x.cod)}" ${x.cod===c.pais?'selected':''}>${esc(x.nombre)}</option>`).join('')}</select><span class="hint">Los precios cambian según el país. Al pagar confirmas el tuyo y queda fijo en tu cuenta.</span>`;
     const sel=$('pais-ver');if(sel)sel.onchange=async e=>{A.guardarPais(e.target.value);await loadCat(e.target.value)};
   }
   async function loadCat(pais){
