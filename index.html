@@ -13,6 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/apel.css">
 <script src="assets/config.js"></script>
+<script src="assets/motion.js"></script>
 <style>
 /* portada: la tipografía es el fader */
 .hero{background:var(--lime);overflow:hidden}
@@ -146,7 +147,7 @@
 <section id="rutas" style="padding-top:0"><div class="wrap">
   <h2>Combina programas en una ruta.</h2>
   <p class="sub">Al completar una ruta recibes el certificado APEL Certified de ese perfil.</p>
-  <div class="routes">
+  <div class="routes" data-mo>
     <div><h3>Productor</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>P201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Producer</p></div>
     <div><h3>Ingeniero de mezcla</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>E101</span><span class="ar">→</span><span>E201</span></div><p>APEL Certified Mix Engineer</p></div>
     <div><h3>Técnico en vivo</h3><div class="chain"><span>L101</span><span class="ar">→</span><span>L201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Live Engineer</p></div>
@@ -155,7 +156,7 @@
 
 <section id="como" class="dark"><div class="wrap como">
   <div><h2>De la inscripción a tu primera clase.</h2><p class="sub">Todo online. Solo necesitas una computadora, audífonos y conexión estable.</p></div>
-  <ol class="steps">
+  <ol class="steps" data-mo>
     <li><b>Te inscribes</b><span>Llenas el formulario con el programa y el horario que te queda mejor.</span></li>
     <li><b>Confirmamos tu horario</b><span>Te escribimos por WhatsApp con los horarios libres y los datos de pago.</span></li>
     <li><b>Recibes tu acceso</b><span>Te llega la invitación de Google Calendar con el enlace de Meet y se activa tu cuenta: entras con tu correo, sin contraseñas.</span></li>
@@ -167,7 +168,7 @@
   <h2>Pagas lo que se paga en tu país.</h2>
   <p class="sub">Tres niveles de precio según el poder adquisitivo de cada país. La mensualidad incluye 4 clases en vivo de 1 hora, videos, material y evaluaciones.</p>
   <div class="ctry" id="ctry"></div>
-  <div class="rows" id="rows"></div>
+  <div class="rows" id="rows" data-mo></div>
   <p class="note" id="pnote"></p>
   <div class="pay" id="pay"></div>
 </div></section>
@@ -185,7 +186,7 @@
 </div></section>
 
 <section class="end" id="cierre"><div class="in wrap">
-  <h2 id="endt">Tu cupo,<br>tu horario.</h2>
+  <h2 id="endt" data-mo-skip>Tu cupo,<br>tu horario.</h2>
   <div class="row"><a class="btn lime" href="inscripcion.html">Inscribirme ahora</a><a class="btn" href="tienda.html">Ver la tienda</a></div>
 </div></section>
 </main>
@@ -212,7 +213,10 @@
     on=!on;$('play').setAttribute('aria-pressed',on);$('play-t').textContent=on?'Detener el beat':'Escuchar el beat';
     if(on){try{await ctx.resume()}catch(e){}next=ctx.currentTime+.06;step=0;timer=setInterval(sched,25)}else{clearInterval(timer);hits.length=0}
   };
-  const L=[$('l1'),$('l2'),$('l3')],bars=[...$('meter').children],t0=performance.now();
+  const L=[$('l1'),$('l2'),$('l3')],bars=[...$('meter').children],t0=performance.now(),MO=window.APELMotion||{};
+  if(MO.on){L.forEach((l,i)=>MO.rise(l,i*120));MO.rise(document.querySelector('.hero .side'),420)}
+  /* la marquesina corre más rápido mientras haces scroll */
+  let lastY=scrollY,vel=0,roll=null;
   function frame(now){
     const t=(now-t0)/1000;
     if(ctx&&on){while(hits.length&&hits[0][0]<=ctx.currentTime){env[hits.shift()[1]]=1}}
@@ -221,6 +225,7 @@
     set(L[0],86+idle*12*Math.sin(t*.9)+env.k*39,760+env.k*140);
     set(L[1],96+idle*14*Math.sin(t*.9+2.1)+env.s*29,640+env.s*260);
     set(L[2],80+idle*10*Math.sin(t*.9+4.2)+env.h*10,500+env.k*200+env.h*80);
+    if(!calm){if(!roll)roll=$('track').getAnimations?$('track').getAnimations()[0]:null;const dy=Math.abs(scrollY-lastY);lastY=scrollY;vel=vel*.9+dy*.1;if(roll)roll.playbackRate=1+Math.min(6,vel/5)}
     bars.forEach((b,i)=>{const v=on?Math.max(env.k*(1-i*.07),env.s*(.8-i*.05),env.h*.3):(calm?.1:.08+.06*Math.sin(t*2+i));b.style.setProperty('--h',(4+30*Math.max(0,v)).toFixed(0)+'px')});
     requestAnimationFrame(frame);
   }
@@ -229,6 +234,7 @@
   /* ---------- cierre: el ancho sigue al cursor ---------- */
   const end=$('endt');
   end.addEventListener('pointermove',e=>{if(calm)return;const r=end.getBoundingClientRect(),x=(e.clientX-r.left)/r.width;end.style.setProperty('--ew',(75+50*x).toFixed(0));end.style.setProperty('--eg',(500+400*(1-Math.abs(x-.5)*2)).toFixed(0))});
+  if(!calm&&'IntersectionObserver' in window){end.style.setProperty('--ew',75);end.style.setProperty('--eg',500);const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();const t1=performance.now();const go=n=>{const k=Math.min(1,(n-t1)/1400),e=1-Math.pow(1-k,4);end.style.setProperty('--ew',(75+25*e).toFixed(1));end.style.setProperty('--eg',(500+300*e).toFixed(0));if(k<1)requestAnimationFrame(go)};requestAnimationFrame(go)},{rootMargin:'0px 0px -20% 0px'});io.observe(end)}
   end.addEventListener('pointerleave',()=>{end.style.setProperty('--ew',100);end.style.setProperty('--eg',800)});
 
   /* ---------- contacto y métodos de pago ---------- */
@@ -279,13 +285,13 @@
     const pr=Math.min(1,Math.max(0,-r.top/span)),i=Math.min(3,Math.floor(pr*4)),local=pr*4-i;
     if(i!==cur){cur=i;const s=SCH[i];sec.style.setProperty('--sbg',s.color);$('big').textContent=s.k;$('sname').textContent=s.name;$('swhat').textContent=s.what;
       $('schips').innerHTML=ps.filter(p=>p.school===s.k).map(p=>p.active?`<a href="#p-${esc(p.code)}" tabindex="-1">${esc(p.code)} ${esc(p.name)}</a>`:`<span class="soon">${esc(p.code)} ${esc(p.name)}, pronto</span>`).join('')||'<span class="soon">Programas en camino</span>';
-      dots.forEach((d,j)=>d.classList.toggle('on',j===i))}
+      dots.forEach((d,j)=>d.classList.toggle('on',j===i));if(MO.on){MO.pop($('big'));MO.rise($('sname'));MO.rise($('swhat'),90);MO.rise($('schips'),180)}}
     if(!calm)$('big').style.setProperty('--bw',(75+50*Math.sin(local*Math.PI)).toFixed(0));
   }
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 
   if(!ps.length)return;
-  const prog=p=>{const s=A.SCHOOLS[p.school]||{color:'var(--surface-2)',name:''};return `<article class="prow${p.active?'':' soon'}" id="p-${esc(p.code)}" style="--c:${s.color}">
+  const prog=p=>{const s=A.SCHOOLS[p.school]||{color:'var(--surface-2)',name:''};return `<article data-mo class="prow${p.active?'':' soon'}" id="p-${esc(p.code)}" style="--c:${s.color}">
     <div class="pcode">${esc(p.code)}</div>
     <div class="pmain"><h3>${esc(p.name)}</h3><p>${esc(p.summary)}</p>
     ${p.active?`<span class="meta">${esc(s.name)} · ${p.months} meses · ${p.modules.length} ${esc(p.unit)} · 1 h semanal en vivo</span>

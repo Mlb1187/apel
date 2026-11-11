@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/apel.css">
 <script src="assets/config.js"></script>
+<script src="assets/motion.js"></script>
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -62,7 +63,7 @@
   function renderShop(){
     if(!S.cat){$('shop').innerHTML=`<div class="notice">${esc(S.err||'La tienda abre pronto.')}</div>`;return}
     const ps=S.cat.productos;
-    $('shop').innerHTML=GROUPS.map(([t,h,sub])=>{const l=ps.filter(p=>p.tipo===t);return l.length?`<section class="shop-group" style="border:0;padding:0"><h2>${esc(h)}</h2><p class="sub" style="margin-bottom:20px">${esc(sub)}</p><div class="grid g3">${l.map(card).join('')}</div></section>`:''}).join('')||'<div class="notice">Pronto publicamos los programas en venta.</div>';
+    $('shop').innerHTML=GROUPS.map(([t,h,sub])=>{const l=ps.filter(p=>p.tipo===t);return l.length?`<section class="shop-group" style="border:0;padding:0"><h2>${esc(h)}</h2><p class="sub" style="margin-bottom:20px">${esc(sub)}</p><div class="grid g3" data-mo>${l.map(card).join('')}</div></section>`:''}).join('')||'<div class="notice">Pronto publicamos los programas en venta.</div>';
   }
 
   /* ---------- checkout ---------- */
