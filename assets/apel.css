@@ -206,7 +206,7 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 .mo .prow:not(.in) .pcode{clip-path:inset(100% 0 0 0 round 14px);transform:translateY(30%)}
 /* rutas: cada programa se enciende en orden, con su flecha */
 .mo .routes .chain>*{transition:background-color .35s ease,color .35s ease,box-shadow .35s ease,opacity .35s ease,transform .5s var(--spring);transition-delay:calc(var(--i,0)*130ms + var(--c,0)*110ms + 250ms)}
-.mo .routes .chain>:nth-child(2){--c:1}.mo .routes .chain>:nth-child(3){--c:2}.mo .routes .chain>:nth-child(4){--c:3}.mo .routes .chain>:nth-child(5){--c:4}
+.mo .routes .chain>:nth-child(2){--c:1}.mo .routes .chain>:nth-child(3){--c:2}.mo .routes .chain>:nth-child(4){--c:3}.mo .routes .chain>:nth-child(5){--c:4}.mo .routes .chain>:nth-child(6){--c:5}.mo .routes .chain>:nth-child(7){--c:6}
 .mo .routes:not(.in) .chain span:not(.ar){background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
 .mo .routes:not(.in) .chain .ar{opacity:0;transform:translateX(-8px)}
 /* pasos: el número cae en su lugar, uno tras otro */

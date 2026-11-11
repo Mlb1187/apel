@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>APEL · Academia online de producción musical, ingeniería y sonido en vivo</title>
-<meta name="description" content="Clases online en vivo, 1 a 1, de producción musical, mezcla, masterización y consola digital. Programas de 6 meses con certificado. Precios según tu país.">
+<meta name="description" content="Clases online en vivo, 1 a 1, de producción musical, mezcla, masterización y consola digital (Behringer WING, X32 y Midas M32). Programas de 3 a 6 meses con certificado. Precios según tu país.">
 <meta property="og:title" content="APEL · Production, Engineering, Live">
 <meta property="og:description" content="Produce. Mezcla. Toca en vivo. Clases en vivo 1 a 1 desde cualquier país de Latinoamérica.">
 <meta property="og:type" content="website">
@@ -139,7 +139,7 @@
 </section>
 
 <section id="programas"><div class="wrap">
-  <h2>Programas de 6 meses, una clase en vivo por semana.</h2>
+  <h2>Programas de 3 a 6 meses, una clase en vivo por semana.</h2>
   <p class="sub">Tareas guiadas y una evaluación por módulo. Al terminar recibes tu certificado APEL.</p>
   <div id="programs"><p class="hint">Cargando programas…</p></div>
 </div></section>
@@ -150,7 +150,7 @@
   <div class="routes" data-mo>
     <div><h3>Productor</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>P201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Producer</p></div>
     <div><h3>Ingeniero de mezcla</h3><div class="chain"><span>P101</span><span class="ar">→</span><span>E101</span><span class="ar">→</span><span>E201</span></div><p>APEL Certified Mix Engineer</p></div>
-    <div><h3>Técnico en vivo</h3><div class="chain"><span>L101</span><span class="ar">→</span><span>L201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Live Engineer</p></div>
+    <div><h3>Técnico en vivo</h3><div class="chain"><span>L101</span><span class="ar">→</span><span>L111 o L121</span><span class="ar">→</span><span>L201</span><span class="ar">→</span><span>E101</span></div><p>APEL Certified Live Engineer</p></div>
   </div>
 </div></section>
 
@@ -176,7 +176,7 @@
 <section id="preguntas" class="faq" style="padding-top:0"><div class="wrap">
   <h2>Preguntas frecuentes</h2>
   <details><summary>¿Necesito experiencia previa?</summary><p>No para los programas 101. Empezamos desde la instalación del programa y los conceptos básicos. Para los 201 conviene haber hecho el 101 o tener experiencia equivalente; lo vemos contigo antes de empezar.</p></details>
-  <details><summary>¿Qué equipo necesito?</summary><p>Una computadora (Windows o Mac), audífonos cerrados y buena conexión a internet. Para producción, una DAW (te ayudamos a elegir e instalar). Para Consola en Vivo usamos el software gratuito de Behringer y Midas, así que no necesitas una consola física.</p></details>
+  <details><summary>¿Qué equipo necesito?</summary><p>Una computadora (Windows o Mac), audífonos cerrados y buena conexión a internet. Para producción, una DAW (te ayudamos a elegir e instalar). Para los programas de consola (L101, L111 WING y L121 X32 / M32) practicas en los editores gratuitos de Behringer y Midas (WING Edit, X32 Edit o M32 Edit), que reproducen la consola en tu computadora: no necesitas una consola física. Si tienes una, los pasos que solo se hacen en el equipo los practicas en ella.</p></details>
   <details><summary>¿En qué horario son las clases?</summary><p>Los horarios se publican en hora de Venezuela (UTC−4) y te los mostramos convertidos a tu país. Eliges un bloque fijo de 1 hora a la semana.</p></details>
   <details><summary>¿Qué pasa si falto a una clase?</summary><p>Puedes reprogramar hasta 2 clases al mes avisando con anticipación. Y el material de cada módulo queda siempre en tu cuenta.</p></details>
   <details><summary>¿Por qué el precio cambia según el país?</summary><p>Porque un mismo precio en dólares no pesa igual en Caracas, Lima o Madrid. Confirmas tu país una sola vez antes de pagar y se verifica con el pago.</p></details>
@@ -295,7 +295,7 @@
     <div class="pcode">${esc(p.code)}</div>
     <div class="pmain"><h3>${esc(p.name)}</h3><p>${esc(p.summary)}</p>
     ${p.active?`<span class="meta">${esc(s.name)} · ${p.months} meses · ${p.modules.length} ${esc(p.unit)} · 1 h semanal en vivo</span>
-      <details><summary>Ver el temario</summary><ol>${p.modules.map(m=>`<li>${esc(m.title.replace(/^(Módulo|Sesión)\s*\d+\s*·\s*/,''))}</li>`).join('')}</ol></details>`
+      <details><summary>Ver el temario</summary><ol>${p.modules.map(m=>`<li>${esc(m.title.replace(/^(Módulo|Sesión|Clase)\s*\d+\s*·\s*/,''))}</li>`).join('')}</ol></details>`
     :`<span class="meta">${esc(s.name)} · próximamente</span>`}</div>
     <div>${p.active?`<a class="btn primary" href="inscripcion.html?programa=${encodeURIComponent(p.code)}">Inscribirme</a>`:`<a class="btn" href="inscripcion.html?programa=${encodeURIComponent(p.code)}">Avísame cuando abra</a>`}</div>
   </article>`};

@@ -454,6 +454,342 @@
    ]
   },
   {
+   "key": "wing",
+   "code": "L111",
+   "school": "L",
+   "name": "Consola Behringer WING",
+   "summary": "Domina la Behringer WING (WING, COMPACT y RACK): fuentes y ruteo, procesamiento, monitores con Sends On Faders, efectos, snapshots, WING-LIVE y un show completo grabado.",
+   "unit": "clases",
+   "months": 3,
+   "active": true,
+   "modules": [
+    {
+     "n": 1,
+     "title": "Clase 1 · Conoce la WING",
+     "goal": "ubicar cada sección de la WING, sus capas de faders y encender y apagar el sistema de forma segura",
+     "points": [
+      "WING, WING COMPACT y WING RACK: qué comparten y qué cambia",
+      "Pantalla táctil, botones de pantalla, channel strip, sección de 4 canales y Custom Controls",
+      "Las 3 secciones de faders (12 + 8 + 4), sus capas y los scribble strips",
+      "Encendido y apagado seguro: SETUP › SHUTDOWN y reinicio con EFFECTS + HOME"
+     ],
+     "activity": "Recorrer la superficie de la WING del estudio, cambiar de capas en cada sección y apagarla con SHUTDOWN.",
+     "homework": "Dibujar la superficie de la WING de memoria y marcar para qué sirve cada sección."
+    },
+    {
+     "n": 2,
+     "title": "Clase 2 · Fuentes, canales y MAIN/ALT",
+     "goal": "entender la diferencia entre fuente y canal y asignar fuentes con su ganancia y phantom",
+     "points": [
+      "La fuente es la señal que entra; el canal es donde la procesas",
+      "Grupos de fuentes: Local, Aux, AES50, StageConnect, USB, tarjeta y módulo",
+      "Ganancia, +48 V, polaridad, nombre, ícono y color de la fuente",
+      "MAIN y ALT: dos fuentes por canal y cómo cambiar entre ellas"
+     ],
+     "activity": "Asignar 8 fuentes a 8 canales en ROUTING › CHANNELS con +1 AUTO y ajustar ganancia y phantom.",
+     "homework": "Hacer el input list de una banda de 5 integrantes indicando fuente MAIN y fuente ALT de cada canal."
+    },
+    {
+     "n": 3,
+     "title": "Clase 3 · Ruteo de salidas y stageboxes",
+     "goal": "sacar las mezclas por las salidas correctas y conectar stageboxes por AES50 y StageConnect",
+     "points": [
+      "ROUTING › OUTPUTS: cualquier señal a cualquier salida",
+      "AES50: 48 canales por puerto, cable CAT-5e blindado, hasta 80 m",
+      "StageConnect: 32 canales por un cable XLR, hasta 40 m",
+      "Grupo MONITOR (PHONES y SPEAKERS) y salidas directas de fuentes"
+     ],
+     "activity": "Conectar un stagebox por AES50, rutear sus entradas a canales y sacar el Main 1 por dos salidas XLR.",
+     "homework": "Hacer el diagrama de conexiones de un evento con un stagebox AES50 y 4 monitores."
+    },
+    {
+     "n": 4,
+     "title": "Clase 4 · Procesamiento del canal",
+     "goal": "ajustar filtro, gate, EQ y compresor de un canal desde la pantalla y la channel strip",
+     "points": [
+      "Bloques del canal: entrada, gate, EQ, compresor, INS 1 e INS 2",
+      "Filtros de graves y agudos; trim y polaridad",
+      "EQ de 6 bandas con BAND SOLO; compresor con make-up, XOVER y detector",
+      "Cambiar el orden de los bloques; COPY e INIT"
+     ],
+     "activity": "Procesar una voz y un bombo: filtro, gate, EQ y compresor; copiar los ajustes a otro canal.",
+     "homework": "Guardar como preset de canal tu voz principal y explicar cada ajuste."
+    },
+    {
+     "n": 5,
+     "title": "Clase 5 · Monitores: envíos y Sends On Faders",
+     "goal": "armar mezclas de monitor e in-ear con envíos TAP y Sends On Faders",
+     "points": [
+      "Modos de envío: TAP, POST y GROUP",
+      "El punto TAP y por qué PRE FDR es el típico para monitores",
+      "SOF FLIP: los faders pasan a ser envíos de un bus",
+      "Bus Feed Configuration: mandar muchos canales a la vez"
+     ],
+     "activity": "Armar 3 mezclas de monitor con SOF FLIP mientras un compañero hace de músico y pide cambios.",
+     "homework": "Escribir el plan de monitores de una banda: qué escucha cada músico en su mezcla."
+    },
+    {
+     "n": 6,
+     "title": "Clase 6 · Mains, matrices, DCA y mute groups",
+     "goal": "organizar la mezcla principal con los 4 Mains, matrices, DCA y mute groups",
+     "points": [
+      "4 Mains estéreo: PA, streaming y otras mezclas principales",
+      "8 matrices para zonas, delays y grabación",
+      "16 DCA y spill; 8 mute groups",
+      "Subgrupos con envíos GROUP"
+     ],
+     "activity": "Armar Main 1 para el PA y Main 2 para streaming, una matriz para el lobby, 4 DCA y 2 mute groups.",
+     "homework": "Diseñar los DCA y mute groups de un show en vivo y explicar para qué sirve cada uno."
+    },
+    {
+     "n": 7,
+     "title": "Clase 7 · Efectos",
+     "goal": "usar reverbs y delays por bus y efectos como insert",
+     "points": [
+      "16 slots: 1 a 8 premium (tiempo) y 9 a 16 estándar",
+      "Reverb y delay por bus con envíos POST",
+      "Efectos como insert del canal (simuladores, excitadores)",
+      "Tap tempo, SET CUST y FX SPILL"
+     ],
+     "activity": "Montar una reverb de voz y un delay a tempo por bus, y un simulador de amplificador como insert.",
+     "homework": "Elegir y justificar los efectos de 3 canciones de géneros distintos."
+    },
+    {
+     "n": 8,
+     "title": "Clase 8 · Monitoreo, solo, talkback y Custom Controls",
+     "goal": "escuchar y comunicarse sin afectar al público, y personalizar los controles",
+     "points": [
+      "PHONES y MONITOR, DIM y MONO",
+      "Modos de solo: LIVE, STUDIO y SIP; PFL y AFL",
+      "Talkback A y B: modos y destinos",
+      "Custom Controls: capas, perillas y botones asignables"
+     ],
+     "activity": "Configurar el solo en LIVE, el talkback A a los monitores y una capa de Custom Controls propia.",
+     "homework": "Diseñar una capa de Custom Controls para tu tipo de evento y explicar cada asignación."
+    },
+    {
+     "n": 9,
+     "title": "Clase 9 · Show, Snapshots y Snippets",
+     "goal": "guardar el show por canciones y recuperarlo con seguridad",
+     "points": [
+      "Show, Snapshot, Snippet, Clip y presets",
+      "Scope de un snapshot; Load, Partial Load, Restore y Update",
+      "Global Safe para proteger canales",
+      "Archivos STARTUP y copias en USB"
+     ],
+     "activity": "Crear un Show de 4 canciones con SAVE + ADD, recorrerlo con GO NEXT y proteger un canal con Global Safe.",
+     "homework": "Preparar el Show de un evento de 8 canciones y guardarlo en USB."
+    },
+    {
+     "n": 10,
+     "title": "Clase 10 · Grabación y virtual soundcheck",
+     "goal": "grabar el show en multitrack y usarlo para hacer virtual soundcheck",
+     "points": [
+      "WING-LIVE: 32 pistas por SD, 64 con dos tarjetas enlazadas",
+      "Ruteo WLIVE REC y WLIVE PLAY; AUTO INPUT SELECT",
+      "Grabador USB de 2 o 4 pistas",
+      "USB de 48 × 48 canales hacia el DAW"
+     ],
+     "activity": "Grabar 16 canales en WING-LIVE, reproducirlos por ALT con AUTO INPUT SELECT y ajustar la mezcla sin banda.",
+     "homework": "Entregar una grabación multitrack de un ensayo y una mezcla estéreo grabada por USB."
+    },
+    {
+     "n": 11,
+     "title": "Clase 11 · Control remoto, firmware y atajos",
+     "goal": "controlar la WING desde apps y mantenerla actualizada",
+     "points": [
+      "WING Edit, WING Copilot y WING Q",
+      "Red: consola por cable al router, hasta 16 equipos",
+      "Actualizar firmware desde un pendrive",
+      "Atajos: bloquear, capturar pantalla, encender sin la última escena"
+     ],
+     "activity": "Conectar una tablet con Copilot y una computadora con WING Edit, y mezclar un monitor desde el escenario.",
+     "homework": "Escribir el checklist de preparación de la consola antes de un evento."
+    },
+    {
+     "n": 12,
+     "title": "Clase 12 · Práctica final: show completo",
+     "goal": "operar un show completo en la WING y resolver fallas en vivo",
+     "points": [
+      "Montaje: fuentes, ruteo, monitores y Mains",
+      "Show de 4 canciones con snapshots",
+      "Fallas inyectadas: micrófono sin señal, feedback y canal en ALT",
+      "Grabación del show y cierre"
+     ],
+     "activity": "Montar y operar un show de 4 canciones con grabación, resolviendo las fallas que plantee el facilitador.",
+     "homework": "Preparar la presentación del show final: input list, ruteo y escenas."
+    }
+   ]
+  },
+  {
+   "key": "x32",
+   "code": "L121",
+   "school": "L",
+   "name": "Consola Behringer X32 / Midas M32",
+   "summary": "Domina la Behringer X32 y la Midas M32 en todos sus modelos: ruteo en bloques de 8, stageboxes AES50, monitores y P16, efectos, escenas con safes, grabación y shows con fallas.",
+   "unit": "clases",
+   "months": 3,
+   "active": true,
+   "modules": [
+    {
+     "n": 1,
+     "title": "Clase 1 · Conoce la X32 / M32",
+     "goal": "ubicar cada sección de la consola, sus capas y encender y apagar de forma segura",
+     "points": [
+      "Modelos: X32, Compact, Producer y Rack; Midas M32, M32R y M32C",
+      "Pantalla y botones de pantalla, channel strip, capas de faders y scribble strips",
+      "32 canales de entrada, 8 Aux, 8 retornos de efectos, 16 mix buses, 6 matrices y Main LR + Mono/Center",
+      "Encendido y apagado seguro"
+     ],
+     "activity": "Recorrer la superficie de la consola del estudio, cambiar de capas y nombrar 4 canales con color.",
+     "homework": "Comparar en una tabla la X32 y la M32: entradas, salidas y faders."
+    },
+    {
+     "n": 2,
+     "title": "Clase 2 · Ruteo y stageboxes",
+     "goal": "rutear entradas y salidas en bloques de 8 y conectar stageboxes AES50",
+     "points": [
+      "ROUTING: entradas en bloques de 8 (Local, AES50 A, AES50 B, tarjeta)",
+      "Salidas: XLR, AES50, tarjeta y Ultranet (P16)",
+      "Stageboxes Behringer S16, S32 y Midas DL por AES50",
+      "Salidas de monitoreo y audífonos"
+     ],
+     "activity": "Conectar un stagebox S16 por AES50, rutear sus entradas a los canales 1-16 y sacar 4 mix buses por sus salidas.",
+     "homework": "Hacer el diagrama de ruteo de un evento con un S16 y 6 monitores."
+    },
+    {
+     "n": 3,
+     "title": "Clase 3 · Procesamiento del canal",
+     "goal": "ajustar preamp, filtro, gate, compresor y EQ de un canal",
+     "points": [
+      "Preamp: ganancia, +48 V, polaridad y filtro de graves",
+      "Gate y compresor",
+      "EQ paramétrico de 4 bandas en canales (6 en buses)",
+      "Insert, copiar y guardar presets de canal"
+     ],
+     "activity": "Procesar una voz y un bombo con filtro, gate, compresor y EQ; guardar la voz como preset.",
+     "homework": "Explicar por escrito cada ajuste de tu canal de voz."
+    },
+    {
+     "n": 4,
+     "title": "Clase 4 · Monitores con mix buses",
+     "goal": "armar mezclas de monitor con envíos antes del fader y Sends On Fader",
+     "points": [
+      "Mix buses: mono o enlazados en estéreo para in-ear",
+      "De dónde toma el envío: antes o después del fader, o como subgrupo",
+      "SENDS ON FADER para mezclar monitores con los faders",
+      "Ultranet y mezcladores P16"
+     ],
+     "activity": "Armar 3 mezclas de monitor con SENDS ON FADER mientras un compañero hace de músico.",
+     "homework": "Escribir el plan de monitores de una banda de 5 integrantes."
+    },
+    {
+     "n": 5,
+     "title": "Clase 5 · Main, matrices, DCA y mute groups",
+     "goal": "organizar la mezcla principal con Main LR, Mono/Center, matrices, DCA y mute groups",
+     "points": [
+      "Main LR y bus Mono/Center",
+      "6 matrices para zonas, delays y grabación",
+      "8 DCA y 6 mute groups",
+      "Subgrupos con mix buses"
+     ],
+     "activity": "Armar el Main LR, una matriz para el lobby, 4 DCA y 2 mute groups.",
+     "homework": "Diseñar los DCA y mute groups de un show en vivo."
+    },
+    {
+     "n": 6,
+     "title": "Clase 6 · Efectos",
+     "goal": "usar los 8 efectos internos por envío y como insert",
+     "points": [
+      "8 slots de efectos estéreo",
+      "Slots 1 a 4 con retornos propios para usarlos por envío",
+      "Slots 5 a 8 como insert en canales o buses",
+      "Reverb, delay a tempo y tap tempo"
+     ],
+     "activity": "Montar una reverb de voces y un delay a tempo por envío, y un efecto como insert.",
+     "homework": "Elegir los efectos de 3 canciones y justificarlos."
+    },
+    {
+     "n": 7,
+     "title": "Clase 7 · Escenas, snippets y safes",
+     "goal": "guardar el show por canciones y protegerlo al cargar escenas",
+     "points": [
+      "Escenas: guardar, cargar y nombrar",
+      "Snippets para cambios parciales",
+      "Safes de parámetros y de canales",
+      "Respaldo en USB"
+     ],
+     "activity": "Guardar 4 escenas, crear un snippet y proteger un canal con safe.",
+     "homework": "Preparar las escenas de un evento de 8 canciones y guardarlas en USB."
+    },
+    {
+     "n": 8,
+     "title": "Clase 8 · Grabación y virtual soundcheck",
+     "goal": "grabar en multitrack y usar la grabación para hacer virtual soundcheck",
+     "points": [
+      "Tarjeta X-USB: interfaz de 32 × 32 canales hacia el DAW",
+      "Tarjeta X-LIVE: hasta 32 canales en tarjetas SD",
+      "Grabador estéreo en el USB superior",
+      "Virtual soundcheck: bloques de entrada a la tarjeta y vuelta a Local o AES50"
+     ],
+     "activity": "Grabar 16 canales al DAW, reproducirlos por la tarjeta y ajustar la mezcla sin banda.",
+     "homework": "Entregar una grabación multitrack y una mezcla estéreo del mismo ensayo."
+    },
+    {
+     "n": 9,
+     "title": "Clase 9 · Control remoto y monitoreo personal",
+     "goal": "controlar la consola desde apps y dar a los músicos su propia mezcla",
+     "points": [
+      "X32 Edit (computadora) y X32-Mix (tablet)",
+      "Red: consola por cable al router",
+      "Mezcladores personales P16 por Ultranet",
+      "Solo, talkback y monitoreo"
+     ],
+     "activity": "Conectar una tablet y mezclar un monitor desde el escenario; dejar a un músico en un P16.",
+     "homework": "Escribir el checklist de preparación de la consola antes de un evento."
+    },
+    {
+     "n": 10,
+     "title": "Clase 10 · Práctica final: show completo",
+     "goal": "operar un show completo en la X32 / M32 y resolver fallas en vivo",
+     "points": [
+      "Montaje: stagebox, ruteo, monitores y Main",
+      "Show de 4 canciones con escenas",
+      "Fallas inyectadas: micrófono sin señal, feedback y bloque en tarjeta",
+      "Grabación del show y cierre"
+     ],
+     "activity": "Montar y operar un show de 4 canciones con grabación, resolviendo fallas.",
+     "homework": "Preparar la presentación del show final: input list, ruteo y escenas."
+    },
+    {
+     "n": 11,
+     "title": "Clase 11 · Práctica de show con fallas I",
+     "goal": "reforzar la operación bajo presión con un show de banda",
+     "points": [
+      "Montaje rápido con input list",
+      "Monitores con SENDS ON FADER",
+      "Escenas por canción",
+      "Fallas: canal sin señal y feedback"
+     ],
+     "activity": "Montar una banda de 5 integrantes en 20 minutos y operar 3 canciones con fallas inyectadas.",
+     "homework": "Escribir qué fallas te costaron más y cómo las resolverías mejor."
+    },
+    {
+     "n": 12,
+     "title": "Clase 12 · Práctica de show con fallas II y evaluación",
+     "goal": "demostrar la operación completa de la consola en un evento",
+     "points": [
+      "Evento con playback, inalámbricos y banda",
+      "Escenas, grabación y monitores",
+      "Fallas inyectadas sin aviso",
+      "Cierre y respaldo"
+     ],
+     "activity": "Operar un evento completo con playback, inalámbricos y banda, y defender las decisiones.",
+     "homework": "Preparar el respaldo del show y el checklist de cierre."
+    }
+   ]
+  },
+  {
    "key": "e101",
    "code": "E101",
    "school": "E",
