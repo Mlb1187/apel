@@ -1,7 +1,7 @@
 /* Ajustes de la web de APEL. Es lo único que hay que editar después de instalar el Apps Script. */
 window.APEL = {
   // Pega aquí la URL de la app web del Apps Script (termina en /exec). Vacío = modo demostración.
-  API_URL: '',
+  API_URL: 'https://script.google.com/macros/s/AKfycbxUOJ3UBvgniO9AhChvr4sMZZ76oymgr1LMZf7qlfLr80Gf5uI8yerlWAdTA3n4eLot_A/exec',
   // WhatsApp de APEL con código de país, solo números (ej. 584141234567). Vacío = no se muestra el botón.
   WHATSAPP: '',
   EMAIL: '',
