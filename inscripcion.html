@@ -82,8 +82,9 @@
     const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:v('whatsapp'),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
     $('send').disabled=true;$('send').textContent='Enviando…';
     let sent=false;
-    if(A.API_URL){try{await fetch(A.API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});sent=true}catch(e){}}
-    if(A.API_URL&&!sent){$('send').disabled=false;$('send').textContent='Enviar inscripción';$('err').textContent='No pudimos enviar tu inscripción. Revisa tu conexión e inténtalo de nuevo.';return}
+    let fallo='No pudimos enviar tu inscripción. Revisa tu conexión e inténtalo de nuevo.';
+    if(A.API_URL){const {action,...resto}=data;const r=await A.api('inscripcion',resto);if(r&&r.ok)sent=true;else if(r&&r.error)fallo=r.error}
+    if(A.API_URL&&!sent){$('send').disabled=false;$('send').textContent='Enviar inscripción';$('err').textContent=fallo;return}
     $('f').hidden=true;$('done').hidden=false;$('done').focus();
     $('done-txt').textContent=`Gracias, ${data.nombre.split(' ')[0]}. Te escribimos al ${data.whatsapp} con los horarios libres para ${p?p.code+' '+p.name:'tu asesoría'}.`+(A.API_URL?'':' (Modo demostración: la inscripción no se guardó.)');
     if(A.WHATSAPP){const t=`Hola, me acabo de inscribir en la web de APEL.\nNombre: ${data.nombre}\nPrograma: ${p?p.code+' · '+p.name:'Asesoría'}\nDías: ${data.dias||'a convenir'} · ${data.franja||''}`;
