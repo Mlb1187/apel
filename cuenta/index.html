@@ -92,6 +92,21 @@
       <nav class="tabs" aria-label="Secciones">${TABS.map(([k,l])=>`<button data-tab="${k}" aria-pressed="${S.tab===k}">${esc(l)}${k==='cursos'&&nP?` · ${nP}`:''}${k==='vivo'&&nLive?` · ${nLive}`:''}</button>`).join('')}</nav>
       <div id="tab"></div>`;
     ({cursos:vCursos,videos:vVideos,vivo:vVivo,cuenta:vCuenta})[S.tab]();
+    moderador();
+  }
+
+  /* ---------- moderador de clases (ElevenLabs): solo alumnos con un programa activo ---------- */
+  const MOD_AGENT='agent_1301m84ssmbzfn3b979cewrhr1n5';
+  function moderador(){
+    let w=document.querySelector('elevenlabs-convai');
+    const mine=S.yo?myPrograms():[];
+    if(!mine.length){if(w)w.remove();return}
+    const p=mine.find(x=>x.code===S.sel)||mine[0];
+    const clase=S.yo.accesos.find(a=>a.programa===p.code&&a.tipo==='clase');
+    const vars={alumno_nombre:String(S.yo.nombre||'').split(' ')[0],programa:p.code+' · '+p.name,hasta_modulo:String(clase&&clase.hastaModulo||'')};
+    if(!w){w=document.createElement('elevenlabs-convai');w.setAttribute('agent-id',MOD_AGENT);document.body.appendChild(w);
+      if(!document.getElementById('el-convai')){const s=document.createElement('script');s.id='el-convai';s.async=true;s.src='https://unpkg.com/@elevenlabs/convai-widget-embed';document.body.appendChild(s)}}
+    w.setAttribute('dynamic-variables',JSON.stringify(vars));
   }
   const vcard=v=>`<button class="vcard" data-play="${esc(v.id)}" ${v.bloqueado?'disabled':''} aria-label="${esc((v.bloqueado?'Bloqueado: ':'Ver ')+v.titulo)}">
     <span class="play" aria-hidden="true">${v.bloqueado?'🔒':'▶'}</span><b>${esc(v.titulo)}</b>
