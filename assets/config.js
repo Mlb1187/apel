@@ -82,8 +82,10 @@ window.APEL.programs = () => fetch(window.APEL.BASE + 'programs.json').then(r =>
   const t0 = performance.now();
   const frame = now => {
     const t = (now - t0) / 1000;
+    // escalones de 2: en Mac cada ancho distinto crea una copia de la fuente en memoria
     document.querySelectorAll('[data-fader]').forEach((el, i) => {
-      el.style.setProperty('--w', (106 + 12 * Math.sin(t * 0.8 + i * 1.7)).toFixed(1));
+      const w = 106 + 2 * Math.round(6 * Math.sin(t * 0.8 + i * 1.7));
+      if (el._w !== w) { el._w = w; el.style.setProperty('--w', w); }
     });
     requestAnimationFrame(frame);
   };

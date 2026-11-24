@@ -56,7 +56,7 @@
 .prow{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr) auto;gap:20px 32px;align-items:start;padding-block:28px;border-top:2px solid var(--ink)}
 .prow:last-child{border-bottom:2px solid var(--ink)}
 @media (max-width:820px){.prow{grid-template-columns:minmax(0,1fr)}}
-.pcode{display:inline-flex;justify-self:start;background:var(--c);border-radius:14px;padding:10px 16px 6px;font-weight:900;font-size:clamp(48px,6vw,76px);line-height:.9;letter-spacing:-.03em;font-variation-settings:"wdth" 88;transition:font-variation-settings .35s}
+.pcode{display:inline-flex;justify-self:start;background:var(--c);border-radius:14px;padding:10px 16px 6px;font-weight:900;font-size:clamp(48px,6vw,76px);line-height:.9;letter-spacing:-.03em;font-variation-settings:"wdth" 88;transition:font-variation-settings .35s steps(5)}
 .prow:hover .pcode{font-variation-settings:"wdth" 125}
 .prow.soon .pcode{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
 .pmain{display:flex;flex-direction:column;gap:8px;min-width:0}
@@ -217,24 +217,29 @@
   if(MO.on){L.forEach((l,i)=>MO.rise(l,i*120));MO.rise(document.querySelector('.hero .side'),420)}
   /* la marquesina corre más rápido mientras haces scroll */
   let lastY=scrollY,vel=0,roll=null;
+  /* Mac (Chrome, Brave, Opera, Safari) crea una copia de la fuente por cada ancho/grosor distinto:
+     se usan escalones fijos y la animación se pausa cuando la portada no está a la vista. */
+  let heroOn=true;if('IntersectionObserver' in window){new IntersectionObserver(es=>{heroOn=es[0].isIntersecting;if(heroOn&&!looping){looping=true;requestAnimationFrame(frame)}}).observe(document.querySelector('.hero'))}
+  let looping=true;
   function frame(now){
+    if(!heroOn&&!(ctx&&on)){looping=false;return}
     const t=(now-t0)/1000;
     if(ctx&&on){while(hits.length&&hits[0][0]<=ctx.currentTime){env[hits.shift()[1]]=1}}
     env.k*=.86;env.s*=.84;env.h*=.7;
-    const idle=calm?0:1,set=(el,w,g)=>{el.style.setProperty('--w',Math.min(125,w).toFixed(1));el.style.setProperty('--g',Math.min(900,g).toFixed(0))};
+    const idle=calm?0:1,set=(el,w,g)=>{w=Math.max(75,Math.min(125,Math.round(w/5)*5));g=Math.max(300,Math.min(900,Math.round(g/50)*50));const k=w+'/'+g;if(el._v===k)return;el._v=k;el.style.setProperty('--w',w);el.style.setProperty('--g',g)};
     set(L[0],86+idle*12*Math.sin(t*.9)+env.k*39,760+env.k*140);
     set(L[1],96+idle*14*Math.sin(t*.9+2.1)+env.s*29,640+env.s*260);
     set(L[2],80+idle*10*Math.sin(t*.9+4.2)+env.h*10,500+env.k*200+env.h*80);
     if(!calm){if(!roll)roll=$('track').getAnimations?$('track').getAnimations()[0]:null;const dy=Math.abs(scrollY-lastY);lastY=scrollY;vel=vel*.9+dy*.1;if(roll)roll.playbackRate=1+Math.min(6,vel/5)}
-    bars.forEach((b,i)=>{const v=on?Math.max(env.k*(1-i*.07),env.s*(.8-i*.05),env.h*.3):(calm?.1:.08+.06*Math.sin(t*2+i));b.style.setProperty('--h',(4+30*Math.max(0,v)).toFixed(0)+'px')});
+    bars.forEach((b,i)=>{const v=on?Math.max(env.k*(1-i*.07),env.s*(.8-i*.05),env.h*.3):(calm?.1:.08+.06*Math.sin(t*2+i));{const h=(4+2*Math.round(15*Math.max(0,v)))+'px';if(b._h!==h){b._h=h;b.style.setProperty('--h',h)}}});
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 
   /* ---------- cierre: el ancho sigue al cursor ---------- */
   const end=$('endt');
-  end.addEventListener('pointermove',e=>{if(calm)return;const r=end.getBoundingClientRect(),x=(e.clientX-r.left)/r.width;end.style.setProperty('--ew',(75+50*x).toFixed(0));end.style.setProperty('--eg',(500+400*(1-Math.abs(x-.5)*2)).toFixed(0))});
-  if(!calm&&'IntersectionObserver' in window){end.style.setProperty('--ew',75);end.style.setProperty('--eg',500);const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();const t1=performance.now();const go=n=>{const k=Math.min(1,(n-t1)/1400),e=1-Math.pow(1-k,4);end.style.setProperty('--ew',(75+25*e).toFixed(1));end.style.setProperty('--eg',(500+300*e).toFixed(0));if(k<1)requestAnimationFrame(go)};requestAnimationFrame(go)},{rootMargin:'0px 0px -20% 0px'});io.observe(end)}
+  end.addEventListener('pointermove',e=>{if(calm)return;const r=end.getBoundingClientRect(),x=(e.clientX-r.left)/r.width;end.style.setProperty('--ew',75+5*Math.round(10*Math.max(0,Math.min(1,x))));end.style.setProperty('--eg',500+50*Math.round(8*(1-Math.abs(x-.5)*2)))});
+  if(!calm&&'IntersectionObserver' in window){end.style.setProperty('--ew',75);end.style.setProperty('--eg',500);const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();const t1=performance.now();const go=n=>{const k=Math.min(1,(n-t1)/1400),e=1-Math.pow(1-k,4);end.style.setProperty('--ew',75+5*Math.round(5*e));end.style.setProperty('--eg',500+50*Math.round(6*e));if(k<1)requestAnimationFrame(go)};requestAnimationFrame(go)},{rootMargin:'0px 0px -20% 0px'});io.observe(end)}
   end.addEventListener('pointerleave',()=>{end.style.setProperty('--ew',100);end.style.setProperty('--eg',800)});
 
   /* ---------- contacto y métodos de pago ---------- */
@@ -286,7 +291,7 @@
     if(i!==cur){cur=i;const s=SCH[i];sec.style.setProperty('--sbg',s.color);$('big').textContent=s.k;$('sname').textContent=s.name;$('swhat').textContent=s.what;
       $('schips').innerHTML=ps.filter(p=>p.school===s.k).map(p=>p.active?`<a href="#p-${esc(p.code)}" tabindex="-1">${esc(p.code)} ${esc(p.name)}</a>`:`<span class="soon">${esc(p.code)} ${esc(p.name)}, pronto</span>`).join('')||'<span class="soon">Programas en camino</span>';
       dots.forEach((d,j)=>d.classList.toggle('on',j===i));if(MO.on){MO.pop($('big'));MO.rise($('sname'));MO.rise($('swhat'),90);MO.rise($('schips'),180)}}
-    if(!calm)$('big').style.setProperty('--bw',(75+50*Math.sin(local*Math.PI)).toFixed(0));
+    if(!calm)$('big').style.setProperty('--bw',75+5*Math.round(10*Math.sin(local*Math.PI)));
   }
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 
