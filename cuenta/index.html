@@ -121,21 +121,22 @@
     const b=$('modBtn');const mine=myPrograms();const p=mine.find(x=>x.code===S.sel)||mine[0];
     b.disabled=true;b.textContent='Conectando…';modEstado('');
     try{
-      const [r]=await Promise.all([A.api('moderador',{programa:p.code}),cargarSDK()]);
-      if(!r.ok){fin();S.banner=r.error||'El moderador no está disponible ahora.';render();scrollTo(0,0);return}
+      modEstado('Pidiendo acceso…');const r=await A.api('moderador',{programa:p.code});
+      if(r&&r.ok){modEstado('Cargando la conexión…');await cargarSDK();modEstado('Conectando el micrófono…')}
+      if(!r||!r.ok){fin();S.banner=(r&&r.error)||'El moderador no está disponible ahora (el servidor no respondió).';render();scrollTo(0,0);return}
       MOD=await ElevenLabsClient.Conversation.startSession({
         signedUrl:r.url,connectionType:'websocket',
         dynamicVariables:{alumno_nombre:'',programa:p.code+' · '+p.name,hasta_modulo:String(r.hastaModulo||'')},
         onConnect:()=>{b.disabled=false;b.textContent='Terminar';modEstado('Escuchando…')},
         onModeChange:({mode})=>modEstado(mode==='speaking'?'Hablando…':'Escuchando…'),
         onDisconnect:()=>fin(),
-        onError:m=>{console.warn('moderador',m)}
+        onError:m=>{console.warn('moderador',m);modEstado('Error: '+String(m).slice(0,120))}
       });
       b.disabled=false;b.textContent='Terminar';
     }catch(e){
       fin();
       const mic=e&&/permission|notallowed|denied/i.test(String(e.name||'')+String(e.message||''));
-      S.banner=mic?'Para hablar con el moderador, permite el micrófono en tu navegador y vuelve a intentarlo.':'No pudimos conectar con el moderador. Revisa tu conexión e inténtalo de nuevo.';
+      const det=String((e&&(e.message||e.reason||e.name))||e||'').slice(0,160);S.banner=mic?'Para hablar con el moderador, permite el micrófono en tu navegador y vuelve a intentarlo.':'No pudimos conectar con el moderador. Detalle: '+(det||'sin detalle');
       render();scrollTo(0,0);console.warn('moderador',e);
     }
   }
