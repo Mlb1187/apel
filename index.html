@@ -133,7 +133,7 @@
   <ul class="sr" id="esc-list"></ul>
   <div class="sstage" aria-hidden="true">
     <div class="in wrap">
-      <p class="sbig" id="big">P</p>
+      <p class="sbig" id="big">A</p>
       <div class="info"><p class="h" id="sname"></p><p id="swhat"></p><div class="chips" id="schips"></div></div>
     </div>
     <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
@@ -285,7 +285,7 @@
   const row=ps.map(p=>`<span><b>${esc(p.code)}</b>${esc(p.name)}${p.active?'':', próximamente'}</span>`).join('');
   $('track').innerHTML=row+row;
 
-  const SCH=['P','E','L','A'].map(k=>Object.assign({k},A.SCHOOLS[k]));
+  const SCH=['A','P','E','L'].map(k=>Object.assign({k},A.SCHOOLS[k]));
   $('esc-list').innerHTML=SCH.map(s=>`<li>${esc(s.name)}: ${esc(s.what)} ${ps.filter(p=>p.school===s.k).map(p=>`${esc(p.code)} ${esc(p.name)}${p.active?'':' (próximamente)'}`).join(', ')}</li>`).join('');
   const sec=$('escuelas'),dots=[...$('dots').children];let cur=-1;
   function onScroll(){
