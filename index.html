@@ -19,7 +19,8 @@
 .hero{background:var(--lime);overflow:hidden}
 .hero .in{padding-block:28px 56px;display:flex;flex-direction:column;gap:36px}
 .lines{margin:0;max-width:none;font-weight:800;line-height:.86;letter-spacing:-.035em;font-size:min(12.4vw,184px)}
-.lines span{display:block;white-space:nowrap;font-variation-settings:"wdth" var(--w,100),"wght" var(--g,800);will-change:font-variation-settings}
+.lines span{display:block;width:max-content;white-space:nowrap;transform-origin:0 85%;will-change:scale}
+#l1{font-variation-settings:"wdth" 98,"wght" 850}#l2{font-variation-settings:"wdth" 108,"wght" 760}#l3{font-variation-settings:"wdth" 88,"wght" 640}
 .side{display:grid;grid-template-columns:minmax(0,34ch) auto auto;gap:20px 40px;align-items:center}
 @media (max-width:900px){.side{grid-template-columns:minmax(0,1fr)}}
 .side p{margin:0;font-size:19px;line-height:1.45;max-width:34ch}
@@ -41,7 +42,7 @@
 .sstage{position:sticky;top:0;height:100vh;height:100svh;display:grid;align-items:center;overflow:hidden}
 .sstage .in{width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:center}
 @media (max-width:820px){.sstage .in{grid-template-columns:minmax(0,1fr);gap:8px}}
-.sbig{font-weight:900;line-height:.8;font-size:clamp(220px,42vw,560px);font-variation-settings:"wdth" var(--bw,100);letter-spacing:-.06em;margin:0}
+.sbig{font-weight:900;line-height:.8;font-size:clamp(220px,42vw,560px);font-variation-settings:"wdth" 100;letter-spacing:-.06em;margin:0;width:max-content;transform-origin:0 50%;scale:var(--bx,1) 1;will-change:scale}
 .info{display:flex;flex-direction:column;gap:14px;min-width:0}
 .info .h{margin:0;font-size:clamp(40px,6vw,76px);line-height:.95;font-weight:800;font-variation-settings:"wdth" 112;letter-spacing:-.03em}
 .info p{margin:0;font-size:20px;line-height:1.45;max-width:36ch}
@@ -56,7 +57,7 @@
 .prow{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr) auto;gap:20px 32px;align-items:start;padding-block:28px;border-top:2px solid var(--ink)}
 .prow:last-child{border-bottom:2px solid var(--ink)}
 @media (max-width:820px){.prow{grid-template-columns:minmax(0,1fr)}}
-.pcode{display:inline-flex;justify-self:start;background:var(--c);border-radius:14px;padding:10px 16px 6px;font-weight:900;font-size:clamp(48px,6vw,76px);line-height:.9;letter-spacing:-.03em;font-variation-settings:"wdth" 88;transition:font-variation-settings .35s steps(5)}
+.pcode{display:inline-flex;justify-self:start;background:var(--c);border-radius:14px;padding:10px 16px 6px;font-weight:900;font-size:clamp(48px,6vw,76px);line-height:.9;letter-spacing:-.03em;font-variation-settings:"wdth" 88;transition:font-variation-settings .35s}
 .prow:hover .pcode{font-variation-settings:"wdth" 125}
 .prow.soon .pcode{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
 .pmain{display:flex;flex-direction:column;gap:8px;min-width:0}
@@ -92,7 +93,8 @@
 
 .end{background:var(--ink);color:var(--paper);padding-block:110px 140px;overflow:hidden}
 .end .in{display:flex;flex-direction:column;gap:32px;align-items:flex-start}
-.end h2{margin:0;max-width:none;font-size:clamp(60px,12vw,184px);line-height:.85;letter-spacing:-.04em;font-variation-settings:"wdth" var(--ew,100),"wght" var(--eg,800);cursor:default}
+.end h2{margin:0;max-width:none;font-size:clamp(60px,12vw,184px);line-height:.85;letter-spacing:-.04em;font-variation-settings:"wdth" 100,"wght" 800;cursor:default;width:max-content;max-width:100%;transform-origin:0 50%;scale:var(--ex,1) 1;transition:scale .7s cubic-bezier(.16,1,.3,1)}
+.end h2.closed{--ex:.8}
 .end .btn:not(.lime){border-color:var(--paper);color:var(--paper)}
 @media (prefers-reduced-motion:reduce){.track{animation:none}.schools{transition:none}}
 </style>
@@ -217,8 +219,9 @@
   if(MO.on){L.forEach((l,i)=>MO.rise(l,i*120));MO.rise(document.querySelector('.hero .side'),420)}
   /* la marquesina corre más rápido mientras haces scroll */
   let lastY=scrollY,vel=0,roll=null;
-  /* Mac (Chrome, Brave, Opera, Safari) crea una copia de la fuente por cada ancho/grosor distinto:
-     se usan escalones fijos y la animación se pausa cuando la portada no está a la vista. */
+  /* El movimiento va con scale (lo hace la tarjeta gráfica) y no con el ancho de la fuente:
+     en Mac cada ancho distinto crea una copia de la fuente y la pestaña se quedaba sin memoria.
+     La animación se pausa cuando la portada no está a la vista. */
   let heroOn=true;if('IntersectionObserver' in window){new IntersectionObserver(es=>{heroOn=es[0].isIntersecting;if(heroOn&&!looping){looping=true;requestAnimationFrame(frame)}}).observe(document.querySelector('.hero'))}
   let looping=true;
   function frame(now){
@@ -226,21 +229,21 @@
     const t=(now-t0)/1000;
     if(ctx&&on){while(hits.length&&hits[0][0]<=ctx.currentTime){env[hits.shift()[1]]=1}}
     env.k*=.86;env.s*=.84;env.h*=.7;
-    const idle=calm?0:1,set=(el,w,g)=>{w=Math.max(75,Math.min(125,Math.round(w/5)*5));g=Math.max(300,Math.min(900,Math.round(g/50)*50));const k=w+'/'+g;if(el._v===k)return;el._v=k;el.style.setProperty('--w',w);el.style.setProperty('--g',g)};
-    set(L[0],86+idle*12*Math.sin(t*.9)+env.k*39,760+env.k*140);
-    set(L[1],96+idle*14*Math.sin(t*.9+2.1)+env.s*29,640+env.s*260);
-    set(L[2],80+idle*10*Math.sin(t*.9+4.2)+env.h*10,500+env.k*200+env.h*80);
+    const idle=calm?0:1,set=(el,x,y)=>{el.style.scale=x.toFixed(3)+' '+y.toFixed(3)};
+    set(L[0],1+idle*.05*Math.sin(t*.9)+env.k*.16,1+env.k*.06);
+    set(L[1],1+idle*.06*Math.sin(t*.9+2.1)+env.s*.13,1+env.s*.05);
+    set(L[2],1+idle*.05*Math.sin(t*.9+4.2)+env.h*.05+env.k*.04,1+env.k*.03);
     if(!calm){if(!roll)roll=$('track').getAnimations?$('track').getAnimations()[0]:null;const dy=Math.abs(scrollY-lastY);lastY=scrollY;vel=vel*.9+dy*.1;if(roll)roll.playbackRate=1+Math.min(6,vel/5)}
-    bars.forEach((b,i)=>{const v=on?Math.max(env.k*(1-i*.07),env.s*(.8-i*.05),env.h*.3):(calm?.1:.08+.06*Math.sin(t*2+i));{const h=(4+2*Math.round(15*Math.max(0,v)))+'px';if(b._h!==h){b._h=h;b.style.setProperty('--h',h)}}});
+    bars.forEach((b,i)=>{const v=on?Math.max(env.k*(1-i*.07),env.s*(.8-i*.05),env.h*.3):(calm?.1:.08+.06*Math.sin(t*2+i));b.style.setProperty('--h',(4+30*Math.max(0,v)).toFixed(0)+'px')});
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 
   /* ---------- cierre: el ancho sigue al cursor ---------- */
   const end=$('endt');
-  end.addEventListener('pointermove',e=>{if(calm)return;const r=end.getBoundingClientRect(),x=(e.clientX-r.left)/r.width;end.style.setProperty('--ew',75+5*Math.round(10*Math.max(0,Math.min(1,x))));end.style.setProperty('--eg',500+50*Math.round(8*(1-Math.abs(x-.5)*2)))});
-  if(!calm&&'IntersectionObserver' in window){end.style.setProperty('--ew',75);end.style.setProperty('--eg',500);const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();const t1=performance.now();const go=n=>{const k=Math.min(1,(n-t1)/1400),e=1-Math.pow(1-k,4);end.style.setProperty('--ew',75+5*Math.round(5*e));end.style.setProperty('--eg',500+50*Math.round(6*e));if(k<1)requestAnimationFrame(go)};requestAnimationFrame(go)},{rootMargin:'0px 0px -20% 0px'});io.observe(end)}
-  end.addEventListener('pointerleave',()=>{end.style.setProperty('--ew',100);end.style.setProperty('--eg',800)});
+  end.addEventListener('pointermove',e=>{if(calm)return;const r=end.getBoundingClientRect(),x=(e.clientX-r.left)/r.width;end.style.setProperty('--ex',(.86+.24*Math.max(0,Math.min(1,x))).toFixed(3))});
+  if(!calm&&'IntersectionObserver' in window){end.classList.add('closed');const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();end.style.transition='scale 1.4s cubic-bezier(.16,1,.3,1)';end.classList.remove('closed');setTimeout(()=>end.style.transition='',1500)},{rootMargin:'0px 0px -20% 0px'});io.observe(end)}
+  end.addEventListener('pointerleave',()=>end.style.setProperty('--ex',1));
 
   /* ---------- contacto y métodos de pago ---------- */
   const c=[];if(A.WHATSAPP)c.push(`<a href="https://wa.me/${esc(A.WHATSAPP)}">WhatsApp</a>`);if(A.INSTAGRAM)c.push(`<a href="https://instagram.com/${esc(A.INSTAGRAM.replace('@',''))}">Instagram</a>`);if(A.EMAIL)c.push(`<span>${esc(A.EMAIL)}</span>`);
@@ -291,7 +294,7 @@
     if(i!==cur){cur=i;const s=SCH[i];sec.style.setProperty('--sbg',s.color);$('big').textContent=s.k;$('sname').textContent=s.name;$('swhat').textContent=s.what;
       $('schips').innerHTML=ps.filter(p=>p.school===s.k).map(p=>p.active?`<a href="#p-${esc(p.code)}" tabindex="-1">${esc(p.code)} ${esc(p.name)}</a>`:`<span class="soon">${esc(p.code)} ${esc(p.name)}, pronto</span>`).join('')||'<span class="soon">Programas en camino</span>';
       dots.forEach((d,j)=>d.classList.toggle('on',j===i));if(MO.on){MO.pop($('big'));MO.rise($('sname'));MO.rise($('swhat'),90);MO.rise($('schips'),180)}}
-    if(!calm)$('big').style.setProperty('--bw',75+5*Math.round(10*Math.sin(local*Math.PI)));
+    if(!calm)$('big').style.setProperty('--bx',(.82+.3*Math.sin(local*Math.PI)).toFixed(3));
   }
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 

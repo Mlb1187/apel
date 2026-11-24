@@ -82,10 +82,10 @@ window.APEL.programs = () => fetch(window.APEL.BASE + 'programs.json').then(r =>
   const t0 = performance.now();
   const frame = now => {
     const t = (now - t0) / 1000;
-    // escalones de 2: en Mac cada ancho distinto crea una copia de la fuente en memoria
+    // se mueve con scale y no con el ancho de la fuente: en Mac cada ancho distinto crea una copia de la fuente en memoria
     document.querySelectorAll('[data-fader]').forEach((el, i) => {
-      const w = 106 + 2 * Math.round(6 * Math.sin(t * 0.8 + i * 1.7));
-      if (el._w !== w) { el._w = w; el.style.setProperty('--w', w); }
+      if (!el._f) { el._f = 1; el.style.transformOrigin = '0 60%'; }
+      el.style.scale = (0.975 + 0.025 * Math.sin(t * 0.8 + i * 1.7)).toFixed(4) + ' 1';   // solo se encoge: nunca se sale de la pantalla
     });
     requestAnimationFrame(frame);
   };
