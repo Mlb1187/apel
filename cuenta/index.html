@@ -98,26 +98,46 @@
   /* ---------- moderador de clases (ElevenLabs) ----------
      El agente es privado: el servidor solo entrega un enlace firmado (vale ~15 min) a alumnos
      con sesión y programa activo, con un tope diario. Sin enlace firmado no se puede conversar. */
+  /* El agente es privado: se conecta con el cliente oficial de ElevenLabs usando el enlace firmado
+     que entrega el servidor (el widget embebido solo funciona con agentes públicos). */
+  const EL_SDK='https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.35.0/dist/lib.iife.js';
+  let MOD=null; // conversación activa
   function moderador(){
     const mine=S.yo?myPrograms():[];
-    let b=$('modBtn');
-    if(!mine.length){if(b)b.remove();const w=document.querySelector('elevenlabs-convai');if(w)w.remove();return}
-    if(b||document.querySelector('elevenlabs-convai'))return;
-    b=document.createElement('button');b.id='modBtn';b.className='btn primary';b.type='button';b.textContent='Moderador APEL';
-    b.style.cssText='position:fixed;right:16px;bottom:16px;z-index:50;box-shadow:0 6px 20px rgba(22,21,15,.25)';
-    b.onclick=abrirModerador;document.body.appendChild(b);
+    let box=$('modBox');
+    if(!mine.length){if(MOD){try{MOD.endSession()}catch(e){}MOD=null}if(box)box.remove();return}
+    if(box)return;
+    box=document.createElement('div');box.id='modBox';box.setAttribute('role','region');box.setAttribute('aria-label','Moderador APEL');
+    box.style.cssText='position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 32px)';
+    box.innerHTML='<span id="modSt" aria-live="polite" style="display:none;background:var(--paper,#ECEEE4);color:var(--ink,#16150F);border:2px solid var(--ink,#16150F);border-radius:999px;padding:10px 16px;font-weight:650"></span>'+
+      '<button id="modBtn" class="btn primary" type="button" style="box-shadow:0 6px 20px rgba(22,21,15,.25)">Moderador APEL</button>';
+    document.body.appendChild(box);$('modBtn').onclick=()=>MOD?cerrarModerador():abrirModerador();
   }
+  function modEstado(t){const e=$('modSt');if(!e)return;e.textContent=t||'';e.style.display=t?'':'none'}
+  function cargarSDK(){return window.ElevenLabsClient?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement('script');s.src=EL_SDK;s.onload=ok;s.onerror=()=>no(new Error('sdk'));document.head.appendChild(s)})}
+  async function cerrarModerador(){const c=MOD;MOD=null;try{if(c)await c.endSession()}catch(e){}fin()}
+  function fin(){MOD=null;const b=$('modBtn');if(b){b.disabled=false;b.textContent='Moderador APEL'}modEstado('')}
   async function abrirModerador(){
     const b=$('modBtn');const mine=myPrograms();const p=mine.find(x=>x.code===S.sel)||mine[0];
-    b.disabled=true;b.textContent='Conectando…';
-    const r=await A.api('moderador',{programa:p.code});
-    if(!r.ok){b.disabled=false;b.textContent='Moderador APEL';S.banner=r.error||'El moderador no está disponible ahora.';render();scrollTo(0,0);return}
-    const vars={alumno_nombre:'',programa:p.code+' · '+p.name,hasta_modulo:String(r.hastaModulo||'')};
-    const w=document.createElement('elevenlabs-convai');w.setAttribute('signed-url',r.url);w.setAttribute('dynamic-variables',JSON.stringify(vars));
-    document.body.appendChild(w);b.remove();
-    if(!document.getElementById('el-convai')){const s=document.createElement('script');s.id='el-convai';s.async=true;s.src='https://unpkg.com/@elevenlabs/convai-widget-embed';document.body.appendChild(s)}
-    // el enlace firmado vence: pasado ese tiempo se cambia por el botón para pedir uno nuevo (solo si no hay llamada en curso)
-    setTimeout(()=>{if(w.isConnected&&!w.shadowRoot?.querySelector('[aria-label*="End"],[aria-label*="Terminar"]')){w.remove();moderador()}},14*60e3);
+    b.disabled=true;b.textContent='Conectando…';modEstado('');
+    try{
+      const [r]=await Promise.all([A.api('moderador',{programa:p.code}),cargarSDK()]);
+      if(!r.ok){fin();S.banner=r.error||'El moderador no está disponible ahora.';render();scrollTo(0,0);return}
+      MOD=await ElevenLabsClient.Conversation.startSession({
+        signedUrl:r.url,connectionType:'websocket',
+        dynamicVariables:{alumno_nombre:'',programa:p.code+' · '+p.name,hasta_modulo:String(r.hastaModulo||'')},
+        onConnect:()=>{b.disabled=false;b.textContent='Terminar';modEstado('Escuchando…')},
+        onModeChange:({mode})=>modEstado(mode==='speaking'?'Hablando…':'Escuchando…'),
+        onDisconnect:()=>fin(),
+        onError:m=>{console.warn('moderador',m)}
+      });
+      b.disabled=false;b.textContent='Terminar';
+    }catch(e){
+      fin();
+      const mic=e&&/permission|notallowed|denied/i.test(String(e.name||'')+String(e.message||''));
+      S.banner=mic?'Para hablar con el moderador, permite el micrófono en tu navegador y vuelve a intentarlo.':'No pudimos conectar con el moderador. Revisa tu conexión e inténtalo de nuevo.';
+      render();scrollTo(0,0);console.warn('moderador',e);
+    }
   }
   const vcard=v=>`<button class="vcard" data-play="${esc(v.id)}" ${v.bloqueado?'disabled':''} aria-label="${esc((v.bloqueado?'Bloqueado: ':'Ver ')+v.titulo)}">
     <span class="play" aria-hidden="true">${v.bloqueado?'🔒':'▶'}</span><b>${esc(v.titulo)}</b>
