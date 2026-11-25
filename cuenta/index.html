@@ -11,10 +11,10 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/apel.css?v=20261125j">
+<link rel="stylesheet" href="../assets/apel.css?v=20261125k">
 <script src="../assets/config.js?v=20261125c"></script>
 <script src="../assets/motion.js"></script>
-<script src="../assets/capas.js?v=20261125j" defer></script>
+<script src="../assets/capas.js?v=20261125k" defer></script>
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -223,16 +223,64 @@
     if(!S.open.size&&p.modules.length)S.open.add(p.code+'-'+(hasta?Math.min(hasta,p.modules.length):1));
     t.innerHTML=`${mine.length>1?`<nav class="tabs" aria-label="Mis programas">${mine.map(x=>`<button data-sel="${esc(x.code)}" aria-pressed="${x.code===S.sel}">${esc(x.code)} · ${esc(x.name)}</button>`).join('')}</nav>`:''}
       <p style="margin:0 0 20px" class="row"><span class="tag" style="--c:${sc.color}"><i></i>${esc(p.code)} · ${esc(sc.name||'')}</span>${acc.map(a=>`<span class="pill">${esc(A.TIPOS[a.tipo]||a.tipo)}${a.hasta?' · hasta '+esc(A.fecha(a.hasta)):''}</span>`).join('')}</p>
+      ${panelAvance(p,hasta)}
       ${p.modules.map(m=>{const k=p.code+'-'+m.n,lock=hasta&&m.n>hasta;
         const vids=S.yo.videos.filter(v=>v.programa===p.code&&v.modulo===m.n);const mats=S.yo.material.filter(x=>x.programa===p.code&&x.modulo===m.n);
         if(lock)return `<div class="mod" style="opacity:.55"><div style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:center;padding:18px 20px"><span style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);font-weight:800">${m.n}</span><span><b style="display:block;font-size:17px">${esc(strip(m.title))}</b><small class="hint">Se abre cuando lleguemos a este módulo en clase</small></span></div></div>`;
-        return `<details class="mod" data-k="${esc(k)}" ${S.open.has(k)?'open':''}><summary><span class="n">${m.n}</span><span><b>${esc(strip(m.title))}</b><small>${esc(m.goal?m.goal.charAt(0).toUpperCase()+m.goal.slice(1):'')}</small></span><small class="cnt hint">${vids.length} video${vids.length===1?'':'s'}</small></summary>
+        const st=estadoMod(p,m,hasta),tr=tareaDe(p.code,m.n);
+        return `<details class="mod" data-k="${esc(k)}" id="mod-${esc(k)}" ${S.open.has(k)?'open':''}><summary><span class="n${st.k==='hecho'?' ok':st.k==='curso'?' now':''}">${st.k==='hecho'?'✓':m.n}</span><span><b>${esc(strip(m.title))}</b><small>${esc(m.goal?m.goal.charAt(0).toUpperCase()+m.goal.slice(1):'')}</small></span><span class="mstate ${tr.tarea==='Rehacer'?'redo':st.k}">${esc(st.t)}${m.homework?` · ${esc(TAREA[tr.tarea||'']||'Tarea pendiente')}`:''}</span></summary>
           <div class="body">
             ${vids.length?`<div class="vgrid">${vids.map(vcard).join('')}</div>`:''}
             ${m.points.length?`<div><span class="lbl">Lo que verás</span><ul>${m.points.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
             ${mats.length?`<div><span class="lbl">Material de apoyo</span><div class="mats" style="margin-top:6px">${mats.map(x=>`<a class="mat" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer"><span class="ic">${esc(ICON[x.tipo]||'WEB')}</span><span><b>${esc(x.titulo)}</b>${x.nota?`<small>${esc(x.nota)}</small>`:''}</span></a>`).join('')}</div></div>`:''}
-            ${m.homework?`<div class="box"><span class="lbl">Tarea</span>${esc(m.homework)}</div>`:''}
+            ${m.homework?bloqueTarea(p,m,tr):''}
           </div></details>`}).join('')}`;
+  }
+
+  /* ---------- Avance del alumno ----------
+     Módulos: los marca el profesor con «Hasta módulo» (los anteriores están vistos y ese está en curso).
+     Tareas: el alumno las marca como hechas; el profesor las revisa en la hoja Avance (nota y comentario). */
+  const TAREA={'':'Tarea pendiente',Enviada:'Tarea enviada',Revisada:'Tarea revisada',Rehacer:'Tarea por rehacer'};
+  const tareaDe=(prog,n)=>((S.yo&&S.yo.avance)||[]).find(a=>a.programa===prog&&a.modulo===n)||{};
+  function estadoMod(p,m,hasta){
+    const tr=tareaDe(p.code,m.n);
+    if(hasta){if(m.n<hasta)return{k:'hecho',t:'Visto'};if(m.n===hasta)return{k:'curso',t:'En curso'};return{k:'pend',t:'Pendiente'}}
+    if(tr.tarea==='Revisada')return{k:'hecho',t:'Completado'};
+    return{k:'libre',t:'Disponible'};
+  }
+  function panelAvance(p,hasta){
+    const N=p.modules.length;if(!N)return'';
+    const est=p.modules.map(m=>estadoMod(p,m,hasta));
+    const hechos=est.filter(e=>e.k==='hecho').length,curso=p.modules.find((m,i)=>est[i].k==='curso')||p.modules.find((m,i)=>est[i].k!=='hecho');
+    const pct=Math.round((hechos+(est.some(e=>e.k==='curso')?.5:0))/N*100);
+    const abiertos=p.modules.filter((m,i)=>est[i].k!=='pend'),conTarea=abiertos.filter(m=>m.homework);
+    const enviadas=conTarea.filter(m=>['Enviada','Revisada'].includes(tareaDe(p.code,m.n).tarea)).length;
+    const pendientes=conTarea.filter(m=>{const t=tareaDe(p.code,m.n).tarea||'';return t===''||t==='Rehacer'});
+    const notas=((S.yo&&S.yo.avance)||[]).filter(a=>a.programa===p.code&&a.nota!=null);
+    const prom=notas.length?(notas.reduce((s,a)=>s+a.nota,0)/notas.length):null;
+    const faltan=p.modules.filter((m,i)=>est[i].k==='pend');
+    const unidad=/sesi/i.test(p.modules[0].title||'')?'sesión':'módulo';
+    return `<section class="avance" aria-label="Tu avance en ${esc(p.code)}">
+      <div class="av-top"><div><span class="eyebrow">Tu avance</span><b class="av-pct">${pct}<small>%</small></b></div>
+        <div class="av-now">${curso?`<span class="hint">${hechos===N?'Terminaste el programa':'Vas en'}</span><b>${hechos===N?'¡Felicitaciones!':esc(unidad.charAt(0).toUpperCase()+unidad.slice(1))+' '+curso.n+' de '+N}</b>${hechos===N?'':`<small>${esc(strip(curso.title))}</small>`}`:''}</div></div>
+      <div class="av-bar" role="img" aria-label="${hechos} de ${N} vistos">${est.map((e,i)=>`<i class="${e.k}" title="${esc((i+1)+' · '+strip(p.modules[i].title)+' · '+e.t)}"></i>`).join('')}</div>
+      <div class="av-stats">
+        <span><b>${hechos}</b> de ${N} ${unidad==='sesión'?'sesiones':'módulos'} ${hasta?'vistos':'completados'}</span>
+        <span><b>${enviadas}</b> de ${conTarea.length} tareas entregadas</span>
+        ${prom!=null?`<span>Promedio <b>${prom.toFixed(1)}</b> / 10</span>`:''}
+        ${!hasta?'':`<span><b>${faltan.length}</b> por ver</span>`}
+      </div>
+      ${pendientes.length?`<div class="av-todo"><span class="lbl">Lo que tienes pendiente</span>${pendientes.map(m=>{const t=tareaDe(p.code,m.n);return `<a class="av-item" href="#mod-${esc(p.code+'-'+m.n)}" data-ir="${esc(p.code+'-'+m.n)}"><span class="n">${m.n}</span><span><b>${t.tarea==='Rehacer'?'Rehacer la tarea':'Tarea'} · ${esc(strip(m.title))}</b><small>${esc(t.comentario||m.homework)}</small></span></a>`}).join('')}</div>`:`<p class="hint" style="margin:0">${conTarea.length?'No tienes tareas pendientes. ¡Vas al día!':'Las tareas aparecen aquí cuando se abren los módulos.'}</p>`}
+      ${faltan.length?`<div class="av-next"><span class="lbl">Lo que viene</span><div class="chips">${faltan.slice(0,4).map(m=>`<span>${m.n} · ${esc(strip(m.title))}</span>`).join('')}${faltan.length>4?`<span>y ${faltan.length-4} más</span>`:''}</div></div>`:''}
+    </section>`;
+  }
+  function bloqueTarea(p,m,tr){
+    const k=p.code+'-'+m.n,t=tr.tarea||'';
+    const estado=t==='Revisada'?`<span class="tstate ok">Revisada${tr.nota!=null?` · Nota ${esc(String(tr.nota))} / 10`:''}</span>`:t==='Enviada'?`<span class="tstate wait">Enviada${tr.enviada?' el '+esc(A.fecha(tr.enviada)):''} · el profesor la revisará</span>`:t==='Rehacer'?`<span class="tstate redo">Por rehacer</span>`:`<span class="tstate">Pendiente</span>`;
+    const form=S.tareaAbierta===k?`<form class="tform" data-tarea="${esc(k)}"><label for="tl-${esc(k)}">Enlace a tu trabajo (opcional)</label><input id="tl-${esc(k)}" name="enlace" type="url" inputmode="url" placeholder="https://drive.google.com/…" value="${esc(tr.enlace||'')}"><span class="hint">Por ejemplo, un archivo en Google Drive, SoundCloud o YouTube con acceso por enlace.</span><div class="row"><button class="btn primary sm" type="submit"${S.busy?' disabled':''}>Enviar tarea</button><button class="btn sm" type="button" data-tarea-cerrar>Cancelar</button></div>${S.tareaErr?`<div class="err" role="alert">${esc(S.tareaErr)}</div>`:''}</form>`:'';
+    return `<div class="box tarea"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><span class="lbl" style="margin:0">Tarea</span>${estado}</div>${esc(m.homework)}
+      ${tr.comentario?`<div class="tcom"><span class="lbl">Comentario del profesor</span>${esc(tr.comentario)}</div>`:''}
+      ${t!=='Revisada'&&!form?`<div><button class="btn sm${t===''||t==='Rehacer'?' primary':''}" type="button" data-tarea-abrir="${esc(k)}">${t==='Enviada'?'Cambiar el enlace':t==='Rehacer'?'Enviar de nuevo':'Ya hice la tarea'}</button></div>`:''}${form}</div>`;
   }
 
   function vVideos(){
@@ -313,6 +361,18 @@
     const tb=e.target.closest('[data-tab]');if(tb){S.tab=tb.dataset.tab;S.banner='';S.err='';S.msg='';if(tb.dataset.focus)S.focus=tb.dataset.focus;history.replaceState(null,'','#'+S.tab);render();return}
     const sl=e.target.closest('[data-sel]');if(sl){S.sel=sl.dataset.sel;S.open.clear();render();return}
     const pv=e.target.closest('[data-play]');if(pv){play(pv.dataset.play)}
+    /* avance: abrir el módulo de una tarea pendiente, y marcar tareas como hechas */
+    const ir=e.target.closest('[data-ir]');if(ir){e.preventDefault();S.open.add(ir.dataset.ir);vCursos();const d=$('mod-'+ir.dataset.ir);if(d)d.scrollIntoView({behavior:'smooth',block:'start'});return}
+    const ab=e.target.closest('[data-tarea-abrir]');if(ab){S.tareaAbierta=ab.dataset.tareaAbrir;S.tareaErr='';vCursos();const i=$('tl-'+S.tareaAbierta);if(i)i.focus();return}
+    if(e.target.closest('[data-tarea-cerrar]')){S.tareaAbierta='';S.tareaErr='';vCursos();return}
+  });
+  app.addEventListener('submit',async e=>{
+    const f=e.target.closest('form.tform');if(!f)return;e.preventDefault();if(S.busy)return;
+    const [prog,mod]=f.dataset.tarea.split('-');const enlace=f.elements.enlace.value.trim();
+    if(enlace&&!/^https:\/\//i.test(enlace)){S.tareaErr='El enlace debe empezar con https://';vCursos();return}
+    S.busy=true;vCursos();const r=await A.api('tarea_lista',{programa:prog,modulo:Number(mod),enlace});S.busy=false;
+    if(!r.ok){S.tareaErr=/no válida/i.test(r.error||'')?'Esta función se está activando. Inténtalo más tarde o envíale la tarea a tu profesor por WhatsApp.':r.error;vCursos();return}
+    S.yo.avance=r.avance||[];S.tareaAbierta='';S.tareaErr='';vCursos();
   });
   app.addEventListener('toggle',e=>{const d=e.target;if(d.matches&&d.matches('details.mod')){d.open?S.open.add(d.dataset.k):S.open.delete(d.dataset.k)}},true);
   // en la pestaña En vivo, refresca cada minuto para mostrar el enlace a tiempo
