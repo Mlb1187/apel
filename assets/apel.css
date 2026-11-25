@@ -262,13 +262,11 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 :root[data-theme="dark"]{--glass:rgba(24,25,20,.74);--glass-2:rgba(24,25,20,.88);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
   --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.84);--lime-glass:rgba(200,255,46,.88)}
 
-.liquid{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
+.liquid{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .liquid canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.4s ease}
 .liquid.on canvas{opacity:1}
 /* rendimiento: la tinta ya viene suave (degradados a baja resolución); sin filtros ni mezclas que se recalculen en cada cuadro */
 .liquid .l-ink{image-rendering:auto}
-.liquid::after{content:"";position:absolute;inset:0;opacity:.10;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
 
 /* vidrio: el desenfoque real (backdrop-filter) es carísimo sobre un fondo que se mueve, porque se recalcula en cada cuadro.
    Ni la cabecera ni las láminas lo llevan (solo las ventanas emergentes); usan vidrio translúcido sin desenfoque. */
@@ -279,7 +277,7 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 .capas body::before{background:var(--lime)}
 
 /* portada: la lámina lima se queda quieta y las demás capas suben a taparla */
-.capas .hero{position:sticky;top:0;z-index:0;will-change:opacity,transform;background:var(--lime);opacity:calc(1 - var(--cover,0));transform:scale(calc(1 - var(--cover,0) * .06));transform-origin:50% 0}
+.capas .hero{position:sticky;top:0;z-index:0;background:var(--lime);opacity:calc(1 - var(--cover,0));transform:scale(calc(1 - var(--cover,0) * .06));transform-origin:50% 0}
 .capas .hero.gone{visibility:hidden}
 .capas .hero .in{padding-bottom:96px}
 .capas main>*:not(.hero){position:relative;z-index:1}

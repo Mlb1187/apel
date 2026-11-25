@@ -11,6 +11,8 @@
   const API = window.APELCapas = { tint() {}, level() {} };
   const root = document.documentElement;
   let calm = false; try { calm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  // equipos con poca memoria: el fondo se dibuja una sola vez y queda quieto
+  if ((navigator.deviceMemory && navigator.deviceMemory <= 2) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2)) calm = true;
 
   const box = document.createElement('div');
   box.className = 'liquid'; box.setAttribute('aria-hidden', 'true');
