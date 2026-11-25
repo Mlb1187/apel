@@ -218,3 +218,15 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 /* precios: la fila se dibuja */
 .mo #rows{border-top-color:transparent;background:linear-gradient(var(--ink),var(--ink)) 0 0/0% 3px no-repeat;transition:background-size 1.1s var(--out)}
 .mo #rows.in{background-size:100% 3px}
+
+/* ---------- entrada: separador y cargador tipo vúmetro ---------- */
+.or-line{display:flex;align-items:center;gap:12px;color:var(--muted,#6b6a60);font-size:13px;font-weight:650;letter-spacing:.06em;text-transform:uppercase}
+.or-line::before,.or-line::after{content:"";flex:1;height:1px;background:currentColor;opacity:.35}
+.btn.ghost{background:transparent;border-color:transparent;white-space:normal;text-align:center;min-height:44px;text-decoration:underline;text-underline-offset:3px}
+.vu-wait{display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 0}
+.vu{display:flex;align-items:flex-end;gap:5px;height:44px}
+.vu i{width:8px;height:100%;border-radius:3px;background:linear-gradient(to top,var(--sP,#3ad29f) 0 55%,var(--accent,#C8FF2E) 55% 82%,var(--warn,#ff5a36) 82%);transform-origin:bottom;animation:vu 1.05s ease-in-out infinite}
+.vu i:nth-child(2){animation-delay:-.35s}.vu i:nth-child(3){animation-delay:-.7s}.vu i:nth-child(4){animation-delay:-.15s}
+.vu i:nth-child(5){animation-delay:-.55s}.vu i:nth-child(6){animation-delay:-.9s}.vu i:nth-child(7){animation-delay:-.25s}
+@keyframes vu{0%,100%{transform:scaleY(.18)}30%{transform:scaleY(.95)}55%{transform:scaleY(.45)}75%{transform:scaleY(.75)}}
+@media (prefers-reduced-motion:reduce){.vu i{animation:none;transform:scaleY(.6)}}
