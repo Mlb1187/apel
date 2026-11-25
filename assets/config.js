@@ -4,7 +4,7 @@ window.APEL = {
   API_URL: 'https://script.google.com/macros/s/AKfycbxUOJ3UBvgniO9AhChvr4sMZZ76oymgr1LMZf7qlfLr80Gf5uI8yerlWAdTA3n4eLot_A/exec',
   // WhatsApp de APEL con código de país, solo números (ej. 584141234567). Vacío = no se muestra el botón.
   // Google: ID de cliente OAuth de APEL (es público; termina en .apps.googleusercontent.com). Vacío = no sale «Continuar con Google».
-  GOOGLE_CLIENT_ID: '',
+  GOOGLE_CLIENT_ID: '560317758538-vnsetmcefrujc1tssg19449706ec5cqu.apps.googleusercontent.com',
   WHATSAPP: '',
   EMAIL: '',
   INSTAGRAM: '',
