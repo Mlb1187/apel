@@ -205,8 +205,9 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 @property --hw{syntax:"<number>";inherits:true;initial-value:112}
 .mo{--out:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1)}
 /* títulos h2: entran angostos y se abren a su ancho */
-.mo h2:not([data-mo-skip]):not(.sr){transition:--hw 1.1s var(--out),transform 1.1s var(--out)}
-.mo h2:not([data-mo-skip]):not(.sr):not(.in){--hw:76;transform:translateY(.2em)}
+/* el título se abre como un fader con scaleX (lo hace la tarjeta gráfica); animar el ancho de la fuente obligaba a recalcular el texto en cada cuadro */
+.mo h2:not([data-mo-skip]):not(.sr){transform-origin:0 70%;transition:transform 1.1s var(--out),opacity .8s var(--out)}
+.mo h2:not([data-mo-skip]):not(.sr):not(.in){transform:translateY(.2em) scaleX(.82);opacity:.001}
 .mo h2.now{transition:none}
 /* líneas que se dibujan de izquierda a derecha, en orden */
 .mo .prow,.mo .routes>div,.mo .steps li{border-top-color:transparent;background:linear-gradient(var(--ln,var(--ink)),var(--ln,var(--ink))) 0 0/0% 2px no-repeat;transition:background-size 1s var(--out) calc(var(--i,0)*130ms)}
@@ -270,15 +271,15 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
 
 /* vidrio: el desenfoque real (backdrop-filter) es carísimo sobre un fondo que se mueve, porque se recalcula en cada cuadro.
-   Solo lo lleva la cabecera, que es una franja delgada; las láminas usan vidrio translúcido sin desenfoque. */
-.capas .top,.capas .modal .sheet{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+   Ni la cabecera ni las láminas lo llevan (solo las ventanas emergentes); usan vidrio translúcido sin desenfoque. */
+.capas .modal .sheet{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
 
 /* cabecera: lima translúcida, el líquido se ve pasar por debajo */
-.capas .top{background:var(--lime-glass);box-shadow:inset 0 -1px 0 rgba(22,21,15,.12)}
-.capas body::before{background:var(--lime-glass)}
+.capas .top{background:rgba(200,255,46,.94);box-shadow:inset 0 -1px 0 rgba(22,21,15,.12)}
+.capas body::before{background:var(--lime)}
 
 /* portada: la lámina lima se queda quieta y las demás capas suben a taparla */
-.capas .hero{position:sticky;top:0;z-index:0;will-change:opacity,transform;background:var(--lime-glass);opacity:calc(1 - var(--cover,0));transform:scale(calc(1 - var(--cover,0) * .06));transform-origin:50% 0}
+.capas .hero{position:sticky;top:0;z-index:0;will-change:opacity,transform;background:var(--lime);opacity:calc(1 - var(--cover,0));transform:scale(calc(1 - var(--cover,0) * .06));transform-origin:50% 0}
 .capas .hero.gone{visibility:hidden}
 .capas .hero .in{padding-bottom:96px}
 .capas main>*:not(.hero){position:relative;z-index:1}

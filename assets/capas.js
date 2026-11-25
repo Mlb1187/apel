@@ -37,7 +37,7 @@
   let W = 0, H = 0, dpr = 1, small = false;
   function size() {
     W = innerWidth; H = innerHeight; small = W < 760;
-    dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 2);
+    dpr = 1;   // la onda se dibuja a 1x: en pantallas Retina a 2x costaba 4 veces más y se notaba en la fluidez
     ink.width = Math.max(8, Math.round(W * SC)); ink.height = Math.max(8, Math.round(H * SC));
     wav.width = Math.round(W * dpr); wav.height = Math.round(H * dpr);
     cw.setTransform(dpr, 0, 0, dpr, 0, 0);

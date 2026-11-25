@@ -13,10 +13,10 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/apel.css?v=20261125e">
+<link rel="stylesheet" href="assets/apel.css?v=20261125f">
 <script src="assets/config.js?v=20261125c"></script>
 <script src="assets/motion.js"></script>
-<script src="assets/capas.js?v=20261125e" defer></script>
+<script src="assets/capas.js?v=20261125f" defer></script>
 <style>
 /* portada: la tipografía es el fader */
 .hero{background:var(--lime);overflow:hidden}
@@ -303,7 +303,7 @@
     if(window.APELCapas)APELCapas.tint(r.top<innerHeight*.5&&r.bottom>innerHeight*.5?TINT[SCH[Math.max(0,cur)].k]:null);
   }
   const TINT={A:'#F2EBDD',P:'#C8FF2E',E:'#8C7BFF',L:'#FF9F1C'};
-  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
+  let scQ=false;addEventListener('scroll',()=>{if(!scQ){scQ=true;requestAnimationFrame(()=>{scQ=false;onScroll()})}},{passive:true});addEventListener('resize',onScroll);onScroll();
 
   if(!ps.length)return;
   const prog=p=>{const s=A.SCHOOLS[p.school]||{color:'var(--surface-2)',name:''};return `<article data-mo class="prow${p.active?'':' soon'}" id="p-${esc(p.code)}" style="--c:${s.color}">
