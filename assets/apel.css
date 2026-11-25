@@ -247,3 +247,85 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 .theme button{font:600 13px var(--sans);color:var(--deep-muted);background:transparent;border:0;border-radius:999px;padding:6px 12px;cursor:pointer;min-height:32px}
 .theme button[aria-pressed="true"]{background:var(--on-deep);color:var(--deep)}
 .theme button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+
+/* ---------- Capas (assets/capas.js) ----------
+   Capa 0: el líquido (tinta de las escuelas + onda de audio), fijo detrás de todo.
+   Capa 1: láminas de vidrio que flotan encima y se montan unas sobre otras al bajar.
+   Capa 2: lo sólido (códigos de programa, botones, precios) va encima del vidrio, nítido.
+   Sin JavaScript no hay líquido: las láminas quedan sobre el papel y todo se lee igual. */
+:root{--glass:rgba(247,248,242,.58);--glass-2:rgba(247,248,242,.78);--glass-line:rgba(22,21,15,.13);--glass-hi:rgba(255,255,255,.75);
+  --glass-sh:0 30px 70px -34px rgba(22,21,15,.34),0 2px 8px rgba(22,21,15,.05);--deep-glass:rgba(18,19,14,.80);--lime-glass:rgba(200,255,46,.78);
+  --blur:blur(22px) saturate(165%);--sheet:36px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--glass:rgba(24,25,20,.56);--glass-2:rgba(24,25,20,.78);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
+  --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.74);--lime-glass:rgba(200,255,46,.84)}}
+:root[data-theme="dark"]{--glass:rgba(24,25,20,.56);--glass-2:rgba(24,25,20,.78);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
+  --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.74);--lime-glass:rgba(200,255,46,.84)}
+
+.liquid{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
+.liquid canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.4s ease}
+.liquid.on canvas{opacity:1}
+.liquid .l-ink{filter:blur(30px) saturate(115%);transform:scale(1.12)}
+.liquid::after{content:"";position:absolute;inset:0;opacity:.32;mix-blend-mode:overlay;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+
+/* lámina de vidrio: una sola receta para todo */
+.capas .top,.capas .pagehead,.capas .band,.capas .sstage,.capas .glass,
+.capas main>section:not(.hero):not(.schools)>.wrap,.capas .end>.in,.capas .pagehead+main.wrap,
+.capas footer,.capas .card,.capas .mod,.capas .li,.capas .vcard,.capas .pay-opt,.capas .modal .sheet{
+  -webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+
+/* cabecera: lima translúcida, el líquido se ve pasar por debajo */
+.capas .top{background:var(--lime-glass);box-shadow:inset 0 -1px 0 rgba(22,21,15,.12)}
+.capas body::before{background:var(--lime-glass)}
+
+/* portada: la lámina lima se queda quieta y las demás capas suben a taparla */
+.capas .hero{position:sticky;top:0;z-index:0;background:var(--lime-glass);opacity:calc(1 - var(--cover,0));transform:scale(calc(1 - var(--cover,0) * .06));transform-origin:50% 0}
+.capas .hero.gone{visibility:hidden}
+.capas .hero .in{padding-bottom:96px}
+.capas main>*:not(.hero){position:relative;z-index:1}
+.capas .band{margin-top:-40px;border-radius:var(--sheet) var(--sheet) 0 0;background:var(--deep-glass);box-shadow:0 -24px 60px -30px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.10);padding-block:26px}
+
+/* escuelas: la lámina toma el color de la escuela y el líquido se tiñe igual */
+.capas .schools{background:transparent}
+.capas .sstage{background:color-mix(in srgb,var(--sbg,var(--lime)) 72%,transparent);transition:background .6s}
+
+/* secciones: cada una es una lámina que se monta un poco sobre la anterior */
+.capas main>section:not(.hero):not(.schools){padding:0 0 28px;margin-top:-12px}
+.capas main>section:not(.hero):not(.schools)>.wrap,.capas .pagehead+main.wrap{
+  width:calc(100% - 2*max(12px,env(safe-area-inset-left,0px)));max-width:var(--max);
+  background:var(--glass);border:1px solid var(--glass-line);border-radius:var(--sheet);
+  box-shadow:inset 0 1px 0 var(--glass-hi),var(--glass-sh);
+  padding:clamp(36px,6vw,72px) clamp(20px,4.5vw,56px)!important}
+.capas main>section#programas{margin-top:40px}
+.capas main>section#rutas:not(.hero)>.wrap{margin-top:-34px;width:calc(100% - 2*max(28px,env(safe-area-inset-left,0px)));background:var(--glass-2)}
+.capas main>section.dark{background:transparent}
+.capas main>section.dark:not(.hero):not(.schools)>.wrap{background:var(--deep-glass);border-color:rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 40px 90px -40px rgba(0,0,0,.6)}
+.capas main>section.end{background:transparent;padding:28px 0 56px}
+.capas main>section.end:not(.hero):not(.schools)>.in{width:calc(100% - 2*max(12px,env(safe-area-inset-left,0px)));background:var(--deep-glass);border:1px solid rgba(255,255,255,.08);border-radius:var(--sheet);padding:clamp(56px,9vw,120px) clamp(20px,4.5vw,56px)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 40px 90px -40px rgba(0,0,0,.6)}
+
+/* páginas internas: la banda lima es la capa de atrás y el contenido sube sobre ella */
+.capas .pagehead{background:var(--lime-glass);padding-bottom:96px}
+.capas .pagehead+main.wrap{position:relative;z-index:1;margin-top:-56px;margin-bottom:40px}
+.capas footer{background:var(--deep-glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+
+/* tarjetas: vidrio con canto de luz; el borde de tinta se vuelve un filo fino */
+.capas .card,.capas .mod,.capas .li,.capas .vcard,.capas .pay-opt{background:var(--glass-2);border:1px solid var(--glass-line);box-shadow:inset 0 1px 0 var(--glass-hi),0 18px 40px -26px rgba(22,21,15,.35)}
+.capas .vcard:hover:not([disabled]){background:var(--lime)}
+.capas .mat,.capas .box{background:color-mix(in srgb,var(--bg) 70%,transparent)}
+.capas .modal .sheet{background:var(--glass-2);border:1px solid var(--glass-line);box-shadow:inset 0 1px 0 var(--glass-hi),var(--glass-sh)}
+
+/* capa 2: lo sólido flota sobre el vidrio */
+.capas .pcode,.capas .chain span:not(.ar),.capas .btn.primary,.capas .btn.lime{box-shadow:0 12px 26px -14px rgba(22,21,15,.55)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  :root{--glass:var(--surface);--glass-2:var(--surface);--lime-glass:var(--lime);--deep-glass:var(--deep)}}
+@media (max-width:600px){:root{--sheet:26px}.liquid .l-ink{filter:blur(22px)}}
+@media (prefers-reduced-motion:reduce){.liquid canvas{transition:none}}
+/* dentro de una lámina, el formulario no necesita otra lámina: se funde con ella */
+.capas .pagehead+main.wrap form.card{background:transparent;border:0;box-shadow:none;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+/* sobre la lámina lima el botón principal siempre es tinta (en modo oscuro también) */
+.hero .btn.primary,.pagehead .btn.primary{--solid:#16150F;--solid-fg:#C8FF2E}
+/* el pie se queda abajo aunque la página sea corta */
+.capas body{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+.capas body>main,.capas body>footer{flex:none}
+.capas body>footer{margin-top:auto}
+.legal section{padding:0}

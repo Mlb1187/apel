@@ -13,9 +13,10 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/apel.css?v=20261125c">
+<link rel="stylesheet" href="assets/apel.css?v=20261125d">
 <script src="assets/config.js?v=20261125c"></script>
 <script src="assets/motion.js"></script>
+<script src="assets/capas.js?v=20261125d" defer></script>
 <style>
 /* portada: la tipografía es el fader */
 .hero{background:var(--lime);overflow:hidden}
@@ -231,6 +232,7 @@
     const t=(now-t0)/1000;
     if(ctx&&on){while(hits.length&&hits[0][0]<=ctx.currentTime){env[hits.shift()[1]]=1}}
     env.k*=.86;env.s*=.84;env.h*=.7;
+    if(ctx&&on&&window.APELCapas)APELCapas.level(env.k,env.s);   /* la onda del fondo late con el bombo */
     const idle=calm?0:1,set=(el,x,y)=>{el.style.scale=x.toFixed(3)+' '+y.toFixed(3)};
     set(L[0],1+idle*.05*Math.sin(t*.9)+env.k*.16,1+env.k*.06);
     set(L[1],1+idle*.06*Math.sin(t*.9+2.1)+env.s*.13,1+env.s*.05);
@@ -297,7 +299,10 @@
       $('schips').innerHTML=ps.filter(p=>p.school===s.k).map(p=>p.active?`<a href="#p-${esc(p.code)}" tabindex="-1">${esc(p.code)} ${esc(p.name)}</a>`:`<span class="soon">${esc(p.code)} ${esc(p.name)}, pronto</span>`).join('')||'<span class="soon">Programas en camino</span>';
       dots.forEach((d,j)=>d.classList.toggle('on',j===i));if(MO.on){MO.pop($('big'));MO.rise($('sname'));MO.rise($('swhat'),90);MO.rise($('schips'),180)}}
     if(!calm)$('big').style.setProperty('--bx',(.82+.3*Math.sin(local*Math.PI)).toFixed(3));
+    /* el líquido de fondo se tiñe con la escuela mientras la sección está a la vista */
+    if(window.APELCapas)APELCapas.tint(r.top<innerHeight*.5&&r.bottom>innerHeight*.5?TINT[SCH[Math.max(0,cur)].k]:null);
   }
+  const TINT={A:'#F2EBDD',P:'#C8FF2E',E:'#8C7BFF',L:'#FF9F1C'};
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 
   if(!ps.length)return;
