@@ -6,7 +6,7 @@ window.APEL = {
   // Google: ID de cliente OAuth de APEL (es público; termina en .apps.googleusercontent.com). Vacío = no sale «Continuar con Google».
   GOOGLE_CLIENT_ID: '560317758538-vnsetmcefrujc1tssg19449706ec5cqu.apps.googleusercontent.com',
   WHATSAPP: '',
-  EMAIL: '',
+  EMAIL: 'hola@apel.academy',
   INSTAGRAM: '',
   // PayPal: el Client ID es público (el Secret va SOLO en el Apps Script). Vacío = no se muestra PayPal.
   PAYPAL_CLIENT_ID: '',
