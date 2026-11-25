@@ -109,7 +109,7 @@
   }
   let ppLoad=null;
   function mountPayPal(){
-    if(!ppLoad)ppLoad=new Promise((ok,ko)=>{const s=document.createElement('script');s.src='https://www.paypal.com/sdk/js?client-id='+encodeURIComponent(A.PAYPAL_CLIENT_ID)+'&currency=USD&intent=capture&components=buttons';s.onload=ok;s.onerror=ko;document.head.appendChild(s)});
+    if(!ppLoad)ppLoad=new Promise((ok,ko)=>{const s=document.createElement('script');s.src='https://www.paypal.com/sdk/js?client-id='+encodeURIComponent(A.PAYPAL_CLIENT_ID)+'&currency=USD&intent=capture&components=buttons&enable-funding=card&locale=es_XC';s.onload=ok;s.onerror=ko;document.head.appendChild(s)});
     ppLoad.then(()=>{if(!$('pp')||!window.paypal)return;window.paypal.Buttons({style:{shape:'pill',color:'gold',label:'pay'},
       createOrder:async()=>{const r=await A.api('paypal_crear',{producto:S.p.id});if(!r.ok){if(r.falta==='pais')S.paso='pais';S.err=r.error;renderCo();throw new Error(r.error)}return r.orderId},
       onApprove:async d=>{$('co-m').innerHTML='<div class="pay-opt"><p>Confirmando el pago…</p></div>';const r=await A.api('paypal_capturar',{orderId:d.orderID});
