@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/apel.css?v=20261125f">
+<link rel="stylesheet" href="assets/apel.css?v=20261125g">
 <script src="assets/config.js?v=20261125c"></script>
 <script src="assets/motion.js"></script>
 <script src="assets/capas.js?v=20261125f" defer></script>
@@ -44,7 +44,7 @@
     ['suscripcion','Suscripción','Toda la videoteca de APEL mientras estés suscrito.'],
     ['live','Clases en vivo','Masterclasses y talleres grupales por Google Meet, con cupo limitado.']];
   const dur=p=>p.tipo==='live'?'':p.dias?(p.dias>=360?'Acceso por 1 año':p.dias>=28&&p.dias<=31?'Por mes':`Acceso por ${p.dias} días`):'Acceso sin vencimiento';
-  const card=p=>`<article class="card prog"><span class="tag">${esc(A.TIPOS[p.tipo]||p.tipo)}${p.programa?' · '+esc(p.programa):''}</span>
+  const card=p=>`<article class="card prog"><span class="tag"${p.programa&&/^[APEL]/.test(p.programa)?` style="--c:var(--s${p.programa[0]})"`:''}>${esc(A.TIPOS[p.tipo]||p.tipo)}${p.programa?' · '+esc(p.programa):''}</span>
     <h3>${esc(p.nombre)}</h3>${p.descripcion?`<p>${esc(p.descripcion)}</p>`:''}
     ${p.tipo==='live'&&p.fecha?`<span class="meta">${esc(A.fecha(p.fecha,true))} (tu hora) · ${p.duracion} min${p.quedan!=null?` · ${p.quedan?p.quedan+' cupos':'agotado'}`:''}</span>`:''}
     <div><span class="price-big">${A.usd(p.precio)}<small> ${p.tipo==='clase'||p.tipo==='suscripcion'?'/ mes':''}</small></span>

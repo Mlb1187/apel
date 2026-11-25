@@ -70,7 +70,7 @@ section{padding:88px 0}
 @media (max-width:960px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:600px){.g4,.g2{grid-template-columns:minmax(0,1fr)}}
 .card{background:var(--surface);border:2px solid var(--ink);border-radius:var(--r);padding:24px}
-.tag{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:5px 12px;border-radius:999px;color:var(--ink);background:var(--c,var(--surface-2));align-self:flex-start;font-variation-settings:"wdth" 108}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:5px 12px;border-radius:999px;color:var(--ink);background:var(--c,var(--lime));align-self:flex-start;font-variation-settings:"wdth" 108}
 .tag i{display:none}
 .soon .tag{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
 .chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;font-size:16px}
