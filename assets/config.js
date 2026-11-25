@@ -16,7 +16,7 @@ window.APEL = {
   BINANCE_PAY: false,
   // Datos que ve el alumno para el pago manual. Vacío = «te enviamos los datos por WhatsApp».
   PAGO_DATOS: {
-    'Zelle': '',
+    'Zelle': 'Correo: anthonnyserrano@gmail.com\nTitular: Anthonny Serrano',
     'Binance (envío directo)': '',
     'Pago móvil': '',
     'Wise': '',
