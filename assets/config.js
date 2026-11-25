@@ -11,7 +11,7 @@ window.APEL = {
   // PayPal: el Client ID es público (el Secret va SOLO en el Apps Script). Vacío = no se muestra PayPal.
   PAYPAL_CLIENT_ID: '',
   // Pago con tarjeta por Stripe activado en el Apps Script (true/false). La clave secreta va SOLO en el Apps Script.
-  STRIPE: false,
+  STRIPE: true,
   // Binance Pay automático activado en el Apps Script (true/false).
   BINANCE_PAY: false,
   // Datos que ve el alumno para el pago manual. Vacío = «te enviamos los datos por WhatsApp».
