@@ -5,9 +5,9 @@ window.APEL = {
   // WhatsApp de APEL con código de país, solo números (ej. 584141234567). Vacío = no se muestra el botón.
   // Google: ID de cliente OAuth de APEL (es público; termina en .apps.googleusercontent.com). Vacío = no sale «Continuar con Google».
   GOOGLE_CLIENT_ID: '560317758538-vnsetmcefrujc1tssg19449706ec5cqu.apps.googleusercontent.com',
-  WHATSAPP: '',
+  WHATSAPP: '584149668456',
   EMAIL: 'hola@apel.academy',
-  INSTAGRAM: '',
+  INSTAGRAM: '@anthonnyserrano',
   // PayPal: el Client ID es público (el Secret va SOLO en el Apps Script). Vacío = no se muestra PayPal.
   PAYPAL_CLIENT_ID: '',
   // Binance Pay automático activado en el Apps Script (true/false).
