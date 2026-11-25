@@ -109,10 +109,12 @@
   // botón oficial de Google (Google Identity Services); al elegir la cuenta se oculta el formulario y sale el cargador
   function google_(){
     const pinta=()=>{const el=$('gbtn');if(!el||!window.google||!google.accounts)return;
-      google.accounts.id.initialize({client_id:A.GOOGLE_CLIENT_ID,ux_mode:'popup',auto_select:false,cancel_on_tap_outside:true,
+      google.accounts.id.initialize({client_id:A.GOOGLE_CLIENT_ID,ux_mode:'popup',auto_select:false,use_fedcm_for_prompt:true,use_fedcm_for_button:true,cancel_on_tap_outside:true,
         callback:async resp=>{S.err='';S.msg='';S.cargando='Entrando con Google…';viewLogin();
           entrar(await A.api('login_google',{credencial:resp.credential,dispositivo:A.dispositivo()}),false)}});
-      google.accounts.id.renderButton(el,{theme:'filled_black',shape:'pill',size:'large',text:'continue_with',locale:'es',width:Math.min(400,Math.max(220,el.clientWidth||320))})};
+      google.accounts.id.renderButton(el,{theme:'filled_black',shape:'pill',size:'large',text:'continue_with',locale:'es',width:Math.min(400,Math.max(220,el.clientWidth||320))});
+      // además la ventanita de Google sin ventana emergente (sirve en navegadores que bloquean pop-ups)
+      try{google.accounts.id.prompt()}catch(e){}};
     if(window.google&&google.accounts)return pinta();
     if(!document.querySelector('script[data-gsi]')){const sc=document.createElement('script');sc.src=GSI;sc.async=true;sc.dataset.gsi='1';sc.onload=pinta;
       sc.onerror=()=>{const el=$('gbtn');if(el)el.innerHTML='<span class="hint">No pudimos cargar el botón de Google. Entra con tu clave o con un código.</span>'};document.head.appendChild(sc)}
