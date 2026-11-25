@@ -77,6 +77,26 @@ window.APEL.programs = () => fetch(window.APEL.BASE + 'programs.json').then(r =>
   A.TIPOS = { clase: 'Clases 1 a 1', vod: 'Programa en video', suscripcion: 'Suscripción', live: 'Clase en vivo' };
 })(window.APEL);
 
+/* ---------- Tema: Automático (sigue a la Mac / al sistema), Claro u Oscuro ---------- */
+(function () {
+  const K = 'apel-tema', root = document.documentElement;
+  const leer = () => { try { return localStorage.getItem(K) || 'auto'; } catch (e) { return 'auto'; } };
+  const aplicar = t => { if (t === 'light' || t === 'dark') root.dataset.theme = t; else delete root.dataset.theme; };
+  aplicar(leer());
+  const pintar = () => {
+    const f = document.querySelector('footer .wrap'); if (!f || f.querySelector('.theme')) return;
+    const box = document.createElement('div'); box.className = 'theme'; box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'Apariencia');
+    [['light', 'Claro'], ['dark', 'Oscuro'], ['auto', 'Automático']].forEach(([v, l]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = l; b.dataset.t = v;
+      b.onclick = () => { try { localStorage.setItem(K, v); } catch (e) {} aplicar(v); marcar(); };
+      box.appendChild(b);
+    });
+    const marcar = () => { const t = leer(); box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.t === t))); };
+    marcar(); f.appendChild(box);
+  };
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', pintar) : pintar();
+})();
+
 /* ---------- Identidad viva: los títulos con data-fader respiran en ancho, como un fader ---------- */
 (function () {
   let calm = false; try { calm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
