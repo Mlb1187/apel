@@ -253,33 +253,32 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
    Capa 1: láminas de vidrio que flotan encima y se montan unas sobre otras al bajar.
    Capa 2: lo sólido (códigos de programa, botones, precios) va encima del vidrio, nítido.
    Sin JavaScript no hay líquido: las láminas quedan sobre el papel y todo se lee igual. */
-:root{--glass:rgba(247,248,242,.58);--glass-2:rgba(247,248,242,.78);--glass-line:rgba(22,21,15,.13);--glass-hi:rgba(255,255,255,.75);
-  --glass-sh:0 30px 70px -34px rgba(22,21,15,.34),0 2px 8px rgba(22,21,15,.05);--deep-glass:rgba(18,19,14,.80);--lime-glass:rgba(200,255,46,.78);
-  --blur:blur(22px) saturate(165%);--sheet:36px}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--glass:rgba(24,25,20,.56);--glass-2:rgba(24,25,20,.78);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
-  --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.74);--lime-glass:rgba(200,255,46,.84)}}
-:root[data-theme="dark"]{--glass:rgba(24,25,20,.56);--glass-2:rgba(24,25,20,.78);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
-  --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.74);--lime-glass:rgba(200,255,46,.84)}
+:root{--glass:rgba(247,248,242,.74);--glass-2:rgba(247,248,242,.88);--glass-line:rgba(22,21,15,.13);--glass-hi:rgba(255,255,255,.75);
+  --glass-sh:0 30px 70px -34px rgba(22,21,15,.34),0 2px 8px rgba(22,21,15,.05);--deep-glass:rgba(18,19,14,.88);--lime-glass:rgba(200,255,46,.86);
+  --blur:blur(12px);--sheet:36px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--glass:rgba(24,25,20,.74);--glass-2:rgba(24,25,20,.88);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
+  --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.84);--lime-glass:rgba(200,255,46,.88)}}
+:root[data-theme="dark"]{--glass:rgba(24,25,20,.74);--glass-2:rgba(24,25,20,.88);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
+  --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.84);--lime-glass:rgba(200,255,46,.88)}
 
 .liquid{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
 .liquid canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.4s ease}
 .liquid.on canvas{opacity:1}
-.liquid .l-ink{filter:blur(30px) saturate(115%);transform:scale(1.12)}
-.liquid::after{content:"";position:absolute;inset:0;opacity:.32;mix-blend-mode:overlay;
+/* rendimiento: la tinta ya viene suave (degradados a baja resolución); sin filtros ni mezclas que se recalculen en cada cuadro */
+.liquid .l-ink{image-rendering:auto}
+.liquid::after{content:"";position:absolute;inset:0;opacity:.10;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
 
-/* lámina de vidrio: una sola receta para todo */
-.capas .top,.capas .pagehead,.capas .band,.capas .sstage,.capas .glass,
-.capas main>section:not(.hero):not(.schools)>.wrap,.capas .end>.in,.capas .pagehead+main.wrap,
-.capas footer,.capas .card,.capas .mod,.capas .li,.capas .vcard,.capas .pay-opt,.capas .modal .sheet{
-  -webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+/* vidrio: el desenfoque real (backdrop-filter) es carísimo sobre un fondo que se mueve, porque se recalcula en cada cuadro.
+   Solo lo lleva la cabecera, que es una franja delgada; las láminas usan vidrio translúcido sin desenfoque. */
+.capas .top,.capas .modal .sheet{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
 
 /* cabecera: lima translúcida, el líquido se ve pasar por debajo */
 .capas .top{background:var(--lime-glass);box-shadow:inset 0 -1px 0 rgba(22,21,15,.12)}
 .capas body::before{background:var(--lime-glass)}
 
 /* portada: la lámina lima se queda quieta y las demás capas suben a taparla */
-.capas .hero{position:sticky;top:0;z-index:0;background:var(--lime-glass);opacity:calc(1 - var(--cover,0));transform:scale(calc(1 - var(--cover,0) * .06));transform-origin:50% 0}
+.capas .hero{position:sticky;top:0;z-index:0;will-change:opacity,transform;background:var(--lime-glass);opacity:calc(1 - var(--cover,0));transform:scale(calc(1 - var(--cover,0) * .06));transform-origin:50% 0}
 .capas .hero.gone{visibility:hidden}
 .capas .hero .in{padding-bottom:96px}
 .capas main>*:not(.hero){position:relative;z-index:1}
@@ -287,7 +286,7 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 
 /* escuelas: la lámina toma el color de la escuela y el líquido se tiñe igual */
 .capas .schools{background:transparent}
-.capas .sstage{background:color-mix(in srgb,var(--sbg,var(--lime)) 72%,transparent);transition:background .6s}
+.capas .sstage{background:color-mix(in srgb,var(--sbg,var(--lime)) 84%,transparent);transition:background .6s}
 
 /* secciones: cada una es una lámina que se monta un poco sobre la anterior */
 .capas main>section:not(.hero):not(.schools){padding:0 0 28px;margin-top:-12px}
@@ -318,7 +317,7 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 .capas .pcode,.capas .chain span:not(.ar),.capas .btn.primary,.capas .btn.lime{box-shadow:0 12px 26px -14px rgba(22,21,15,.55)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   :root{--glass:var(--surface);--glass-2:var(--surface);--lime-glass:var(--lime);--deep-glass:var(--deep)}}
-@media (max-width:600px){:root{--sheet:26px}.liquid .l-ink{filter:blur(22px)}}
+@media (max-width:600px){:root{--sheet:26px}}
 @media (prefers-reduced-motion:reduce){.liquid canvas{transition:none}}
 /* dentro de una lámina, el formulario no necesita otra lámina: se funde con ella */
 .capas .pagehead+main.wrap form.card{background:transparent;border:0;box-shadow:none;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none}

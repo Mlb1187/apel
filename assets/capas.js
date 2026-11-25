@@ -75,10 +75,18 @@
     { f: .6, a: .8, w: 1, o: .24, p: 2.1 }, { f: 2.6, a: .36, w: .8, o: .2, p: 4.2 }];
 
   const t0 = performance.now();
+  let frameN = 0, Dc = null, Dt = 0;
   function draw(now) {
-    const t = calm ? 7 : (now - t0) / 1000, D = dark();
+    const t = calm ? 7 : (now - t0) / 1000;
+    if (!Dc || now - Dt > 1000) { Dc = { v: dark() }; Dt = now; }   // el tema se consulta una vez por segundo, no en cada cuadro
+    const D = Dc.v;
     mx += (tmx - mx) * .1; my += (tmy - my) * .1; pluck *= .965; kick *= .92; beat *= .9;
     tintK += (tintT - tintK) * .04;
+    // la tinta se mueve lento: se repinta un cuadro sí y uno no; la onda, en todos
+    if (calm || (frameN++ & 1) === 0) inkFrame(t, D);
+    waveFrame(t, D);
+  }
+  function inkFrame(t, D) {
     const iw = ink.width, ih = ink.height, base = Math.max(iw, ih);
     ci.globalCompositeOperation = 'source-over';
     ci.fillStyle = D ? '#0E0F0C' : '#ECEEE4'; ci.fillRect(0, 0, iw, ih);
@@ -96,12 +104,14 @@
       ci.fillStyle = g; ci.beginPath(); ci.arc(x, y, r, 0, Math.PI * 2); ci.fill();
     });
 
+  }
+  function waveFrame(t, D) {
     // onda de audio: respira al tempo y se pulsa con el mouse
     cw.clearRect(0, 0, W, H);
     const bt = (t % BEAT) / BEAT, env = .45 + .55 * (Math.exp(-bt * 6) * .5 + .5) * (.7 + .3 * Math.sin(t * .21));
     const cy = H * (small ? .72 : .6) + Math.sin(scrollY / Math.max(H, 1) * 1.2) * H * .05;
     const A = Math.min(H * .14, 150) * (env + kick * .5 + beat * .8);
-    const stroke = D ? [200, 255, 46] : [22, 21, 15], step = small ? 5 : 3;
+    const stroke = D ? [200, 255, 46] : [22, 21, 15], step = small ? 6 : 4;
     cw.lineCap = 'round'; cw.lineJoin = 'round';
     for (let l = lines.length - 1; l >= 0; l--) {
       const L = lines[l]; cw.beginPath();
