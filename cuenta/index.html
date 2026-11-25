@@ -9,8 +9,8 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/apel.css?v=20261124d">
-<script src="../assets/config.js?v=20261124d"></script>
+<link rel="stylesheet" href="../assets/apel.css?v=20261125a">
+<script src="../assets/config.js?v=20261125a"></script>
 <script src="../assets/motion.js"></script>
 </head>
 <body>
@@ -324,6 +324,12 @@
     await load();
     if(trade&&S.yo){const r=await A.api('binance_revisar',{trade});history.replaceState(null,'','./#'+S.tab);
       S.banner=r.ok&&r.estado==='PAID'?'Pago con Binance confirmado: tu acceso ya está activo.':r.ok?'Estamos esperando la confirmación de Binance. Tu acceso se activa solo en unos minutos; te llegará un correo.':(r.error||'');
+      await load(true)}
+    const ss=q.get('stripe');
+    if(ss&&S.yo){S.banner='Confirmando tu pago con tarjeta…';render();let r=null;
+      for(let k=0;k<4;k++){r=await A.api('stripe_revisar',{session:ss});if(!r.ok||r.estado!=='PENDIENTE')break;await new Promise(z=>setTimeout(z,2500))}
+      history.replaceState(null,'','./#'+S.tab);
+      S.banner=r&&r.ok&&r.estado==='PAID'?'¡Pago con tarjeta confirmado! Tu acceso ya está activo y te enviamos un correo.':r&&r.ok&&r.estado==='REVISION'?'Recibimos tu pago, pero el país de la tarjeta no coincide con el de tu cuenta. Lo revisamos y te escribimos pronto.':r&&r.ok?'Estamos esperando la confirmación del pago. Tu acceso se activa solo en unos minutos; te llegará un correo.':((r&&r.error)||'');
       await load(true)}
   })();
 })();

@@ -8,8 +8,8 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/apel.css?v=20261124d">
-<script src="assets/config.js?v=20261124d"></script>
+<link rel="stylesheet" href="assets/apel.css?v=20261125a">
+<script src="assets/config.js?v=20261125a"></script>
 <script src="assets/motion.js"></script>
 </head>
 <body>
@@ -67,7 +67,7 @@
   }
 
   /* ---------- checkout ---------- */
-  const methods=()=>[A.PAYPAL_CLIENT_ID&&['paypal','PayPal o tarjeta'],A.BINANCE_PAY&&['binance','Binance Pay'],['manual','Otros métodos']].filter(Boolean);
+  const methods=()=>[A.STRIPE&&['stripe','Tarjeta'],A.PAYPAL_CLIENT_ID&&['paypal',A.STRIPE?'PayPal':'PayPal o tarjeta'],A.BINANCE_PAY&&['binance','Binance Pay'],['manual','Otros métodos']].filter(Boolean);
   function openCo(id){const p=S.cat&&S.cat.productos.find(x=>x.id===id);if(!p)return;
     if(!A.sesion.get()){location.href='cuenta/?volver='+encodeURIComponent('tienda.html?p='+id);return}
     S.p=p;S.m=methods()[0][0];S.done=null;S.err='';S.paso=S.cat.paisFijo?'':'pais';$('co').hidden=false;renderCo();}
@@ -92,6 +92,8 @@
       <div id="co-m"></div><span class="err" role="alert">${esc(S.err)}</span>`;
     const box=$('co-m');
     if(S.m==='paypal'){box.innerHTML='<div class="pay-opt"><p>Paga con tu cuenta PayPal o con tarjeta. El acceso se activa al instante.</p><div id="pp"></div></div>';mountPayPal()}
+    else if(S.m==='stripe'){box.innerHTML=`<div class="pay-opt"><h3>Tarjeta de crédito o débito</h3><p>Visa, Mastercard, American Express y más. Te llevamos a la página segura de Stripe: los datos de tu tarjeta no pasan por APEL. Al pagar vuelves a tu cuenta y el acceso se activa solo.</p><button class="btn primary" id="st" ${S.busy?'disabled':''}>${S.busy?'Abriendo el pago…':'Pagar '+A.usd(p.precio)+' con tarjeta'}</button></div>`;
+      $('st').onclick=async()=>{S.busy=true;S.err='';renderCo();const r=await A.api('stripe_crear',{producto:p.id});S.busy=false;if(!r.ok){if(r.falta==='pais')S.paso='pais';S.err=r.error;renderCo();return}location.href=r.url}}
     else if(S.m==='binance'){box.innerHTML=`<div class="pay-opt"><h3>Binance Pay · USDT</h3><p>Te llevamos a la página segura de Binance. Al pagar vuelves a tu cuenta y el acceso se activa solo (a más tardar en 10 minutos).</p><button class="btn primary" id="bn" ${S.busy?'disabled':''}>${S.busy?'Abriendo Binance…':'Pagar '+A.usd(p.precio)+' con Binance Pay'}</button></div>`;
       $('bn').onclick=async()=>{S.busy=true;S.err='';renderCo();const r=await A.api('binance_crear',{producto:p.id});S.busy=false;if(!r.ok){if(r.falta==='pais')S.paso='pais';S.err=r.error;renderCo();return}location.href=r.checkoutUrl}}
     else{const ml=(S.cat.metodosManuales||Object.keys(A.PAGO_DATOS||{}));S.mm=S.mm&&ml.includes(S.mm)?S.mm:ml[0];const datos=(A.PAGO_DATOS||{})[S.mm];
