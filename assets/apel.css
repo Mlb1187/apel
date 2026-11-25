@@ -262,11 +262,32 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 :root[data-theme="dark"]{--glass:rgba(24,25,20,.74);--glass-2:rgba(24,25,20,.88);--glass-line:rgba(232,234,223,.10);--glass-hi:rgba(255,255,255,.07);
   --glass-sh:0 34px 80px -36px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.25);--deep-glass:rgba(6,7,4,.84);--lime-glass:rgba(200,255,46,.88)}
 
-.liquid{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.liquid canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.4s ease}
-.liquid.on canvas{opacity:1}
-/* rendimiento: la tinta ya viene suave (degradados a baja resolución); sin filtros ni mezclas que se recalculen en cada cuadro */
-.liquid .l-ink{image-rendering:auto}
+/* el líquido: manchas y onda dibujadas una vez; solo se desplazan con transform (la tarjeta gráfica las mueve sin repintar) */
+.liquid{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;--tint:#C8FF2E;--ia:.55;--wave:#16150F;--wa:.5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .liquid{--ia:.38;--wave:#C8FF2E;--wa:.55}}
+:root[data-theme="dark"] .liquid{--ia:.38;--wave:#C8FF2E;--wa:.55}
+.liquid>div{opacity:0;transition:opacity 1.4s ease}
+.liquid.on>div{opacity:1}
+.l-ink{position:absolute;inset:-16%;transition:translate 1.2s cubic-bezier(.16,1,.3,1),opacity 1.4s ease}
+/* las cuatro manchas en un solo dibujo; el conjunto gira y se desplaza lento como tinta en agua (una sola capa) */
+.l-ink i{position:absolute;inset:0;opacity:var(--ia);transition:opacity .8s;
+  background:radial-gradient(46vmax 40vmax at 30% 30%,var(--c1),color-mix(in srgb,var(--c1) 40%,transparent) 45%,transparent 75%),
+    radial-gradient(40vmax 36vmax at 74% 30%,var(--c2),color-mix(in srgb,var(--c2) 40%,transparent) 45%,transparent 75%),
+    radial-gradient(38vmax 34vmax at 66% 76%,var(--c3),color-mix(in srgb,var(--c3) 40%,transparent) 45%,transparent 75%),
+    radial-gradient(34vmax 30vmax at 26% 76%,var(--c2),color-mix(in srgb,var(--c2) 35%,transparent) 45%,transparent 75%);
+  --c1:#C8FF2E;--c2:#8C7BFF;--c3:#FF9F1C;animation:lq 48s ease-in-out infinite alternate}
+.liquid.tinted .l-ink i{--c1:color-mix(in srgb,var(--tint) 70%,#C8FF2E);--c2:var(--tint);--c3:var(--tint)}
+@keyframes lq{0%{transform:rotate(0) scale(1)}33%{transform:rotate(12deg) scale(1.08) translate3d(4%,-3%,0)}66%{transform:rotate(-8deg) scale(.96) translate3d(-5%,4%,0)}100%{transform:rotate(16deg) scale(1.05) translate3d(3%,5%,0)}}
+/* si el equipo no da abasto, el líquido se queda quieto (lo decide capas.js midiendo los primeros segundos) */
+.liquid.still .l-ink i,.liquid.still .l-line svg{animation-play-state:paused}
+.l-wave{position:absolute;left:0;right:0;top:46%;height:30vh;color:var(--wave)}
+@media (max-width:760px){.l-wave{top:60%;height:22vh}}
+.l-amp{position:absolute;inset:0;transform-origin:50% 50%;transition:transform .12s ease-out}
+.l-line{position:absolute;inset:0;overflow:hidden;opacity:calc(var(--wa) * 1.4)}
+.l-line svg{position:absolute;left:0;top:0;width:200%;height:100%;animation:lwave 24s linear infinite}
+.l-line path{fill:none;stroke:currentColor;stroke-linecap:round}
+.l-axis{position:absolute;left:0;right:0;top:50%;height:1px;background:currentColor;opacity:calc(var(--wa) * .22)}
+@keyframes lwave{to{transform:translate3d(-50%,0,0)}}
 
 /* vidrio: el desenfoque real (backdrop-filter) es carísimo sobre un fondo que se mueve, porque se recalcula en cada cuadro.
    Ni la cabecera ni las láminas lo llevan (solo las ventanas emergentes); usan vidrio translúcido sin desenfoque. */
@@ -317,7 +338,7 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px var(--
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   :root{--glass:var(--surface);--glass-2:var(--surface);--lime-glass:var(--lime);--deep-glass:var(--deep)}}
 @media (max-width:600px){:root{--sheet:26px}}
-@media (prefers-reduced-motion:reduce){.liquid canvas{transition:none}}
+@media (prefers-reduced-motion:reduce){.l-ink i,.l-line svg{animation:none}.liquid>div{transition:none}}
 /* dentro de una lámina, el formulario no necesita otra lámina: se funde con ella */
 .capas .pagehead+main.wrap form.card{background:transparent;border:0;box-shadow:none;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none}
 /* sobre la lámina lima el botón principal siempre es tinta (en modo oscuro también) */
