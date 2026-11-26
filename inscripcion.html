@@ -11,17 +11,17 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="canonical" href="https://apel.academy/inscripcion.html">
 <meta property="og:title" content="Inscripción · APEL">
-<meta property="og:description" content="Reserva tu cupo en APEL: elige programa y horario. Te confirmamos por WhatsApp.">
+<meta property="og:description" content="Reserva tu cupo en APEL: elige programa, modalidad (1 a 1 o grupal) y horario. Te confirmamos por WhatsApp.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://apel.academy/inscripcion.html">
 <meta property="og:site_name" content="APEL">
 <meta property="og:locale" content="es_419">
-<meta property="og:image" content="https://apel.academy/assets/og-image.png?v=2">
+<meta property="og:image" content="https://apel.academy/assets/og-image.png?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="APEL: Produce. Mezcla. Toca en vivo.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="description" content="Reserva tu cupo en APEL: elige programa y horario. Te confirmamos por WhatsApp.">
+<meta name="description" content="Reserva tu cupo en APEL: elige programa, modalidad (1 a 1 o grupal) y horario. Te confirmamos por WhatsApp.">
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
@@ -43,6 +43,9 @@
 <main class="wrap" style="padding-top:40px;padding-bottom:88px"><div style="max-width:860px">
 
   <form id="f" class="card form" novalidate>
+    <fieldset class="field full" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:8px">Modalidad</legend>
+      <div class="opts"><label><input type="radio" name="modalidad" value="1a1" checked>Clases 1 a 1</label><label><input type="radio" name="modalidad" value="grupal">Programa grupal</label></div>
+      <span class="hint" id="mod-hint"></span></fieldset>
     <div class="field full"><label for="programa">Programa</label><select id="programa" name="programa" required></select><span class="hint" id="prog-hint"></span></div>
     <div class="field"><label for="nombre">Nombre y apellido</label><input id="nombre" name="nombre" autocomplete="name" required></div>
     <div class="field"><label for="correo">Correo</label><input id="correo" name="correo" type="email" autocomplete="email" required><span class="hint">Aquí te llega la invitación a clase y tu acceso al portal.</span></div>
@@ -54,7 +57,7 @@
       <div class="opts" id="dias"></div></fieldset>
     <fieldset class="field full" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:8px">¿A qué hora? <span id="tzname">(hora de tu país)</span></legend>
       <div class="opts"><label><input type="checkbox" name="franja" value="Mañana">Mañana</label><label><input type="checkbox" name="franja" value="Tarde">Tarde</label><label><input type="checkbox" name="franja" value="Noche">Noche</label></div></fieldset>
-    <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:8px">Horas por semana</legend>
+    <fieldset class="field" id="horas-f" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:8px">Horas por semana</legend>
       <div class="opts"><label><input type="radio" name="horas" value="1" checked>1 hora</label><label><input type="radio" name="horas" value="2">2 horas</label></div>
       <span class="hint" id="h-hint"></span></fieldset>
     <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:8px">Tu experiencia</legend>
@@ -85,6 +88,13 @@
   try{const tz=Intl.DateTimeFormat().resolvedOptions().timeZone;const o=[...$('tz').options].find(x=>x.value===tz);if(o)o.selected=true}catch(e){}
   const tzLabel=()=>{$('tzname').textContent=$('tz').value==='America/Caracas'?'(hora de Venezuela)':'(hora de tu país)'};$('tz').onchange=tzLabel;tzLabel();
   $('h-hint').textContent=`Con 2 horas: ${A.PRICES.multiDiscount}% de descuento sobre el precio regular.`;
+  /* modalidad: 1 a 1 o programa grupal (llega con ?modalidad=grupal desde la portada) */
+  const modo=()=>(document.querySelector('input[name=modalidad]:checked')||{}).value;
+  const pintarModo=()=>{const g=modo()==='grupal';$('horas-f').hidden=g;
+    $('mod-hint').textContent=g?'Una clase de 90 minutos a la semana con un grupo de 3 a 6 alumnos. El grupo abre con 3 inscritos; tus días y horas nos ayudan a elegir el horario.':'Tu clase con el profesor, en el bloque fijo que elijas.'};
+  document.querySelectorAll('input[name=modalidad]').forEach(r=>r.addEventListener('change',pintarModo));
+  if(new URLSearchParams(location.search).get('modalidad')==='grupal'){const r=document.querySelector('input[name=modalidad][value=grupal]');if(r)r.checked=true}
+  pintarModo();
   let ps=[];try{ps=await A.programs()}catch(e){}
   const want=new URLSearchParams(location.search).get('programa');
   const opt=p=>`<option value="${esc(p.code)}" ${want===p.code?'selected':''}>${esc(p.code)} · ${esc(p.name)}${p.active?'':' (próximamente)'}</option>`;
@@ -98,15 +108,15 @@
     const miss=[];if(!v('nombre'))miss.push('tu nombre');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('correo')))miss.push('un correo válido');if(v('whatsapp').replace(/\D/g,'').length<8)miss.push('tu WhatsApp');if(!$('ok').checked)miss.push('aceptar el contacto');
     if(miss.length){$('err').textContent='Falta '+miss.join(', ')+'.';return}
     const p=ps.find(x=>x.code===v('programa'));
-    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:v('whatsapp'),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
+    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:v('whatsapp'),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:modo()==='grupal'?'Programa grupal (90 min)':v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
     $('send').disabled=true;$('send').textContent='Enviando…';
     let sent=false;
     let fallo='No pudimos enviar tu inscripción. Revisa tu conexión e inténtalo de nuevo.';
     if(A.API_URL){const {action,...resto}=data;const r=await A.api('inscripcion',resto);if(r&&r.ok)sent=true;else if(r&&r.error)fallo=r.error}
     if(A.API_URL&&!sent){$('send').disabled=false;$('send').textContent='Enviar inscripción';$('err').textContent=fallo;return}
     $('f').hidden=true;$('done').hidden=false;$('done').focus();
-    $('done-txt').textContent=`Gracias, ${data.nombre.split(' ')[0]}. Te escribimos al ${data.whatsapp} con los horarios libres para ${p?p.code+' '+p.name:'tu asesoría'}.`+(A.API_URL?'':' (Modo demostración: la inscripción no se guardó.)');
-    if(A.WHATSAPP){const t=`Hola, me acabo de inscribir en la web de APEL.\nNombre: ${data.nombre}\nPrograma: ${p?p.code+' · '+p.name:'Asesoría'}\nDías: ${data.dias||'a convenir'} · ${data.franja||''}`;
+    $('done-txt').textContent=`Gracias, ${data.nombre.split(' ')[0]}. Te escribimos al ${data.whatsapp} con ${modo()==='grupal'?'el horario del próximo grupo de':'los horarios libres para'} ${p?p.code+' '+p.name:'tu asesoría'}.`+(A.API_URL?'':' (Modo demostración: la inscripción no se guardó.)');
+    if(A.WHATSAPP){const t=`Hola, me acabo de inscribir en la web de APEL.\nNombre: ${data.nombre}\nPrograma: ${p?p.code+' · '+p.name:'Asesoría'}\nModalidad: ${modo()==='grupal'?'Programa grupal':'Clases 1 a 1'}\nDías: ${data.dias||'a convenir'} · ${data.franja||''}`;
       $('done-btns').insertAdjacentHTML('afterbegin',`<a class="btn primary" href="https://wa.me/${esc(A.WHATSAPP)}?text=${encodeURIComponent(t)}">Escribir por WhatsApp</a>`)}
   });
 })();

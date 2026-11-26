@@ -1,4 +1,4 @@
-# APEL · Web, tienda, videos y clases en vivo
+# APEL · Web, tienda, videos y clases en vivo (1 a 1 y grupales)
 
 Qué hay en el paquete:
 - `site/` → la web, que se sube a GitHub Pages.
@@ -47,7 +47,7 @@ Qué hay en el paquete:
 **Quién ve cada video:**
 - quien compró el **programa en video** de ese programa;
 - quien tiene la **suscripción** activa;
-- el alumno de **clases 1 a 1** de ese programa, hasta el módulo que pongas en «Hasta módulo» en su fila de Accesos (vacío = todo el programa).
+- el alumno de **clases 1 a 1** o del **programa grupal** de ese programa, hasta el módulo que pongas en «Hasta módulo» en su fila de Accesos (vacío = todo el programa).
 
 ## 2. PayPal (cobro automático)
 1. Entra a developer.paypal.com con tu cuenta PayPal Business y ve a **Apps & Credentials › Create App**.
@@ -75,21 +75,29 @@ Qué hay en el paquete:
 ## 6. Productos (hoja Productos)
 | Columna | Para qué |
 |---|---|
-| ID | Código único: `CLASE-P101`, `VOD-P101`, `SUB-VOD`, `LIVE-2026-12-05`… |
-| Tipo | `clase` (mensualidad 1 a 1), `vod` (programa en video), `suscripcion` (videoteca completa) o `live` (clase grupal en vivo) |
-| Programa | Código del programa (P101…) para clase y vod |
-| Precio USD / Precio pronto pago | Precio del **Grupo 1**. Las clases cobran el precio de pronto pago hasta el día 5 |
+| ID | Código único: `CLASE-P101`, `GRUPAL-P101`, `VOD-P101`, `SUB-VOD`, `LIVE-2026-12-05`… |
+| Tipo | `clase` (mensualidad 1 a 1), `grupal` (programa grupal semanal, mensualidad), `vod` (programa en video), `suscripcion` (videoteca completa) o `live` (clase en vivo suelta: masterclass o taller) |
+| Programa | Código del programa (P101…) para clase, grupal y vod |
+| Precio USD / Precio pronto pago | Precio del **Grupo 1**. Las mensualidades (1 a 1 y grupal) cobran el precio de pronto pago hasta el día 5 |
 | Precio G2 / Pronto G2 / Precio G3 / Pronto G3 | Precio de los **Grupos 2 y 3** (al final de la hoja). Si los dejas vacíos, ese grupo paga el del Grupo 1 |
 | Días de acceso | 31 para mensualidades, 365 para un programa en video, 0 = sin vencimiento |
-| Fecha en vivo, Duración, Cupo, Enlace Meet, ID evento Calendar | Solo para `live` |
+| Fecha en vivo, Duración, Cupo, Enlace Meet, ID evento Calendar | Para `live`. En `grupal` se usan Duración, Cupo (máximo de alumnos) e ID evento Calendar (el evento semanal del grupo) |
 | Incluido en suscripción | Para `live`: si los suscriptores entran sin pagar aparte |
 | Activo | Solo se vende lo que está activo y tiene precio |
 
 **Ya vienen cargados:**
 - las clases 1 a 1 de P101, P201 y L101, activas: $100 / $90 (Grupo 1), $80 / $72 (Grupo 2) y $60 / $54 (Grupo 3), regular / pronto pago;
 - los programas en video ($129 / $99 / $69) y la suscripción ($19 / $15 / $12), con precio pero **inactivos** hasta que subas los videos;
+- dos programas grupales, `GRUPAL-P101` y `GRUPAL-L101`: $50 / $45 (Grupo 1), $40 / $36 (Grupo 2) y $30 / $27 (Grupo 3), regular / pronto pago, cupo de 6, **inactivos** hasta que tengan horario;
 - la clase en vivo de ejemplo ($15 / $12 / $9), inactiva;
 - un ejemplo de clase en vivo.
+
+**Abrir un grupo del programa grupal** (cuando tengas al menos 3 interesados):
+1. Crea en Google Calendar el evento semanal del grupo (se repite cada semana), con Meet.
+2. Copia su ID (en el evento: Opciones › Solución de problemas › ID del evento) en «ID evento Calendar» de la fila `grupal`.
+3. Escribe el día y la hora en «Descripción» (por ejemplo «Martes 7:00 p. m., hora de Venezuela») y marca **Activo**.
+
+Cada alumno que paga o canjea un código queda invitado al evento, con su Meet. Al llenarse el cupo, la tienda muestra «Grupo completo». Para un segundo grupo del mismo programa, copia la fila con otro ID (`GRUPAL-P101-B`) y otro evento. Mientras no haya grupos activos, la portada muestra el precio y un botón de WhatsApp para anotarse.
 
 **Crear una clase en vivo:**
 1. Crea el evento en Google Calendar con Meet.

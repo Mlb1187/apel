@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://apel.academy/">
 <meta property="og:site_name" content="APEL">
 <meta property="og:locale" content="es_419">
-<meta property="og:image" content="https://apel.academy/assets/og-image.png?v=2">
+<meta property="og:image" content="https://apel.academy/assets/og-image.png?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="APEL: Produce. Mezcla. Toca en vivo.">
@@ -345,8 +345,7 @@
     }else{
       const g=A.PRICES.grupal,mio=r&&r.ok&&g[r.grupo];
       $('m-grupal').textContent=mio?`Desde ${A.usd(mio.pronto)} al mes${pais}.`:`Desde ${A.usd(g[3].pronto)} al mes, según tu país.`;
-      const wa=A.WHATSAPP?`https://wa.me/${encodeURIComponent(A.WHATSAPP)}?text=${encodeURIComponent('Hola, quiero un cupo en el próximo programa grupal de APEL.')}`:'inscripcion.html';
-      $('m-grupal-cta').innerHTML=`<a class="btn" href="${esc(wa)}">Únete al próximo grupo</a>`;
+      $('m-grupal-cta').innerHTML='<a class="btn" href="inscripcion.html?modalidad=grupal">Únete al próximo grupo</a>';
     }
     const vod=min('vod',p=>p.precioRegular),sub=min('suscripcion',p=>p.precioRegular);
     if(vod!=null||sub!=null){
