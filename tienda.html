@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/apel.css?v=20261126a">
-<script src="assets/config.js?v=20261126a"></script>
+<script src="assets/config.js?v=20261126b"></script>
 <script src="assets/motion.js"></script>
 <script src="assets/capas.js?v=20261125k" defer></script>
 </head>
@@ -55,15 +55,18 @@
   const S={cat:null,p:null,m:null,busy:false,done:null,err:'',paso:''};
   const ses=A.sesion.get();if(ses)$('acct').textContent=ses.correo.split('@')[0];
   const GROUPS=[['clase','Clases 1 a 1','Tu clase en vivo cada semana con un profesor, material del programa y evaluaciones. Se paga mes a mes.'],
+    ['grupal','Programa grupal','Una clase en vivo de 90 minutos a la semana con un grupo de 3 a 6 alumnos que sigue el mismo programa. Se paga mes a mes.'],
     ['vod','Programas en video','Todo el programa grabado, a tu ritmo, con el material de apoyo.'],
     ['suscripcion','Suscripción','Toda la videoteca de APEL mientras estés suscrito.'],
     ['live','Clases en vivo','Masterclasses y talleres grupales por Google Meet, con cupo limitado.']];
   const dur=p=>p.tipo==='live'?'':p.dias?(p.dias>=360?'Acceso por 1 año':p.dias>=28&&p.dias<=31?'Por mes':`Acceso por ${p.dias} días`):'Acceso sin vencimiento';
+  const mes=p=>p.tipo==='clase'||p.tipo==='grupal';
   const card=p=>`<article class="card prog"><span class="tag"${p.programa&&/^[APEL]/.test(p.programa)?` style="--c:var(--s${p.programa[0]})"`:''}>${esc(A.TIPOS[p.tipo]||p.tipo)}${p.programa?' · '+esc(p.programa):''}</span>
     <h3>${esc(p.nombre)}</h3>${p.descripcion?`<p>${esc(p.descripcion)}</p>`:''}
     ${p.tipo==='live'&&p.fecha?`<span class="meta">${esc(A.fecha(p.fecha,true))} (tu hora) · ${p.duracion} min${p.quedan!=null?` · ${p.quedan?p.quedan+' cupos':'agotado'}`:''}</span>`:''}
-    <div><span class="price-big">${A.usd(p.precio)}<small> ${p.tipo==='clase'||p.tipo==='suscripcion'?'/ mes':''}</small></span>
-    ${p.tipo==='clase'&&p.pronto&&p.precio===p.pronto?`<div class="hint">Pronto pago hasta el día ${S.cat.prontoDia}. Regular ${A.usd(p.precioRegular)}.</div>`:p.tipo==='clase'&&p.pronto?`<div class="hint">Del 1 al ${S.cat.prontoDia} de cada mes: ${A.usd(p.pronto)}.</div>`:''}
+    ${p.tipo==='grupal'&&p.quedan!=null?`<span class="meta">${p.duracion} min a la semana · ${p.quedan?(p.quedan===1?'queda 1 cupo':'quedan '+p.quedan+' cupos'):'grupo completo'}</span>`:''}
+    <div><span class="price-big">${A.usd(p.precio)}<small> ${mes(p)||p.tipo==='suscripcion'?'/ mes':''}</small></span>
+    ${mes(p)&&p.pronto&&p.precio===p.pronto?`<div class="hint">Pronto pago hasta el día ${S.cat.prontoDia}. Regular ${A.usd(p.precioRegular)}.</div>`:mes(p)&&p.pronto?`<div class="hint">Del 1 al ${S.cat.prontoDia} de cada mes: ${A.usd(p.pronto)}.</div>`:''}
     <div class="hint">${esc(dur(p))}</div></div>
     <div class="foot"><button class="btn primary sm" data-buy="${esc(p.id)}" ${p.quedan===0?'disabled':''}>${p.quedan===0?'Agotado':'Comprar'}</button></div></article>`;
   function renderRegion(){

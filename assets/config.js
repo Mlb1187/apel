@@ -27,7 +27,9 @@ window.APEL = {
   },
   // Precios de las clases 1 a 1 por grupo (respaldo cuando la web no puede consultar al servidor; el que cobra es la hoja Productos)
   PRICES: { pronto: 90, normal: 100, prontoDay: 5, multiDiscount: 12, desde: 54,
-    grupos: { 1: { pronto: 90, normal: 100 }, 2: { pronto: 72, normal: 80 }, 3: { pronto: 54, normal: 60 } } },
+    grupos: { 1: { pronto: 90, normal: 100 }, 2: { pronto: 72, normal: 80 }, 3: { pronto: 54, normal: 60 } },
+    // Programa grupal semanal (respaldo para la portada mientras no haya grupos activos en la hoja Productos)
+    grupal: { 1: { pronto: 45, normal: 50 }, 2: { pronto: 36, normal: 40 }, 3: { pronto: 27, normal: 30 } } },
   PAYMENTS: ['Zelle', 'PayPal', 'Binance / USDT', 'Wise', 'Zinli', 'Transferencia internacional', 'Pago móvil (Venezuela)'],
   SCHOOLS: {
     A: { name: 'Academy', what: 'Carrera y negocio: derechos, regalías, marca personal y cómo vivir de la música.', color: 'var(--sA)' },
@@ -76,7 +78,7 @@ window.APEL.programs = () => fetch(window.APEL.BASE + 'programs.json').then(r =>
     return 'OT';
   };
   A.guardarPais = c => { try { localStorage.setItem('apel-pais', c); } catch (e) {} };
-  A.TIPOS = { clase: 'Clases 1 a 1', vod: 'Programa en video', suscripcion: 'Suscripción', live: 'Clase en vivo' };
+  A.TIPOS = { clase: 'Clases 1 a 1', grupal: 'Programa grupal', vod: 'Programa en video', suscripcion: 'Suscripción', live: 'Clase en vivo' };
 })(window.APEL);
 
 /* ---------- Tema: Automático (sigue a la Mac / al sistema), Claro u Oscuro ---------- */

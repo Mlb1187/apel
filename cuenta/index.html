@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/apel.css?v=20261126a">
-<script src="../assets/config.js?v=20261126a"></script>
+<script src="../assets/config.js?v=20261126b"></script>
 <script src="../assets/motion.js"></script>
 <script src="../assets/capas.js?v=20261125k" defer></script>
 </head>
@@ -146,7 +146,7 @@
   }
   const has=t=>S.yo.accesos.some(a=>a.tipo===t);
   function myPrograms(){
-    const codes=new Set();S.yo.accesos.forEach(a=>{if(a.programa&&(a.tipo==='clase'||a.tipo==='vod'))codes.add(a.programa)});
+    const codes=new Set();S.yo.accesos.forEach(a=>{if(a.programa&&(a.tipo==='clase'||a.tipo==='grupal'||a.tipo==='vod'))codes.add(a.programa)});
     if(has('suscripcion'))S.yo.videos.forEach(v=>codes.add(v.programa));
     return S.ps.filter(p=>codes.has(p.code));
   }
@@ -221,7 +221,7 @@
     if(!mine.length){t.innerHTML=`<div class="card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start"><b style="font-size:20px">Todavía no tienes programas activos.</b><span class="hint">Compra un programa o una mensualidad en la tienda, o canjea tu código.</span><div class="row"><a class="btn primary" href="../tienda.html">Ir a la tienda</a><button class="btn" data-tab="cuenta" data-focus="code">Canjear un código</button></div></div>`;return}
     if(!S.sel||!mine.find(p=>p.code===S.sel))S.sel=mine[0].code;
     const p=mine.find(x=>x.code===S.sel);const sc=A.SCHOOLS[p.school]||{};
-    const acc=S.yo.accesos.filter(a=>a.programa===p.code);const clase=acc.find(a=>a.tipo==='clase');
+    const acc=S.yo.accesos.filter(a=>a.programa===p.code);const clase=acc.find(a=>a.tipo==='clase'||a.tipo==='grupal');
     const full=acc.some(a=>a.tipo==='vod')||has('suscripcion');const hasta=!full&&clase&&clase.hastaModulo?clase.hastaModulo:0;
     if(!S.open.size&&p.modules.length)S.open.add(p.code+'-'+(hasta?Math.min(hasta,p.modules.length):1));
     t.innerHTML=`${mine.length>1?`<nav class="tabs" aria-label="Mis programas">${mine.map(x=>`<button data-sel="${esc(x.code)}" aria-pressed="${x.code===S.sel}">${esc(x.code)} · ${esc(x.name)}</button>`).join('')}</nav>`:''}
