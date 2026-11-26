@@ -93,7 +93,7 @@ Qué hay en el paquete:
 - un ejemplo de clase en vivo.
 
 **Abrir un grupo del programa grupal** (cuando tengas al menos 3 interesados):
-1. Crea en Google Calendar el evento semanal del grupo (se repite cada semana), con Meet.
+1. Crea en Google Calendar el evento semanal del grupo (se repite cada semana), de **1 hora**, con Meet. Con Gmail gratuito, Meet corta a los 60 minutos las llamadas de 3 o más personas.
 2. Copia su ID (en el evento: Opciones › Solución de problemas › ID del evento) en «ID evento Calendar» de la fila `grupal`.
 3. Escribe el día y la hora en «Descripción» (por ejemplo «Martes 7:00 p. m., hora de Venezuela») y marca **Activo**.
 

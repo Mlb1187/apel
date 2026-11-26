@@ -91,7 +91,7 @@
   /* modalidad: 1 a 1 o programa grupal (llega con ?modalidad=grupal desde la portada) */
   const modo=()=>(document.querySelector('input[name=modalidad]:checked')||{}).value;
   const pintarModo=()=>{const g=modo()==='grupal';$('horas-f').hidden=g;
-    $('mod-hint').textContent=g?'Una clase de 90 minutos a la semana con un grupo de 3 a 6 alumnos. El grupo abre con 3 inscritos; tus días y horas nos ayudan a elegir el horario.':'Tu clase con el profesor, en el bloque fijo que elijas.'};
+    $('mod-hint').textContent=g?'Una clase de 1 hora a la semana con un grupo de 3 a 6 alumnos. El grupo abre con 3 inscritos; tus días y horas nos ayudan a elegir el horario.':'Tu clase con el profesor, en el bloque fijo que elijas.'};
   document.querySelectorAll('input[name=modalidad]').forEach(r=>r.addEventListener('change',pintarModo));
   if(new URLSearchParams(location.search).get('modalidad')==='grupal'){const r=document.querySelector('input[name=modalidad][value=grupal]');if(r)r.checked=true}
   pintarModo();
@@ -108,7 +108,7 @@
     const miss=[];if(!v('nombre'))miss.push('tu nombre');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('correo')))miss.push('un correo válido');if(v('whatsapp').replace(/\D/g,'').length<8)miss.push('tu WhatsApp');if(!$('ok').checked)miss.push('aceptar el contacto');
     if(miss.length){$('err').textContent='Falta '+miss.join(', ')+'.';return}
     const p=ps.find(x=>x.code===v('programa'));
-    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:v('whatsapp'),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:modo()==='grupal'?'Programa grupal (90 min)':v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
+    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:v('whatsapp'),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:modo()==='grupal'?'Programa grupal (1 h)':v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
     $('send').disabled=true;$('send').textContent='Enviando…';
     let sent=false;
     let fallo='No pudimos enviar tu inscripción. Revisa tu conexión e inténtalo de nuevo.';
