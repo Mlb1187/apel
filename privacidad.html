@@ -10,8 +10,8 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/apel.css?v=20261125k">
-<script src="assets/config.js?v=20261125c"></script>
+<link rel="stylesheet" href="assets/apel.css?v=20261126a">
+<script src="assets/config.js?v=20261126a"></script>
 <script src="assets/motion.js"></script>
 <script src="assets/capas.js?v=20261125k" defer></script>
 <style>
@@ -19,6 +19,9 @@
   .legal h2{font-size:24px;margin:0 0 8px}
   .legal p,.legal li{font-size:17px;line-height:1.6}
   .legal ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+  .ltabs{display:flex;gap:8px;flex-wrap:wrap}
+  .ltabs a{font-weight:650;font-size:15px;padding:8px 16px;border-radius:999px;border:2px solid var(--ink);color:var(--ink);text-decoration:none}
+  .ltabs a[aria-current="page"]{background:var(--ink);color:var(--lime)}
 </style>
 </head>
 <body>
@@ -29,20 +32,23 @@
 
 <div class="pagehead"><div class="wrap">
   <h1 data-fader>Privacidad.</h1>
-  <p class="lead">Qué datos guardamos, para qué los usamos y cómo pides que los borremos. Actualizado el 24 de noviembre de 2026.</p>
+  <p class="lead">Qué datos guardamos, para qué los usamos y cómo pides que los borremos. Actualizado el 26 de noviembre de 2026.</p>
 </div></div>
 
 <main class="wrap" style="padding-top:40px;padding-bottom:88px"><div class="legal">
+  <nav class="ltabs" aria-label="Documentos legales"><a href="privacidad.html" aria-current="page">Privacidad</a><a href="terminos.html">Términos</a><a href="reembolsos.html">Reembolsos</a></nav>
+
   <section><h2>Quiénes somos</h2>
     <p>APEL (Academy of Production, Engineering and Live) es una academia online de producción musical, ingeniería de audio y sonido en vivo, dirigida por Anthonny Serrano. Este aviso cubre el sitio apel.academy y el portal de alumnos.</p></section>
 
   <section><h2>Qué datos guardamos</h2>
     <ul>
-      <li><b>Inscripción:</b> nombre, correo, WhatsApp, país y el programa que elegiste.</li>
+      <li><b>Inscripción:</b> nombre, correo, WhatsApp, país y zona horaria, el programa que elegiste, tus horarios preferidos y lo que nos cuentes de tu experiencia y tu equipo.</li>
+      <li><b>Avance:</b> las tareas que marcas como hechas, los enlaces a tus trabajos y las notas y comentarios de tus profesores.</li>
       <li><b>Cuenta:</b> tu correo; si entras con Google, tu nombre, tu foto de perfil y tu correo verificado (no recibimos tu contraseña de Google ni acceso a tus archivos o correos).</li>
       <li><b>Clave:</b> si creas una clave, la guardamos cifrada con un método de un solo sentido. Nadie, ni siquiera nosotros, puede leerla.</li>
       <li><b>Sesiones:</b> el tipo de dispositivo y navegador (por ejemplo «Chrome en Mac») y la fecha de último uso, para que tu cuenta esté abierta en un solo dispositivo.</li>
-      <li><b>Pagos:</b> producto, monto, método y estado. No guardamos números de tarjeta ni datos bancarios: los procesa PayPal o Binance.</li>
+      <li><b>Pagos:</b> producto, monto, método y estado. No guardamos números de tarjeta ni datos bancarios: los procesa PayPal, Stripe (tarjeta) o Binance. Esas plataformas nos indican el país de la cuenta o de la tarjeta con que pagaste, y lo usamos para verificar que el precio corresponde a tu país.</li>
       <li><b>Moderador de clases:</b> cuando hablas con el moderador por voz, ElevenLabs procesa el audio para responderte. No guardamos grabaciones de tu voz; la transcripción se conserva 90 días para mejorar el servicio y luego se borra.</li>
     </ul></section>
 
@@ -56,15 +62,27 @@
     <p>No vendemos ni compartimos tus datos con terceros para publicidad.</p></section>
 
   <section><h2>Dónde se guardan</h2>
-    <p>Los datos del portal se guardan en Google Workspace (Google Sheets y Apps Script) de APEL. Los servicios que usamos para funcionar son Google (entrada con Google y correo), PayPal y Binance (pagos) y ElevenLabs (moderador de voz). Cada uno trata los datos según su propia política de privacidad.</p></section>
+    <p>Los datos del portal se guardan en Google Workspace (Google Sheets y Apps Script) de APEL. Los servicios que usamos para funcionar son Google (entrada con Google, correo, Calendar y Meet), Bunny Stream (videos), PayPal, Stripe y Binance (pagos), ElevenLabs (moderador de voz) y WhatsApp (contacto, si nos lo pides). Pueden guardar los datos en servidores fuera de tu país, principalmente en Estados Unidos y Europa. Cada uno trata los datos según su propia política de privacidad.</p></section>
+
+  <section><h2>Cuánto tiempo los guardamos</h2>
+    <ul>
+      <li><b>Inscripciones que no terminan en matrícula:</b> 12 meses; después se borran solas.</li>
+      <li><b>Tu cuenta, accesos y avance:</b> mientras tu cuenta esté activa y hasta 2 años después de tu último acceso.</li>
+      <li><b>Sesiones cerradas:</b> se borran a los 90 días.</li>
+      <li><b>Pagos:</b> el tiempo que exijan las normas contables y fiscales.</li>
+      <li><b>Transcripciones del moderador:</b> 90 días.</li>
+    </ul></section>
 
   <section><h2>Tus derechos</h2>
-    <p>Puedes pedir una copia de tus datos, corregirlos o que borremos tu cuenta en cualquier momento. Escríbenos a <a href="mailto:hola@apel.academy">hola@apel.academy</a> desde el correo de tu cuenta y lo hacemos en un máximo de 30 días. Si entraste con Google, también puedes quitarle el acceso a APEL desde <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener noreferrer">tu cuenta de Google</a>.</p></section>
+    <p>Puedes pedir una copia de tus datos, corregirlos o que borremos tu cuenta en cualquier momento. Escríbenos a <a href="mailto:hola@apel.academy">hola@apel.academy</a> desde el correo de tu cuenta y lo hacemos en un máximo de 30 días. Solo conservaremos lo que la ley nos obligue a guardar, como los registros de pagos. En Venezuela, la Constitución reconoce tu derecho a acceder a tus datos y a pedir que se corrijan o destruyan. Si vives en la Unión Europea, también te protege el Reglamento General de Protección de Datos y puedes reclamar ante la autoridad de tu país; en España, la Agencia Española de Protección de Datos. Si entraste con Google, también puedes quitarle el acceso a APEL desde <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener noreferrer">tu cuenta de Google</a>.</p></section>
+
+  <section><h2>Menores de edad</h2>
+    <p>Si tienes menos de 18 años, necesitas el permiso de tu madre, padre o representante para inscribirte y pagar. Si eres representante y crees que un menor nos dio datos sin tu permiso, escríbenos y los borramos.</p></section>
 
   <section><h2>Cookies</h2>
     <p>No usamos cookies de publicidad ni de seguimiento. Tu navegador guarda la sesión del portal y tu país para que no tengas que entrar cada vez.</p></section>
 </div></main>
 
-<footer><div class="wrap"><span>APEL, Academy of Production, Engineering and Live</span><span><a href="mailto:hola@apel.academy" style="color:inherit">hola@apel.academy</a> · <a href="privacidad.html" style="color:inherit">Privacidad</a></span></div></footer>
+<footer><div class="wrap"><span>APEL, Academy of Production, Engineering and Live</span><span><a href="mailto:hola@apel.academy" style="color:inherit">hola@apel.academy</a> · <a href="privacidad.html" style="color:inherit">Privacidad</a> · <a href="terminos.html" style="color:inherit">Términos</a> · <a href="reembolsos.html" style="color:inherit">Reembolsos</a></span></div></footer>
 </body>
 </html>

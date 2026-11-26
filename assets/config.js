@@ -99,6 +99,15 @@ window.APEL.programs = () => fetch(window.APEL.BASE + 'programs.json').then(r =>
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', pintar) : pintar();
 })();
 
+/* ---------- Enlaces legales en el pie de todas las páginas (rutas desde la raíz: sirven también dentro de cuenta/) ---------- */
+(function () {
+  const poner = () => document.querySelectorAll('footer .wrap').forEach(w => {
+    if (w.querySelector('.legal-links, a[href$="terminos.html"]')) return;
+    w.insertAdjacentHTML('beforeend', '<nav class="legal-links" aria-label="Legal"><a href="/privacidad.html">Privacidad</a><a href="/terminos.html">Términos</a><a href="/reembolsos.html">Reembolsos</a></nav>');
+  });
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', poner) : poner();
+})();
+
 /* ---------- Identidad viva: los títulos con data-fader respiran en ancho, como un fader ---------- */
 (function () {
   let calm = false; try { calm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}

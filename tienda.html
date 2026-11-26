@@ -10,8 +10,8 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/apel.css?v=20261125k">
-<script src="assets/config.js?v=20261125c"></script>
+<link rel="stylesheet" href="assets/apel.css?v=20261126a">
+<script src="assets/config.js?v=20261126a"></script>
 <script src="assets/motion.js"></script>
 <script src="assets/capas.js?v=20261125k" defer></script>
 </head>
@@ -90,7 +90,7 @@
     $('co-in').innerHTML=`<button class="x" data-close aria-label="Cerrar">✕</button>
       <div><span class="eyebrow">${esc(A.TIPOS[p.tipo]||'')}</span><h2 id="co-t">${esc(p.nombre)}</h2></div>
       <div class="price-big">${A.usd(p.precio)}<small> USD${p.tipo==='live'&&p.fecha?' · '+esc(A.fecha(p.fecha,true)):''}</small></div>
-      <span class="hint">El acceso queda en la cuenta <b>${esc(ses.correo)}</b> · precio para ${esc(S.cat.nombrePais)}.</span>
+      <span class="hint">El acceso queda en la cuenta <b>${esc(ses.correo)}</b> · precio para ${esc(S.cat.nombrePais)}. Al pagar aceptas los <a href="terminos.html" target="_blank" rel="noopener">términos</a> y la <a href="reembolsos.html" target="_blank" rel="noopener">política de reembolsos</a>.</span>
       ${ms.length>1?`<div class="seg" role="group" aria-label="Método de pago">${ms.map(([k,l])=>`<button data-m="${k}" aria-pressed="${S.m===k}">${esc(l)}</button>`).join('')}</div>`:''}
       <div id="co-m"></div><span class="err" role="alert">${esc(S.err)}</span>`;
     const box=$('co-m');
