@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /cuenta/
+Disallow: /portal/
+
+Sitemap: https://apel.academy/sitemap.xml
