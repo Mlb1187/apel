@@ -121,7 +121,7 @@
 .modo h3{margin:0;font-size:clamp(30px,3.6vw,44px);line-height:1;font-weight:800;font-variation-settings:"wdth" 112;text-wrap:balance}
 .modo ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--fg2)}
 .modo .desde{margin:auto 0 0;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
-.modo .btn{align-self:flex-start}
+.modo .btn{align-self:flex-start;max-width:100%;white-space:normal;text-align:center}
 @media (prefers-reduced-motion:reduce){.track{animation:none}.schools{transition:none}}
 </style>
 </head>
@@ -346,7 +346,7 @@
       const g=A.PRICES.grupal,mio=r&&r.ok&&g[r.grupo];
       $('m-grupal').textContent=mio?`Desde ${A.usd(mio.pronto)} al mes${pais}.`:`Desde ${A.usd(g[3].pronto)} al mes, según tu país.`;
       const wa=A.WHATSAPP?`https://wa.me/${encodeURIComponent(A.WHATSAPP)}?text=${encodeURIComponent('Hola, quiero un cupo en el próximo programa grupal de APEL.')}`:'inscripcion.html';
-      $('m-grupal-cta').innerHTML=`<a class="btn" href="${esc(wa)}">Quiero un cupo en el próximo grupo</a>`;
+      $('m-grupal-cta').innerHTML=`<a class="btn" href="${esc(wa)}">Únete al próximo grupo</a>`;
     }
     const vod=min('vod',p=>p.precioRegular),sub=min('suscripcion',p=>p.precioRegular);
     if(vod!=null||sub!=null){
