@@ -18,7 +18,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="APEL: Produce. Mezcla. Toca en vivo.">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOrganization","name":"APEL","alternateName":"Academy of Production, Engineering and Live","url":"https://apel.academy/","logo":"https://apel.academy/assets/icon-512.png","email":"hola@apel.academy","description":"Clases online en vivo 1 a 1, programas grupales y programas en video de producción musical, mezcla, masterización y consola digital.","areaServed":"Latinoamérica"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOrganization","name":"APEL","alternateName":"Academy of Production, Engineering and Live","url":"https://apel.academy/","logo":"https://apel.academy/assets/icon-512.png","email":"hola@apel.academy","description":"Clases online en vivo 1 a 1, programas grupales y programas en video de producción musical, mezcla, masterización y consola digital.","areaServed":"Latinoamérica","founder":{"@type":"Person","name":"Anthonny Serrano","image":"https://apel.academy/assets/profesor.jpg","jobTitle":"Productor musical y audiovisual","sameAs":["https://www.youtube.com/@anthonnyserrano","https://www.instagram.com/anthonnyserrano"]}}</script>
 <meta name="description" content="Clases online en vivo 1 a 1, programas grupales y programas en video de producción musical, mezcla, masterización y consola digital (Behringer WING, X32 y Midas M32). Programas de 3 a 6 meses con certificado. Precios según tu país.">
 <meta property="og:title" content="APEL · Production, Engineering, Live">
 <meta property="og:description" content="Produce. Mezcla. Toca en vivo. Clases en vivo 1 a 1, grupales y programas en video, desde cualquier país de Latinoamérica.">
@@ -122,6 +122,26 @@
 .modo ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--fg2)}
 .modo .desde{margin:auto 0 0;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
 .modo .btn{align-self:flex-start;max-width:100%;white-space:normal;text-align:center}
+/* tu profesor */
+.prof{background:var(--deep);color:var(--on-deep)}
+.prof-in{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,72px);align-items:center}
+@media (max-width:860px){.prof-in{grid-template-columns:minmax(0,1fr)}}
+.prof-foto{margin:0;border-radius:var(--r);overflow:hidden;aspect-ratio:1/1;background:#0A0B08;max-width:520px}
+.prof-foto img{display:block;width:100%;height:100%;object-fit:cover}
+.prof .eyebrow{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lime)}
+.prof h2{margin:10px 0 0;color:var(--on-deep);text-wrap:balance}
+.prof-roles{margin:8px 0 0;font-size:18px;font-weight:600;color:var(--deep-muted)}
+.prof-txt>p{max-width:60ch;text-wrap:pretty}
+.prof-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin:28px 0;padding:0}
+@media (max-width:620px){.prof-stats{grid-template-columns:minmax(0,1fr)}}
+.prof-stats div{border-top:3px solid var(--lime);padding-top:12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.prof-stats dt{font-size:clamp(28px,3.4vw,40px);line-height:1;font-weight:800;font-variant-numeric:tabular-nums}
+.prof-stats dd{margin:0;font-size:15px;color:var(--deep-muted)}
+.prof-art b{color:var(--on-deep)}
+.prof-met{list-style:none;margin:20px 0 28px;padding:0;display:flex;flex-wrap:wrap;gap:8px;counter-reset:m}
+.prof-met li{counter-increment:m;border:1px solid var(--deep-rule);border-radius:999px;padding:6px 14px;font-size:15px}
+.prof-met li::before{content:"0" counter(m) " ";color:var(--lime);font-weight:700;font-variant-numeric:tabular-nums}
+.prof .btn{border-color:var(--on-deep);color:var(--on-deep)}
 @media (prefers-reduced-motion:reduce){.track{animation:none}.schools{transition:none}}
 </style>
 </head>
@@ -129,7 +149,7 @@
 <header class="top"><div class="wrap">
   <a class="brand" href="./" aria-label="APEL, inicio">APEL</a>
   <nav class="nav" aria-label="Principal">
-    <a href="#escuelas">Escuelas</a><a href="#programas">Programas</a><a href="#precios">Precios</a>
+    <a href="#profesor">Profesor</a><a href="#escuelas">Escuelas</a><a href="#programas">Programas</a><a href="#precios">Precios</a>
     <a class="keep" href="tienda.html">Tienda</a><a class="btn ghost" href="cuenta/">Mi cuenta</a><a class="btn hide-m" href="inscripcion.html">Inscríbete</a>
   </nav>
 </div></header>
@@ -191,6 +211,25 @@
       <p class="desde" id="m-vod">Próximamente.</p>
       <span id="m-vod-cta"></span>
     </article>
+  </div>
+</div></section>
+
+<section class="prof" id="profesor" aria-labelledby="prof-t"><div class="wrap prof-in">
+  <figure class="prof-foto"><picture><source srcset="assets/profesor.webp" type="image/webp"><img src="assets/profesor.jpg" width="720" height="720" alt="Retrato de Anthonny Serrano, profesor de APEL" loading="lazy" decoding="async"></picture></figure>
+  <div class="prof-txt">
+    <span class="eyebrow">Tu profesor</span>
+    <h2 id="prof-t">Anthonny Serrano</h2>
+    <p class="prof-roles">Productor · Music business · Audiovisual · Live show</p>
+    <p>Trabajo de forma profesional desde 2009. Llevo el proceso completo de una canción, de la idea a la masterización: producción, grabación, edición, mezcla y preparación para plataformas digitales. Además dirijo producciones audiovisuales y shows en vivo.</p>
+    <p>Creo que la tecnología se democratizó y que la calidad depende de ti. Mi trabajo es cerrar la brecha entre tener un DAW y lograr un sonido profesional, con un método simple: aprender haciendo.</p>
+    <dl class="prof-stats">
+      <div><dt>+124 M</dt><dd>reproducciones en YouTube de mis producciones audiovisuales</dd></div>
+      <div><dt>2009</dt><dd>el año en que empecé de forma profesional</dd></div>
+      <div><dt>Live show</dt><dd>productor de performance en giras de Silvestre Dangond</dd></div>
+    </dl>
+    <p class="prof-art">He trabajado con <b>Silvestre Dangond</b>, <b>Montesanto</b>, <b>Alex Marquez</b>, <b>Samuel González</b> y <b>Jhonder Morales</b>.</p>
+    <ol class="prof-met" aria-label="Cómo se trabaja cada clase"><li>Teoría</li><li>Práctica en DAW</li><li>Tarea</li><li>Retroalimentación</li></ol>
+    <a class="btn" href="https://youtu.be/XsD_NIGDRSo" target="_blank" rel="noopener">Ver «La Sunamita» en YouTube</a>
   </div>
 </div></section>
 
