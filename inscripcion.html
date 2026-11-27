@@ -99,7 +99,13 @@
   const want=new URLSearchParams(location.search).get('programa');
   const opt=p=>`<option value="${esc(p.code)}" ${want===p.code?'selected':''}>${esc(p.code)} · ${esc(p.name)}${p.active?'':' (próximamente)'}</option>`;
   $('programa').innerHTML=`<optgroup label="Abiertos">${ps.filter(p=>p.active).map(opt).join('')}</optgroup><optgroup label="Próximamente: te avisamos">${ps.filter(p=>!p.active).map(opt).join('')}</optgroup><option value="NO-SE" ${want==='NO-SE'?'selected':''}>Aún no sé, quiero asesoría</option>`;
-  const hint=()=>{const p=ps.find(x=>x.code===$('programa').value);$('prog-hint').textContent=p?(p.active?`${p.months} meses · ${p.modules.length} ${p.unit} · desde $${A.PRICES.desde} al mes según tu país`:'Aún no abre: guardamos tu interés y te avisamos primero.'):'Te ayudamos a elegir según tu experiencia y tu meta.'};$('programa').onchange=hint;hint();
+  const GRUPALES=['P101','L101'];   // programas con grupo semanal (filas «grupal» en la hoja Productos)
+  const hint=()=>{const p=ps.find(x=>x.code===$('programa').value),g=modo()==='grupal';
+    if(!p){$('prog-hint').textContent=g?'Te ayudamos a elegir el programa y te anotamos en el próximo grupo.':'Te ayudamos a elegir según tu experiencia y tu meta.';return}
+    if(!p.active){$('prog-hint').textContent='Aún no abre: guardamos tu interés y te avisamos primero.';return}
+    if(g&&!GRUPALES.includes(p.code)){$('prog-hint').textContent='Aún no hay grupo para este programa: te anotamos en la lista y te avisamos cuando se abra. Mientras tanto puedes tomarlo en clases 1 a 1.';return}
+    $('prog-hint').textContent=`${p.months} meses · ${p.modules.length} ${p.unit} · desde $${g?A.PRICES.grupal[3].pronto:A.PRICES.desde} al mes según tu país`};
+  $('programa').onchange=hint;document.querySelectorAll('input[name=modalidad]').forEach(r=>r.addEventListener('change',hint));hint();
 
   $('f').addEventListener('submit',async ev=>{
     ev.preventDefault();$('err').textContent='';
@@ -108,7 +114,7 @@
     const miss=[];if(!v('nombre'))miss.push('tu nombre');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('correo')))miss.push('un correo válido');if(v('whatsapp').replace(/\D/g,'').length<8)miss.push('tu WhatsApp');if(!$('ok').checked)miss.push('aceptar el contacto');
     if(miss.length){$('err').textContent='Falta '+miss.join(', ')+'.';return}
     const p=ps.find(x=>x.code===v('programa'));
-    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:(w=>/^\+/.test(w)||/^0/.test(w)?w:'+'+w)(v('whatsapp').trim()),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:modo()==='grupal'?'Programa grupal (1 h)':v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
+    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:(w=>/^\+/.test(w)||/^0/.test(w)?w:'+'+w)(v('whatsapp').trim()),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),modalidad:modo(),horas:modo()==='grupal'?'Programa grupal (1 h)':v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
     $('send').disabled=true;$('send').textContent='Enviando…';
     let sent=false;
     let fallo='No pudimos enviar tu inscripción. Revisa tu conexión e inténtalo de nuevo.';
