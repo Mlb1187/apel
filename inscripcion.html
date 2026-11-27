@@ -25,7 +25,7 @@
 <meta name="theme-color" content="#C8FF2E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/apel.css?v=20261126a">
+<link rel="stylesheet" href="assets/apel.css?v=20261127a">
 <script src="assets/config.js?v=20261126b"></script>
 <script src="assets/motion.js"></script>
 <script src="assets/capas.js?v=20261125k" defer></script>
@@ -108,13 +108,13 @@
     const miss=[];if(!v('nombre'))miss.push('tu nombre');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('correo')))miss.push('un correo válido');if(v('whatsapp').replace(/\D/g,'').length<8)miss.push('tu WhatsApp');if(!$('ok').checked)miss.push('aceptar el contacto');
     if(miss.length){$('err').textContent='Falta '+miss.join(', ')+'.';return}
     const p=ps.find(x=>x.code===v('programa'));
-    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:v('whatsapp'),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:modo()==='grupal'?'Programa grupal (1 h)':v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
+    const data={action:'inscripcion',fecha:new Date().toISOString(),programa:v('programa'),programaNombre:p?p.name:'Asesoría',nombre:v('nombre'),correo:v('correo').toLowerCase(),whatsapp:(w=>/^\+/.test(w)||/^0/.test(w)?w:'+'+w)(v('whatsapp').trim()),tz:v('tz'),pais:$('tz').selectedOptions[0].textContent,dias:fd.getAll('dias').join(', '),franja:fd.getAll('franja').join(', '),horas:modo()==='grupal'?'Programa grupal (1 h)':v('horas'),experiencia:v('experiencia'),fuente:v('fuente'),equipo:v('equipo'),mensaje:v('mensaje'),pagina:location.href};
     $('send').disabled=true;$('send').textContent='Enviando…';
     let sent=false;
     let fallo='No pudimos enviar tu inscripción. Revisa tu conexión e inténtalo de nuevo.';
     if(A.API_URL){const {action,...resto}=data;const r=await A.api('inscripcion',resto);if(r&&r.ok)sent=true;else if(r&&r.error)fallo=r.error}
     if(A.API_URL&&!sent){$('send').disabled=false;$('send').textContent='Enviar inscripción';$('err').textContent=fallo;return}
-    $('f').hidden=true;$('done').hidden=false;$('done').focus();
+    $('f').hidden=true;$('f').style.display='none';$('done').hidden=false;$('done').focus();
     $('done-txt').textContent=`Gracias, ${data.nombre.split(' ')[0]}. Te escribimos al ${data.whatsapp} con ${modo()==='grupal'?'el horario del próximo grupo de':'los horarios libres para'} ${p?p.code+' '+p.name:'tu asesoría'}.`+(A.API_URL?'':' (Modo demostración: la inscripción no se guardó.)');
     if(A.WHATSAPP){const t=`Hola, me acabo de inscribir en la web de APEL.\nNombre: ${data.nombre}\nPrograma: ${p?p.code+' · '+p.name:'Asesoría'}\nModalidad: ${modo()==='grupal'?'Programa grupal':'Clases 1 a 1'}\nDías: ${data.dias||'a convenir'} · ${data.franja||''}`;
       $('done-btns').insertAdjacentHTML('afterbegin',`<a class="btn primary" href="https://wa.me/${esc(A.WHATSAPP)}?text=${encodeURIComponent(t)}">Escribir por WhatsApp</a>`)}
